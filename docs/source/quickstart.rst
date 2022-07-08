@@ -1,5 +1,0 @@
-Quickstart
-==========
-
-.. _quickstart:
-TBU
