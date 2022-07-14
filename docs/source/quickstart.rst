@@ -8,7 +8,6 @@ To use maxai, first install it using pip
 
 
 maxairesources
-
 ==============
 maxairesources library consists of various helper methods which includes utilities to perfrom data quality checks, buidl spark pipelines, logging, model approval etc. Here is the detailed list of helper methods:
 
@@ -195,6 +194,60 @@ Generic logging method is in `maxairesources/logging/logger.py` file. use `get_l
   logger = get_logger(__name__) #get logger
   logger.debug(f"log this debug message") #log debug message
   ```
+
+Multi Train
+______________
+
+**Multi Train** class lets you train multiple models in parallel. 
+Here is a working example
+
+::
+  from maxairesources.utilities.multi_train import MultiTrain
+  models = {
+          "SparkGBTClassifier": {
+              "id_col": None,
+              "target_col": "label",
+              "feature_col": "features",
+              "params": {"maxIter": 3, "maxDepth": 3, "seed": 42},
+              "param_grid": {},
+          },
+          "SparkRFClassifier": {
+              "id_col": None,
+              "target_col": "label",
+              "feature_col": "features",
+              "params": {"maxDepth": 3, "seed": 42},
+              "param_grid": {},
+          },
+      }
+  multi_models = MultiTrain(models)
+
+
+Ensemble
+______________
+
+**Ensemble** class lets you create an ensemble of multiple models. The class supports following ensemble techniques
+
+  1. Voting Classifier: Consists of three ensemble methods - hard, soft, weighted soft
+            **Hard Voting** - We will calculate the mode of prediction across all the classifiers, and provide the Combined Prediction label as the output
+            **Soft Voting** - Here if the user doesn't enter the weights, we will calculate the uniform average of probabilities across all the classifier outputs, and 
+            return Average Probability Column as the output.
+            **Weighted Soft Voting** - Here if the user enter the weights, we will calculate the weighted average of probabilities across all the classifier outputs,
+            and return weighted Average Probability Column as the output. 
+
+  2. VotingRegressor - Consists of two ensemble methods - soft, weighted soft
+            **Soft Voting** - Here if the user doesn't enter the weights, we will calculate the uniform average of predictions across all the regressor outputs, and               return Average Prediction Column as the output.
+            **Weighted Soft Voting** - Here if the user enter the weights, we will calculate the weighted average of predictions across all the regressor outputs, and              return weighted Average Prediction Column as the output.
+
+Here is a working example
+
+::
+
+  from maxairesources.ensemble.ensemble import Ensemble
+  model_list = []
+  for i in range(len(multi_models.trained_models)):
+      model_list.append(multi_models.trained_models[list(multi_models.models.keys())[i]])
+  print(model_list)
+  prediction = Ensemble(model_list).VotingClassifier(testData, method = "hard")
 
 Model approval
 ______________
