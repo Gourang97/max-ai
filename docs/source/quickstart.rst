@@ -1,6 +1,6 @@
 Quickstart
 ==========
-To use maxai, first install it using pip:
+To use maxai, first install it using pip
 
 ::
 
@@ -8,9 +8,12 @@ To use maxai, first install it using pip:
 
 
 maxairesources
-==============
 
-datachecks
+==============
+maxairesources library consists of various helper methods which includes utilities to perfrom data quality checks, buidl spark pipelines, logging, model approval etc. Here is the detailed list of helper methods:
+
+
+Datachecks
 ___________
 - This module is dedicated to perform quick checks on data.
 - `AnalysisBase` class is a base class in `analysis_base.py` file which should be inherited by all analysis class specific to use case / requirement.
