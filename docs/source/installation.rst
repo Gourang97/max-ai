@@ -4,7 +4,7 @@ Installation Guide
 .. _installation:
 
 
-To use maxai, first install it using pip:
+To use maxai, first install it using pip
 
 .. code-block:: console
 
