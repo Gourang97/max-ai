@@ -152,7 +152,17 @@ ______________
 Logging
 _______
 
-- Generic logging method is in `maxairesources/logging/logger.py` file. use `get_logger` method to get logger object.
+Generic logging module available in max to log objects in a workflow
+
+Generic logging method is in `maxairesources/logging/logger.py` file. use `get_logger` method to get logger object.
+
+::
+
+  from maxairesources.logging.logger import get_logger
+  logger = get_logger(__name__)
+  
+  # sample
+  logger.debug("Number of unique entities in given period: " + str(features_data.select(self.entity_column).distinct().count()))
 
 - Do not use logging in test cases.
 
