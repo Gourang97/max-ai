@@ -406,8 +406,28 @@ maxaimodel
 
 maxaimodel class support various Pyspark, Python and H2O models ranging from classification, clustering, regression to time-series forecasting. Here is a list of models currently supported by max
 
-1. Spark
-  a) `GBTClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`
-  b) `RandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>`
-  c) `FMClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html#pyspark.ml.classification.FMClassifier>`
-  d) 
+1. Classification
+  a) `SparkGBTClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`
+  b) `SparkRandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>`
+  c) `SparkFMClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html#pyspark.ml.classification.FMClassifier>`
+  d) `SparkDecisionTreeClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.DecisionTreeClassifier.html#pyspark.ml.classification.DecisionTreeClassifier>`
+  e) `SparkLogisticRegression <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LogisticRegression.html#pyspark.ml.classification.LogisticRegression>`
+  f) `SparkMultilayerPerceptronClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.MultilayerPerceptronClassifier.html#pyspark.ml.classification.MultilayerPerceptronClassifier>`
+  g) `SparkNaiveBayes <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.NaiveBayes.html#pyspark.ml.classification.NaiveBayes>`
+  h) `SparkOneVsRest <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.OneVsRest.html#pyspark.ml.classification.OneVsRest>`
+  i) `SparkLinearSVC <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LinearSVC.html#pyspark.ml.classification.LinearSVC>`
+  
+2. Clustering
+  a) HVT
+  b) `KMeans <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.clustering.KMeans.html#pyspark.ml.clustering.KMeans>`
+  
+3. Regression
+  a) SparkDTRegressor
+  b) SparkFMRegressor
+  c) SparkGBTRegressor
+  d) SparkGLRegressor
+  e) SparkIsotonicRegressor
+  f) SparkLinearRegressor
+  g) SparkRFRegressor
+  
+
