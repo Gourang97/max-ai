@@ -14,6 +14,22 @@ maxairesources library consists of various helper methods which includes utiliti
 
 
 Datachecks
+To use maxai, first install it using pip
+
+::
+
+  (.venv) $ pip install maxai-1.0.0-py3-none-any.whl
+
+
+maxairesources
+
+==============
+maxairesources library consists of various helper methods which includes utilities to perfrom data quality checks, buidl spark pipelines, logging, model approval etc. Here is the detailed list of helper methods:
+
+
+Datachecks
+___________
+
 ___________
 
 *DataChecks* module lets you perform various checks on data including univariate summary stats such as mean, media, mode, kurtosis, skewness, null values and bivariate correlation analysis
@@ -407,7 +423,7 @@ maxaimodel
 maxaimodel class support various Pyspark, Python and H2O models ranging from classification, clustering, regression to time-series forecasting. Here is a list of models currently supported by max
 
 1. Classification
-  a) `SparkGBTClassifier<https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`
+  a) `SparkGBTClassifier<https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`_
   b) `SparkRandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>`
   c) `SparkFMClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html#pyspark.ml.classification.FMClassifier>`
   d) `SparkDecisionTreeClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.DecisionTreeClassifier.html#pyspark.ml.classification.DecisionTreeClassifier>`
@@ -430,4 +446,13 @@ maxaimodel class support various Pyspark, Python and H2O models ranging from cla
   f) SparkLinearRegressor
   g) SparkRFRegressor
   
-
+4. Recommendation
+  a) ALS
+  
+5. Forecasting
+  a) ARIMA
+  b) Garch
+  c) NProphet
+  d) FBProphet
+  
+ 
