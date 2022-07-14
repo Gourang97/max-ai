@@ -305,6 +305,7 @@ Here is how you can use this utility in your workflow.
 maxaimarketplace
 ================
 *maxaimarketplace* has a library of existing use-cases supported by Max. You can use these templates to do churn modeling, propensity modeling, time series forecasting, item/offer recommendation and much more ...
+
 maxaimetadata
 =============
 
@@ -406,6 +407,7 @@ maxaimodel
 maxaimodel class support various Pyspark, Python and H2O models ranging from classification, clustering, regression to time-series forecasting. Here is a list of models currently supported by max
 
 1. Spark
-  a) `GBTClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>
-  b) `RandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>
-  c)
+  a) `GBTClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`
+  b) `RandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>`
+  c) `FMClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html#pyspark.ml.classification.FMClassifier>`
+  d) 
