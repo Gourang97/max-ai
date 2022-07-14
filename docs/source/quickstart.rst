@@ -227,15 +227,17 @@ ______________
 
 **Ensemble** class lets you create an ensemble of multiple models. The class supports following ensemble techniques
 
-  1. Voting Classifier: Consists of three ensemble methods - hard, soft, weighted soft
+  1. **Voting Classifier**: Consists of three ensemble methods - hard, soft, weighted soft
             **Hard Voting** - We will calculate the mode of prediction across all the classifiers, and provide the Combined Prediction label as the output
             **Soft Voting** - Here if the user doesn't enter the weights, we will calculate the uniform average of probabilities across all the classifier outputs, and 
             return Average Probability Column as the output.
+            
             **Weighted Soft Voting** - Here if the user enter the weights, we will calculate the weighted average of probabilities across all the classifier outputs,
             and return weighted Average Probability Column as the output. 
 
-  2. VotingRegressor - Consists of two ensemble methods - soft, weighted soft
+  2. **VotingRegressor** - Consists of two ensemble methods - soft, weighted soft
             **Soft Voting** - Here if the user doesn't enter the weights, we will calculate the uniform average of predictions across all the regressor outputs, and               return Average Prediction Column as the output.
+            
             **Weighted Soft Voting** - Here if the user enter the weights, we will calculate the weighted average of predictions across all the regressor outputs, and              return weighted Average Prediction Column as the output.
 
 Here is a working example
@@ -262,7 +264,7 @@ All required `constructor argument` for respective `evaluator` needs to pass as 
 Config Store
 ____________
 
-*Config Store* lets you efficiently read secrets/configs in a task from a vault
+**Config Store** lets you efficiently read secrets/configs in a task from a vault
 
 The [HashiCorp's Vault](https://www.vaultproject.io/docs) is currently being used as a config store, to store the Py-Configs and Spark-Configs. The Vault provides the option to create a Secret Engine (represented by `mount_path` in code snippet below). All secrets are stored in a Secret Engine and can also have a directory structure. 
 
