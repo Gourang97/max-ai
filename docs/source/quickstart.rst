@@ -161,8 +161,6 @@ Generic logging method is in `maxairesources/logging/logger.py` file. use `get_l
   from maxairesources.logging.logger import get_logger
   logger = get_logger(__name__)
   
-  # sample
-  logger.debug("Number of unique entities in given period: " + str(features_data.select(self.entity_column).distinct().count()))
 
 - Do not use logging in test cases.
 
@@ -200,7 +198,7 @@ Generic logging method is in `maxairesources/logging/logger.py` file. use `get_l
 Model approval
 ______________
 
-**`ModelApprover`** class checks whether the model performance is good enough to export as `ONXX` file or not. 
+**`ModelApprover`** class checks whether the model performance is good enough based on existing benchmarks
 
 `Approver` class needs `Evaluator` class reference along with other arguments in constructors.
 
@@ -209,6 +207,9 @@ All required `constructor argument` for respective `evaluator` needs to pass as 
 
 Config Store
 ____________
+
+*Config Store* lets you efficiently read secrets/configs in a task from a vault
+
 The [HashiCorp's Vault](https://www.vaultproject.io/docs) is currently being used as a config store, to store the Py-Configs and Spark-Configs. The Vault provides the option to create a Secret Engine (represented by `mount_path` in code snippet below). All secrets are stored in a Secret Engine and can also have a directory structure. 
 
 *Assumptions* - This module assumes that OS environment variables HASH_VAULT_URL and HASH_VAULT_TOKEN are defined. 
@@ -235,6 +236,7 @@ tutorials
 
 maxaifeaturization
 ==================
+maxaifeaturization library has various helper methods to enable feature generation, feature selection and feature transformation. 
 
 FeatureSelector
 _______________
@@ -302,13 +304,13 @@ Here is how you can use this utility in your workflow.
 
 maxaimarketplace
 ================
-
+*maxaimarketplace* has a library of existing use-cases supported by Max. You can use these templates to do churn modeling, propensity modeling, time series forecasting, item/offer recommendation and much more ...
 maxaimetadata
 =============
 
 Max AI Metadata 
 
-Metadata Modules offers classes and funtions to log ml-metadata for lineage tracking.
+*maxaimetadata* library offers classes and funtions to log ml-metadata for lineage tracking. Given below is a short description of various components within the library along with their functionality
 
 
 **WorkFlow**
@@ -401,5 +403,9 @@ Model registry represent a logical collection of models registered for Inference
 maxaimodel
 ==========
 
-maxairesources
-==============
+maxaimodel class support various Pyspark, Python and H2O models ranging from classification, clustering, regression to time-series forecasting. Here is a list of models currently supported by max
+
+1. Spark
+  a) `GBTClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>
+  b) `RandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>
+  c)
