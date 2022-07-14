@@ -14,23 +14,8 @@ maxairesources library consists of various helper methods which includes utiliti
 
 
 Datachecks
-To use maxai, first install it using pip
-
-::
-
-  (.venv) $ pip install maxai-1.0.0-py3-none-any.whl
-
-
-maxairesources
-
-==============
-maxairesources library consists of various helper methods which includes utilities to perfrom data quality checks, buidl spark pipelines, logging, model approval etc. Here is the detailed list of helper methods:
-
-
-Datachecks
 ___________
 
-___________
 
 *DataChecks* module lets you perform various checks on data including univariate summary stats such as mean, media, mode, kurtosis, skewness, null values and bivariate correlation analysis
 
@@ -424,18 +409,18 @@ maxaimodel class support various Pyspark, Python and H2O models ranging from cla
 
 1. Classification
   a) `SparkGBTClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`_
-  b) `SparkRandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>`
-  c) `SparkFMClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html#pyspark.ml.classification.FMClassifier>`
-  d) `SparkDecisionTreeClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.DecisionTreeClassifier.html#pyspark.ml.classification.DecisionTreeClassifier>`
-  e) `SparkLogisticRegression <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LogisticRegression.html#pyspark.ml.classification.LogisticRegression>`
-  f) `SparkMultilayerPerceptronClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.MultilayerPerceptronClassifier.html#pyspark.ml.classification.MultilayerPerceptronClassifier>`
-  g) `SparkNaiveBayes <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.NaiveBayes.html#pyspark.ml.classification.NaiveBayes>`
-  h) `SparkOneVsRest <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.OneVsRest.html#pyspark.ml.classification.OneVsRest>`
-  i) `SparkLinearSVC <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LinearSVC.html#pyspark.ml.classification.LinearSVC>`
+  b) `SparkRandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>`_
+  c) `SparkFMClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html#pyspark.ml.classification.FMClassifier>`_
+  d) `SparkDecisionTreeClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.DecisionTreeClassifier.html#pyspark.ml.classification.DecisionTreeClassifier>`_
+  e) `SparkLogisticRegression <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LogisticRegression.html#pyspark.ml.classification.LogisticRegression>`_
+  f) `SparkMultilayerPerceptronClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.MultilayerPerceptronClassifier.html#pyspark.ml.classification.MultilayerPerceptronClassifier>`_
+  g) `SparkNaiveBayes <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.NaiveBayes.html#pyspark.ml.classification.NaiveBayes>`_
+  h) `SparkOneVsRest <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.OneVsRest.html#pyspark.ml.classification.OneVsRest>`_
+  i) `SparkLinearSVC <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LinearSVC.html#pyspark.ml.classification.LinearSVC>`_
   
 2. Clustering
   a) HVT
-  b) `KMeans <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.clustering.KMeans.html#pyspark.ml.clustering.KMeans>`
+  b) `KMeans <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.clustering.KMeans.html#pyspark.ml.clustering.KMeans>`_
   
 3. Regression
   a) SparkDTRegressor
