@@ -202,6 +202,7 @@ ______________
 Here is a working example
 
 ::
+
   from maxairesources.utilities.multi_train import MultiTrain
   models = {
           "SparkGBTClassifier": {
