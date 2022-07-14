@@ -16,7 +16,7 @@ maxairesources library consists of various helper methods which includes utiliti
 Datachecks
 ___________
 
-This module is dedicated to perform quick checks on data
+*DataChecks* module lets you perform various checks on data including univariate summary stats such as mean, media, mode, kurtosis, skewness, null values and bivariate correlation analysis
 
 - It consists of `AnalysisBase` class is a base class in `analysis_base.py` file which should be inherited by all analysis class specific to use case / requirement.
 - Every analysis class will produce dictionary, which can be saved into disk using `save_analysis_report`
