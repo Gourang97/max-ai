@@ -15,11 +15,13 @@ maxairesources library consists of various helper methods which includes utiliti
 
 Datachecks
 ___________
-- This module is dedicated to perform quick checks on data.
-- `AnalysisBase` class is a base class in `analysis_base.py` file which should be inherited by all analysis class specific to use case / requirement.
-- every analysis class will produce dictionary, which could be saved into disk using `save_analysis_report`
-- types of columns are identified based on column names as per feast output, or you can pass dictionary in below format
-- `SparkDataFrameAnalyser` class is used to analyse `pyspark` `dataframe` with numerical and categorical columns mainly.
+
+This module is dedicated to perform quick checks on data
+
+- It consists of `AnalysisBase` class is a base class in `analysis_base.py` file which should be inherited by all analysis class specific to use case / requirement.
+- Every analysis class will produce dictionary, which can be saved into disk using `save_analysis_report`
+- Types of columns are identified based on column names as per feast output, or you can pass dictionary as shown in below code snippet
+- `SparkDataFrameAnalyser` class is used to analyse `pyspark` `dataframe` with numerical and categorical columns mainly
 
 ::
   
