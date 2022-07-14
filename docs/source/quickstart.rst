@@ -407,7 +407,7 @@ maxaimodel
 maxaimodel class support various Pyspark, Python and H2O models ranging from classification, clustering, regression to time-series forecasting. Here is a list of models currently supported by max
 
 1. Classification
-  a) `SparkGBTClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`
+  a) `SparkGBTClassifier<https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`
   b) `SparkRandomForestClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html#pyspark.ml.classification.RandomForestClassifier>`
   c) `SparkFMClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html#pyspark.ml.classification.FMClassifier>`
   d) `SparkDecisionTreeClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.DecisionTreeClassifier.html#pyspark.ml.classification.DecisionTreeClassifier>`
