@@ -9,7 +9,7 @@ To use maxai, first install it using pip
 
 maxairesources
 ==============
-maxairesources library consists of various helper methods which includes utilities to perfrom data quality checks, buidl spark pipelines, logging, model approval etc. Here is the detailed list of helper methods:
+maxairesources library consists of various helper methods which includes utilities to perfrom data quality checks, build spark pipelines, logging, model approval etc. Here is the detailed list of helper methods:
 
 
 Datachecks
@@ -64,7 +64,7 @@ ______________
 
 ::
   
-  # import SparkPipeline from maxairesources
+
   from maxairesources.pipeline.spark_pipeline import SparkPipeline
 
   # input training dataframe
@@ -152,9 +152,7 @@ ______________
 Logging
 _______
 
-Generic logging module available in max to log objects in a workflow
-
-Generic logging method is in `maxairesources/logging/logger.py` file. use `get_logger` method to get logger object.
+Generic logging module available in max to log objects in a workflow The logging method is in `maxairesources/logging/logger.py` file. use `get_logger` method to get logger object.
 
 ::
 
@@ -162,9 +160,7 @@ Generic logging method is in `maxairesources/logging/logger.py` file. use `get_l
   logger = get_logger(__name__)
   
 
-- Do not use logging in test cases.
-
-- logger support 5 levels of logging as below.
+logger support 5 levels of logging as below.
 
 ::
 
@@ -257,10 +253,25 @@ ______________
 
 **`ModelApprover`** class checks whether the model performance is good enough based on existing benchmarks
 
-`Approver` class needs `Evaluator` class reference along with other arguments in constructors.
+`Approver` class needs `Evaluator` class reference along with other arguments in constructors. All required `constructor argument` for respective `evaluator` needs to pass as a `keyword argument` . Please refer `evaluator` documentation for details.
 
-All required `constructor argument` for respective `evaluator` needs to pass as a `keyword argument` . Please refer `evaluator` documentation for details.
+Here is a working example
 
+::
+
+  from maxairesources.eval.classifier_evaluator_spark import ClassifierEvaluator
+  from maxairesources.model_approval.model_approver_spark import ModelApprover
+  
+  apprvr = ModelApprover(
+    model = model,
+    evaluator_class=ClassifierEvaluator,
+    predicted_actual_pdf = predicted_pdf,
+    metric_thresholds={"f1": 0.4, "accuracy": 0.55},
+    predicted_col="prediction",
+    label_col="label",
+    probability_col="probability",
+    classification_mode = "binary"
+    )
 
 Config Store
 ____________
@@ -356,7 +367,6 @@ Here is how you can use this utility in your workflow.
 
   # load the model
   fs.load('path')
-
 
 
 maxaimarketplace
@@ -461,7 +471,7 @@ Model registry represent a logical collection of models registered for Inference
 maxaimodel
 ==========
 
-maxaimodel class support various Pyspark, Python and H2O models ranging from classification, clustering, regression to time-series forecasting. Here is a list of models currently supported by max
+maxaimodel class support various Pyspark, Python and H2O models ranging from classification, clustering, regression to time-series forecasting. Here is a coprehensive list of models currently supported by max
 
 1. Classification
   a) `SparkGBTClassifier <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html>`_
