@@ -503,8 +503,12 @@ maxaimodel class support various Pyspark, Python and H2O models ranging from cla
   c) NProphet
   d) FBProphet
   
- tutorials
+
+tutorials
 =========
+
+Propensity to Churn
+_______________
 
 ::
 
