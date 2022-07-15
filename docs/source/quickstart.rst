@@ -24,8 +24,9 @@ ___________
 - `SparkDataFrameAnalyser` class is used to analyse `pyspark` `dataframe` with numerical and categorical columns mainly
 
 ::
-  
+
   from maxairesources.datachecks.dataframe_analysis_spark import SparkDataFrameAnalyser
+  
   col_types = {
     "numerical_cols": [], # numerical columns
     "bool_cols": [],# boolean columns with True / False values
@@ -37,7 +38,7 @@ ___________
   analyser = SparkDataFrameAnalyser(df=df, column_types=col_types) # create instance of analyser
   report = analyser.generate_data_health_report() # generate report
   analyser.save_analysis_report(report) # saves in json file
-  ``` 
+  
 Note: while running `generate_data_health_report` method, report will be prepared and all data health calculations / checkup results will be printed in two logging levels
   1. logging.WARNING: shows that data is not aligned with given thresholds, appropriate transformation might required on dataset
   2. logging.INFO: shows information about specific checkup, no action required.
@@ -250,12 +251,11 @@ logger support 5 levels of logging as below.
 
 - Example of usage
 
-  ```python
   from maxairesources.logging.logger import get_logger #import function
   logger = get_logger(__name__) #get logger
   logger.debug(f"log this debug message") #log debug message
-  ```
-
+ 
+ 
 Multi Train
 ______________
 
@@ -351,8 +351,8 @@ The [HashiCorp's Vault](https://www.vaultproject.io/docs) is currently being use
 
 ::
 
-  *Example of Usage* - 
-  ```
+  #Example of Usage
+  
   PATH = ""          # Path to the Config
   MOUNT_PATH = ""    # Secret Engin
 
@@ -361,8 +361,7 @@ The [HashiCorp's Vault](https://www.vaultproject.io/docs) is currently being use
       input_data = kwargs["data"]
       print("Printing Config = {}".format(input_data))
 
-  >> Printing Config = {'split_seed': 19, 'target_column': 'target', 'test_size': 0.2}
-  ```
+  #Printing Config = {'split_seed': 19, 'target_column': 'target', 'test_size': 0.2}
 
 maxaifeaturization
 ==================
@@ -460,7 +459,6 @@ if workflow already exists in the backend , it will get reused.
           tags={"sample": "sample"},
           reuse_workflow_if_exists=True,
       )
-  ```
 
 **Run**
 
@@ -474,7 +472,6 @@ Captures a particular instance/run of the worlflow. A workflow can have multiple
   # Initializing Run class
   run = Run(workflow=wf, description="test run")
   run.update_status("running")
-  ```
 
 **Execution**
 
