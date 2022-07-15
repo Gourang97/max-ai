@@ -44,6 +44,7 @@ Note: while running `generate_data_health_report` method, report will be prepare
 
 We can also provide `threshold` parameter value for checkups in following format
 ::
+
   thresholds = {
     "general": {"column_count": 5, "record_count": 10},
     "uni_variate": {
@@ -69,7 +70,6 @@ Here is an example:
 ::
 
   ## Load requirements
-  ```python
   # Load libraries
   import pyspark
   from pzai.pzaiutils.datamanager import DataFrame
@@ -79,13 +79,11 @@ Here is an example:
 
   # Read data in pyspark
   data = DataFrame().get(input_data_json, port_number=input_port_number)
-  ```
 
 Operations
 
 ::
 
-  ```python
   # The following operations are currently supported by the preprocessing module.
   1: "sum",
   2: "mean", 
@@ -95,13 +93,11 @@ Operations
   6: "count", 
   7: "countDistinct", 
   8: "standard_deviation"
-  ```
 
 Examples of using PreProcessing artifact
 
 ::
 
-  ```python
   # Example 1: To find the distinct number of products for each product category for all the customers in the last 1 year
   # event_column = "product_category"
   # agg_col = "product_name"
@@ -122,11 +118,10 @@ Examples of using PreProcessing artifact
   # time_period = 200
 
   output_df = Preprocessing().transaction_cross_section(dataframe=df, groupby_col = "cust_id", arguments = [{"event_column": "product_category", "agg_col": "product_category", "filter": None, "operation": 8, "time_period": 200}])
-  ```
 
-  So, here, we have filter = None, all, specific element, and time period can be varied according to convenience, 8 different aggregation can be performed, event 
-  column and agg_column can be used as required.
-```
+So, here, we have filter = None, all, specific element, and time period can be varied according to convenience, 8 different aggregation can be performed, event 
+column and agg_column can be used as required.
+
 
 SparkPipeline
 ______________
