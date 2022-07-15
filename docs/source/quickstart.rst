@@ -460,6 +460,46 @@ Model registry represent a logical collection of models registered for Inference
   r_m = r.get_registered_model("staging")
   p_m = r.promote_model(r_m["__maxai_version__"])
 
+Here is a sample output of ml metadata
+::
+
+  [{'name': 'run_5ed07d01-5ed0-4663-a5fc-6cbadefa55ef',
+    'id': 2,
+    'create_time': 1654005916855,
+    'repo': 'https://personalize-ai@dev.azure.com/personalize-ai/personalize.ai/_git/max.ai.ds.core',
+    'branch': 'elastic-search',
+    'commit': 'dac9a98744ab17963f806b313b18bf3be819d54e',
+    'workflow': 'Propensity',
+    'status': 'running',
+    'description': 'Propensity sample run',
+    'executions': [{'id': 1,
+      'create_time': 1654006365178,
+      'workflow': 'Propensity',
+      'run': 'run_5ed07d01-5ed0-4663-a5fc-6cbadefa55ef',
+      'tags': {'args': [], 'kwargs': {}},
+      'name': 'model_train',
+      'artifacts': [{'id': 1,
+        'uri': 's3a://zs-sample-datasets-ds/credit-risk/customer',
+        'create_time': 1654006365180,
+        'workflow': 'Propensity',
+        'run': 'run_5ed07d01-5ed0-4663-a5fc-6cbadefa55ef',
+        'tags': None,
+        'feature_view': 'customer',
+        'name': 'customer',
+        'type': 'maxai/DataSet'},
+       {'id': 2,
+        'uri': 's3a://zs-sample-datasets-ds/Propensity/run_5ed07d01-5ed0-4663-a5fc-6cbadefa55ef/Model/SparkGBTClassifier',
+        'create_time': 1654006375920,
+        'workflow': 'Propensity',
+        'run': 'run_5ed07d01-5ed0-4663-a5fc-6cbadefa55ef',
+        'tags': None,
+        'name': 'SparkGBTClassifier',
+        'training_framework': 'spark',
+        'description': 'SparkGBTClassifier model',
+        'hyperparameters': '{"params": {"maxIter": 5, "maxDepth": 3, "seed": 42}, "param_grid": {}}',
+        'type': 'maxai/Model'}]}]}]
+
+
 maxaimodel
 ==========
 
