@@ -58,6 +58,71 @@ We can also provide `threshold` parameter value for checkups in following format
     "bi_variate": {"correlation_score": 0.5},
   }
   
+
+Preprocessing
+___________
+
+Preprocessing is a class that covers the basic pre-processing functions to create aggregated features from transaction data to a customer level. It can be used to convert the transactional data to cross-sectional data.
+
+Here is an example:
+
+::
+
+
+  ## Load requirements
+  ```python
+  # Load libraries
+  import pyspark
+  from pzai.pzaiutils.datamanager import DataFrame
+  from pzaipreprocessing.preprocessing import Preprocessing
+
+  # Define input_data_json and input_port_number
+
+  # Read data in pyspark
+  data = DataFrame().get(input_data_json, port_number=input_port_number)
+  ```
+
+## Operations
+  ```python
+  # The following operations are currently supported by the preprocessing module.
+  1: "sum",
+  2: "mean", 
+  3: "median", 
+  4: "max", 
+  5: "min", 
+  6: "count", 
+  7: "countDistinct", 
+  8: "standard_deviation"
+  ```
+
+## Examples of using PreProcessing artifact
+
+  ```python
+  # Example 1: To find the distinct number of products for each product category for all the customers in the last 1 year
+  # event_column = "product_category"
+  # agg_col = "product_name"
+  # time_period = 365
+
+  output_df = Preprocessing().transaction_cross_section(dataframe=df, groupby_col = "cust_id", arguments = [{"event_column": "product_category", "agg_col": "product_name", "filter": "all", "operation": 7, "time_period": 365}])
+
+  # Example 2: To find the sum of revenue for specific product name from the product category for all the customers in the last 100 days
+  # event_column = "product_category"
+  # agg_col = "product_revenue"
+  # time_period = 100
+
+  output_df = Preprocessing().transaction_cross_section(dataframe=df, groupby_col = "cust_id", arguments = [{"event_column": "product_category", "agg_col": "product_revenue", "filter": "ABC", "operation": 1, "time_period": 100}])
+
+  # Example 3: To find the standard deviation of revenue for product category for all the customers in the last 200 days
+  # event_column = "product_category"
+  # agg_col = "product_category"
+  # time_period = 200
+
+  output_df = Preprocessing().transaction_cross_section(dataframe=df, groupby_col = "cust_id", arguments = [{"event_column": "product_category", "agg_col": "product_category", "filter": None, "operation": 8, "time_period": 200}])
+  ```
+
+  So, here, we have filter = None, all, specific element, and time period can be varied according to convenience, 8 different aggregation can be performed, event column and agg_column can be used as required.
+```
+
 SparkPipeline
 ______________
 **'SparkPipline'** offers an abstraction over transformers and estimator pipelines in PySpark, Here is how you can use this utility in your workflow.
