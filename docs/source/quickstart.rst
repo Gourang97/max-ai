@@ -365,11 +365,6 @@ Here is how you can use this utility in your workflow.
   # load the model
   fs.load('path')
 
-
-maxaimarketplace
-================
-*maxaimarketplace* has a library of existing use-cases supported by Max. You can use these templates to do churn modeling, propensity modeling, time series forecasting, item/offer recommendation and much more ...
-
 maxaimetadata
 =============
 
