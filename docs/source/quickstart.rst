@@ -460,7 +460,7 @@ Model registry represent a logical collection of models registered for Inference
   r_m = r.get_registered_model("staging")
   p_m = r.promote_model(r_m["__maxai_version__"])
 
-Here is a sample output of ml metadata
+Here is a sample output artifact from ml metadata
 ::
 
   [{'name': 'run_5ed07d01-5ed0-4663-a5fc-6cbadefa55ef',
