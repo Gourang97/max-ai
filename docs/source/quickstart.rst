@@ -68,7 +68,6 @@ Here is an example:
 
 ::
 
-
   ## Load requirements
   ```python
   # Load libraries
@@ -82,7 +81,10 @@ Here is an example:
   data = DataFrame().get(input_data_json, port_number=input_port_number)
   ```
 
-## Operations
+Operations
+
+::
+
   ```python
   # The following operations are currently supported by the preprocessing module.
   1: "sum",
@@ -95,7 +97,9 @@ Here is an example:
   8: "standard_deviation"
   ```
 
-## Examples of using PreProcessing artifact
+Examples of using PreProcessing artifact
+
+::
 
   ```python
   # Example 1: To find the distinct number of products for each product category for all the customers in the last 1 year
@@ -120,7 +124,8 @@ Here is an example:
   output_df = Preprocessing().transaction_cross_section(dataframe=df, groupby_col = "cust_id", arguments = [{"event_column": "product_category", "agg_col": "product_category", "filter": None, "operation": 8, "time_period": 200}])
   ```
 
-  So, here, we have filter = None, all, specific element, and time period can be varied according to convenience, 8 different aggregation can be performed, event column and agg_column can be used as required.
+  So, here, we have filter = None, all, specific element, and time period can be varied according to convenience, 8 different aggregation can be performed, event 
+  column and agg_column can be used as required.
 ```
 
 SparkPipeline
