@@ -299,9 +299,6 @@ The [HashiCorp's Vault](https://www.vaultproject.io/docs) is currently being use
   >> Printing Config = {'split_seed': 19, 'target_column': 'target', 'test_size': 0.2}
   ```
 
-tutorials
-=========
-
 maxaifeaturization
 ==================
 maxaifeaturization library has various helper methods to enable feature generation, feature selection and feature transformation. 
@@ -506,4 +503,54 @@ maxaimodel class support various Pyspark, Python and H2O models ranging from cla
   c) NProphet
   d) FBProphet
   
- 
+ tutorials
+=========
+
+::
+
+  from maxairesources.utilities.data_connectors import DataFrame
+  from maxaimarketplace.high_tech.churn.handlers.churn_modeling import ChurnModeling
+  
+  #config load
+  # Opening JSON file
+  config_py_config = "/home/jovyan/new_max/max.ai.ds.core/maxaimarketplace/high_tech/churn/config/py_config.json"
+  f = open(config_py_config)  
+  py_config = json.load(f)
+  py_config_feature_eng = py_config['data'][0]['conf']
+  py_config_modeling = py_config['data'][1]['conf']
+  py_config_scoring = py_config['data'][2]['conf']
+  py_config_modeling
+  
+  #load data
+  io_connector = DataFrame(spark_conn=spark)
+  subscription_data_pdf = io_connector.get(input_data=py_config_feature_eng['input'], port_number=1)#.repartition(50)
+  subscription_data_pdf.printSchema()
+  
+  #feature engineering and target variable
+  from maxaimarketplace.high_tech.churn.handlers.churn_preprocessing import DataPreprocessing
+  dp_obj = DataPreprocessing(input_data=subscription_data_pdf, args=py_config_feature_eng['function']['args'])
+  training_data, scoring_data = dp_obj.preprocess_data()
+  
+  from maxaimarketplace.high_tech.churn.handlers.churn_modeling import ChurnModeling
+  py_config_modeling['function']['args']['acceptance_thresholds']['f1'] = 0.25
+  
+  #training & validation
+  model_instance = ChurnModeling(input_data=training_data, args=py_config_modeling['function']['args'], output_args=py_config_modeling['output'])
+  model, performance_details = model_instance.train_and_validate_model()
+  print(performance_details)
+  # {'f1': 0.4783,
+  #  'accuracy': 0.3208,
+  #  'weightedPrecision': 0.9847,
+  #  'weightedRecall': 0.3208,
+  #  'weightedTruePositiveRate': 0.3208,
+  #  'weightedFalsePositiveRate': 0.336,
+  #  'weightedFMeasure': 0.4783,
+  #  'logLoss': 1.0306,
+  #  'hammingLoss': 0.6792}
+  
+  #scoring
+  from maxaimarketplace.high_tech.churn.handlers.churn_scoring import ChurnScoring
+  scoring_instance = ChurnScoring(scoring_data=scoring_data, args=py_config_scoring['function']['args'], input_args = py_config_scoring['input'], 
+  output_args=py_config_scoring['output'])
+  prediction_pdf = scoring_instance.predict_the_churn()
+  
