@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxaifeaturization.transformation package &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">maxaifeaturization.transformation package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-maxaifeaturization.transformation.transform">maxaifeaturization.transformation.transform module</a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.Constants"><code class="docutils literal notranslate"><span class="pre">Constants</span></code></a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.Constants.operation_dict"><code class="docutils literal notranslate"><span class="pre">Constants.operation_dict</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.DateTimeTransform"><code class="docutils literal notranslate"><span class="pre">DateTimeTransform</span></code></a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.DateTimeTransform.convert_to_iso8601"><code class="docutils literal notranslate"><span class="pre">DateTimeTransform.convert_to_iso8601()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.Filter"><code class="docutils literal notranslate"><span class="pre">Filter</span></code></a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.Filter.execute"><code class="docutils literal notranslate"><span class="pre">Filter.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.NumTransforms"><code class="docutils literal notranslate"><span class="pre">NumTransforms</span></code></a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.NumTransforms.exp"><code class="docutils literal notranslate"><span class="pre">NumTransforms.exp()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.NumTransforms.log"><code class="docutils literal notranslate"><span class="pre">NumTransforms.log()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.NumTransforms.reciprocal"><code class="docutils literal notranslate"><span class="pre">NumTransforms.reciprocal()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.NumTransforms.zscore"><code class="docutils literal notranslate"><span class="pre">NumTransforms.zscore()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.StrTransforms"><code class="docutils literal notranslate"><span class="pre">StrTransforms</span></code></a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.StrTransforms.alter_case"><code class="docutils literal notranslate"><span class="pre">StrTransforms.alter_case()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.StrTransforms.concat_columns"><code class="docutils literal notranslate"><span class="pre">StrTransforms.concat_columns()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.StrTransforms.one_hot_encoder"><code class="docutils literal notranslate"><span class="pre">StrTransforms.one_hot_encoder()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.StrTransforms.split_column"><code class="docutils literal notranslate"><span class="pre">StrTransforms.split_column()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.StrTransforms.string_indexer"><code class="docutils literal notranslate"><span class="pre">StrTransforms.string_indexer()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.StrTransforms.trim_whitespaces"><code class="docutils literal notranslate"><span class="pre">StrTransforms.trim_whitespaces()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.Transformation"><code class="docutils literal notranslate"><span class="pre">Transformation</span></code></a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.Transformation.decode_transformation"><code class="docutils literal notranslate"><span class="pre">Transformation.decode_transformation()</span></code></a></li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.Transformation.execute"><code class="docutils literal notranslate"><span class="pre">Transformation.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaifeaturization.transformation.transform.unpack_kwargs"><code class="docutils literal notranslate"><span class="pre">unpack_kwargs()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaifeaturization-transformation-window-module">maxaifeaturization.transformation.window module</a></li>
+<li><a class="reference internal" href="#module-maxaifeaturization.transformation">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">maxaifeaturization.transformation package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/maxaifeaturization.transformation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maxaifeaturization-transformation-package">
+<h1>maxaifeaturization.transformation package<a class="headerlink" href="#maxaifeaturization-transformation-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxaifeaturization.transformation.transform">
+<span id="maxaifeaturization-transformation-transform-module"></span><h2>maxaifeaturization.transformation.transform module<a class="headerlink" href="#module-maxaifeaturization.transformation.transform" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.Constants">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.transformation.transform.</span></span><span class="sig-name descname"><span class="pre">Constants</span></span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#Constants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.Constants" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.Constants.operation_dict">
+<span class="sig-name descname"><span class="pre">operation_dict</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{1:</span> <span class="pre">'filter',</span> <span class="pre">2:</span> <span class="pre">'z-score',</span> <span class="pre">3:</span> <span class="pre">'exp',</span> <span class="pre">4:</span> <span class="pre">'log',</span> <span class="pre">5:</span> <span class="pre">'reciprocal',</span> <span class="pre">6:</span> <span class="pre">'box-cox',</span> <span class="pre">7:</span> <span class="pre">'binning',</span> <span class="pre">8:</span> <span class="pre">'string-indexer',</span> <span class="pre">9:</span> <span class="pre">'one-hot-encoding',</span> <span class="pre">10:</span> <span class="pre">'concat-with-delimiter',</span> <span class="pre">11:</span> <span class="pre">'split',</span> <span class="pre">12:</span> <span class="pre">'uppercase',</span> <span class="pre">13:</span> <span class="pre">'lowercase',</span> <span class="pre">14:</span> <span class="pre">'trim',</span> <span class="pre">15:</span> <span class="pre">'timestring-to-iso8601',</span> <span class="pre">16:</span> <span class="pre">'epoch-to-iso8601',</span> <span class="pre">17:</span> <span class="pre">'extract-datepart'}</span></em><a class="headerlink" href="#maxaifeaturization.transformation.transform.Constants.operation_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.DateTimeTransform">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.transformation.transform.</span></span><span class="sig-name descname"><span class="pre">DateTimeTransform</span></span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#DateTimeTransform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.DateTimeTransform" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.DateTimeTransform.convert_to_iso8601">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert_to_iso8601</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_epoch</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#DateTimeTransform.convert_to_iso8601"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.DateTimeTransform.convert_to_iso8601" title="Permalink to this definition"></a></dt>
+<dd><p>converts a string or epoch datetime to ISO-8601 format
+&gt; Assumption - epoch should be upto second level (i.e. of 10 digits)</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (PySpark DataFrame)
+col_name (string): column name
+is_epoch (bool): if the input passed is of Unix epoch type or not</p>
+</dd>
+<dt>Returns:</dt><dd><p>PySpark DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.Filter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.transformation.transform.</span></span><span class="sig-name descname"><span class="pre">Filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_rules</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rule_expression</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#Filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.Filter" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Filters the data based on the rules parameter</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (spark.DataFrame)
+column_name (str)
+filter_rules (list)
+rule_expression (str)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.Filter.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#Filter.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.Filter.execute" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.NumTransforms">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.transformation.transform.</span></span><span class="sig-name descname"><span class="pre">NumTransforms</span></span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#NumTransforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.NumTransforms" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>encloses all the numerical transforms</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.NumTransforms.exp">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#NumTransforms.exp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.NumTransforms.exp" title="Permalink to this definition"></a></dt>
+<dd><p>camputes the exponential of given column</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (PySpark DataFrame)
+col_name (string): column name</p>
+</dd>
+<dt>Raises:</dt><dd><p>exceptions.IncorrectDataTypeError: raised when datatype is not numeric</p>
+</dd>
+<dt>Returns:</dt><dd><p>PySpark DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.NumTransforms.log">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">log</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#NumTransforms.log"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.NumTransforms.log" title="Permalink to this definition"></a></dt>
+<dd><p>computes logarithm (natural)</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (PySpark DataFrame)
+col_name (string): column name</p>
+</dd>
+<dt>Raises:</dt><dd><p>exceptions.IncorrectDataTypeError: raised when datatype is not numeric
+ValueError: raised if negative values or zero is encountered</p>
+</dd>
+<dt>Returns:</dt><dd><p>PySpark DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.NumTransforms.reciprocal">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reciprocal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#NumTransforms.reciprocal"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.NumTransforms.reciprocal" title="Permalink to this definition"></a></dt>
+<dd><p>computes the reciprocal of a given column</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (PySpark DataFrame)
+col_name (string): column name</p>
+</dd>
+<dt>Raises:</dt><dd><p>exceptions.IncorrectDataTypeError: raised when datatype is not numeric
+ValueError: raised if negative values or zero is encountered</p>
+</dd>
+<dt>Returns:</dt><dd><p>PySpark DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.NumTransforms.zscore">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">zscore</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#NumTransforms.zscore"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.NumTransforms.zscore" title="Permalink to this definition"></a></dt>
+<dd><p>calculates the z-score</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (PySpark DataFrame)
+col_name (string): column name</p>
+</dd>
+<dt>Raises:</dt><dd><p>exceptions.IncorrectDataTypeError: raised when datatype is not numeric</p>
+</dd>
+<dt>Returns:</dt><dd><p>PySpark DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.StrTransforms">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.transformation.transform.</span></span><span class="sig-name descname"><span class="pre">StrTransforms</span></span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#StrTransforms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.StrTransforms" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>encloses all the numerical transforms</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.StrTransforms.alter_case">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">alter_case</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#StrTransforms.alter_case"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.StrTransforms.alter_case" title="Permalink to this definition"></a></dt>
+<dd><p>alters a string column to Uppercase or lowercase (decided by the case parameter)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.StrTransforms.concat_columns">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">concat_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_list</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#StrTransforms.concat_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.StrTransforms.concat_columns" title="Permalink to this definition"></a></dt>
+<dd><p>concatenate two columns, using a delimiter (‘,’ by default)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.StrTransforms.one_hot_encoder">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">one_hot_encoder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_list</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#StrTransforms.one_hot_encoder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.StrTransforms.one_hot_encoder" title="Permalink to this definition"></a></dt>
+<dd><p>maps a column of category indices to a column of binary vectors</p>
+<dl class="simple">
+<dt>Raises:</dt><dd><p>exceptions.IncorrectDataTypeError: raised if any of the input columns is not of numeric dtype</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.StrTransforms.split_column">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_column</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#StrTransforms.split_column"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.StrTransforms.split_column" title="Permalink to this definition"></a></dt>
+<dd><p>split a column by a defined delimiter</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.StrTransforms.string_indexer">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">string_indexer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#StrTransforms.string_indexer"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.StrTransforms.string_indexer" title="Permalink to this definition"></a></dt>
+<dd><p>A label encoder that maps a string column to numeric labels</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.StrTransforms.trim_whitespaces">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trim_whitespaces</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#StrTransforms.trim_whitespaces"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.StrTransforms.trim_whitespaces" title="Permalink to this definition"></a></dt>
+<dd><p>remove whitespaces</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.Transformation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.transformation.transform.</span></span><span class="sig-name descname"><span class="pre">Transformation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#Transformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.Transformation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>performs columnar transformation on the Spark Database</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>df (spark.sql.DataFrame): Dataframe on which transformation operations are to be performed
+arguments (dict):</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.Transformation.decode_transformation">
+<span class="sig-name descname"><span class="pre">decode_transformation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">transform_op</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#Transformation.decode_transformation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.Transformation.decode_transformation" title="Permalink to this definition"></a></dt>
+<dd><p>calls apt method for each transformation</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>transform_op (dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.Transformation.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#Transformation.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.Transformation.execute" title="Permalink to this definition"></a></dt>
+<dd><p>driver method of Transformation</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>PySpark DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="maxaifeaturization.transformation.transform.unpack_kwargs">
+<span class="sig-prename descclassname"><span class="pre">maxaifeaturization.transformation.transform.</span></span><span class="sig-name descname"><span class="pre">unpack_kwargs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/transformation/transform.html#unpack_kwargs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.transformation.transform.unpack_kwargs" title="Permalink to this definition"></a></dt>
+<dd><p>ToDo: Unpack keyword arguments gracefully</p>
+</dd></dl>
+
+</section>
+<section id="maxaifeaturization-transformation-window-module">
+<h2>maxaifeaturization.transformation.window module<a class="headerlink" href="#maxaifeaturization-transformation-window-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxaifeaturization.transformation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaifeaturization.transformation" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

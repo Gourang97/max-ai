@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxairesources.utilities.preprocessing &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxairesources.utilities.preprocessing</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxairesources.utilities.preprocessing</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">date</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="kn">import</span> <span class="nn">pyspark.sql.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+
+
+<div class="viewcode-block" id="Preprocessing"><a class="viewcode-back" href="../../../maxairesources.utilities.html#maxairesources.utilities.preprocessing.Preprocessing">[docs]</a><span class="k">class</span> <span class="nc">Preprocessing</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">column_mapping</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;sum_&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;avg_&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;median_&quot;</span><span class="p">,</span>
+                               <span class="mi">4</span><span class="p">:</span> <span class="s2">&quot;max_&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">:</span> <span class="s2">&quot;min_&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">:</span> <span class="s2">&quot;freq_&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">:</span> <span class="s2">&quot;distinct_&quot;</span><span class="p">,</span> 
+                               <span class="mi">8</span><span class="p">:</span> <span class="s2">&quot;std_dev_&quot;</span><span class="p">,</span> <span class="mi">9</span><span class="p">:</span><span class="s2">&quot;25th_percentile_&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">:</span><span class="s2">&quot;75th_percentile_&quot;</span><span class="p">,</span> <span class="mi">11</span><span class="p">:</span><span class="s2">&quot;variance_&quot;</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">_aggregation_preprocessing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">agg_column</span><span class="p">,</span> <span class="n">operation</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">filter_items</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">new_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="s2">&quot;float&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Performing aggregation to find out the aggregated features</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            df: required dataframe </span>
+<span class="sd">            column_names: the numerical column on which aggregation is done, if event_col is categorical</span>
+<span class="sd">            operation: aggregation operation (sum, average, etc) to be performed</span>
+<span class="sd">            event_col: Categorical/numerical column on which aggregation is to be done</span>
+<span class="sd">            filter_items: to filter categories inside a categorical column if required</span>
+<span class="sd">            time: time span to be considered from anchor date and looking back</span>
+
+<span class="sd">            arguments: list of dictionaries containing event column, filter items, aggregation column, operation and time period.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            preprocessed_df: dataframe after pre-processing</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            Inputs:</span>
+<span class="sd">                dataframe: df</span>
+<span class="sd">                groupby_col: &quot;customer_id&quot;</span>
+<span class="sd">                arguments = [{&quot;event_column&quot;:&quot;product&quot;, &quot;agg_col&quot;:&quot;revenue&quot;, &quot;filter&quot;: &quot;all&quot;,</span>
+<span class="sd">                                                        &quot;operation&quot;: 2, &quot;time_period&quot;: 60}, </span>
+<span class="sd">                             {&quot;event_column&quot;:&quot;product&quot;, &quot;agg_col&quot;:&quot;revenue&quot;, &quot;filter&quot;: &quot;all&quot;,</span>
+<span class="sd">                                                        &quot;operation&quot;: 1, &quot;time_period&quot;: 30}]</span>
+
+<span class="sd">            Output:</span>
+<span class="sd">                preprocessed_df: preprocessed dataframe with appropriate names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">agg_format_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">col_name</span> <span class="o">=</span> <span class="n">agg_column</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">new_name</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">):</span>
+            <span class="n">sufix_name</span> <span class="o">=</span> <span class="n">new_name</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">col_name</span> <span class="o">==</span> <span class="n">event_col</span><span class="p">):</span>
+            <span class="n">sufix_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_mapping</span><span class="p">[</span><span class="n">operation</span><span class="p">]</span> <span class="o">+</span> \
+                <span class="n">event_col</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">filter_items</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;days&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sufix_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_mapping</span><span class="p">[</span><span class="n">operation</span><span class="p">]</span> <span class="o">+</span> <span class="n">event_col</span> <span class="o">+</span> \
+                <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">filter_items</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">col_name</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;days&quot;</span>
+            
+        <span class="k">if</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">percentile_approx</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">),</span>  
+                                    <span class="mf">0.50</span><span class="p">,</span> 
+                                    <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="mi">1000000</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span> <span class="ow">or</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;int&quot;</span> <span class="ow">or</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;string&quot;</span><span class="p">:</span>
+                <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;date&quot;</span> <span class="ow">or</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;int&quot;</span> <span class="ow">or</span> <span class="n">data_type</span> <span class="o">==</span> <span class="s2">&quot;string&quot;</span><span class="p">:</span>
+                <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">F</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">6</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">7</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">countDistinct</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">8</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">stddev</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">9</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">percentile_approx</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">),</span>  
+                                    <span class="mf">0.25</span><span class="p">,</span> 
+                                    <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="mi">1000000</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">percentile_approx</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">),</span>  
+                                    <span class="mf">0.75</span><span class="p">,</span> 
+                                    <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="mi">1000000</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;double&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="n">operation</span> <span class="o">==</span> <span class="mi">11</span><span class="p">:</span>
+            <span class="n">agg_format_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">variance</span><span class="p">(</span>
+                <span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">col_name</span><span class="p">))</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">alias</span><span class="p">(</span><span class="n">sufix_name</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;Operation &quot;</span> <span class="o">+</span> \
+                <span class="nb">str</span><span class="p">(</span><span class="n">operation</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; requested is not implemented&quot;</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="n">aggregated_df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">agg</span><span class="p">(</span><span class="o">*</span><span class="n">agg_format_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">aggregated_df</span>
+
+<div class="viewcode-block" id="Preprocessing.aggregate_transactional_data"><a class="viewcode-back" href="../../../maxairesources.utilities.html#maxairesources.utilities.preprocessing.Preprocessing.aggregate_transactional_data">[docs]</a>    <span class="k">def</span> <span class="nf">aggregate_transactional_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataframe</span><span class="p">,</span> <span class="n">groupby_col</span><span class="p">,</span> <span class="n">arguments</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converting transaction to cross sectional data</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dataframe: transactional dataframe to apply the pre-processing function</span>
+<span class="sd">            groupby_col: the column on which groupby is done before finding aggregation</span>
+<span class="sd">            arguments: list of dictionaries containing event column, filter items, aggregation column, operation and time period.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            preprocessed_df : dataframe after pre-processing</span>
+
+<span class="sd">        Examples:</span>
+<span class="sd">            Inputs:</span>
+<span class="sd">                dataframe: df</span>
+<span class="sd">                groupby_col: &quot;customer_id&quot;</span>
+<span class="sd">                arguments = [{&quot;event_column&quot;:&quot;product&quot;, &quot;agg_col&quot;:&quot;revenue&quot;, &quot;filter&quot;: &quot;all&quot;,</span>
+<span class="sd">                                                        &quot;operation&quot;: 2, &quot;time_period&quot;: 60}, </span>
+<span class="sd">                             {&quot;event_column&quot;:&quot;product&quot;, &quot;agg_col&quot;:&quot;revenue&quot;, &quot;filter&quot;: &quot;all&quot;,</span>
+<span class="sd">                                                        &quot;operation&quot;: 1, &quot;time_period&quot;: 30}]</span>
+
+<span class="sd">            Output:</span>
+<span class="sd">                preprocessed_df: preprocessed dataframe with appropriate names</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">global_new_columns</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">arguments</span><span class="p">:</span>
+
+            <span class="c1"># Extracting arguments from input parameters</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">dataframe</span>
+            <span class="n">time_column</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">operation</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">time</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">event_col</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;event_column&quot;</span><span class="p">]</span>
+            <span class="n">agg_column</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;agg_col&quot;</span><span class="p">]</span>
+            <span class="n">operation</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;operation&quot;</span><span class="p">]</span>
+            
+            <span class="k">if</span> <span class="s2">&quot;time_period&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                <span class="n">time</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;time_period&quot;</span><span class="p">]</span>
+                
+            <span class="k">if</span> <span class="s2">&quot;time_column&quot;</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                <span class="n">time_column</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;time_column&quot;</span><span class="p">]</span>
+                
+            <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;updated_name&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">:</span>
+                <span class="n">new_name</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;updated_name&quot;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span>
+                
+            <span class="k">if</span> <span class="s2">&quot;data_type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">item</span><span class="p">:</span>
+                <span class="n">item</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;float&quot;</span>
+        
+                
+            <span class="c1"># Check if the aggragete column is empty value (None) or not</span>
+            <span class="k">if</span> <span class="n">agg_column</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">:</span>
+                <span class="n">agg_column</span> <span class="o">=</span> <span class="n">event_col</span>
+         
+            <span class="k">if</span> <span class="n">time_column</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">time_column</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="n">time</span><span class="p">))</span>
+                
+            
+            <span class="k">if</span> <span class="p">(</span><span class="n">event_col</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">):</span>
+                <span class="n">event_col</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+            <span class="c1"># Checking the filter, whether, its None, all or a specific value</span>
+            <span class="c1"># &amp; (item[&quot;filter&quot;].isin(df.columns))):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;all&quot;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty_value</span><span class="p">):</span>
+
+                <span class="n">filter_items</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">F</span><span class="o">.</span><span class="n">col</span><span class="p">(</span><span class="n">event_col</span><span class="p">)</span> <span class="o">==</span> <span class="n">filter_items</span><span class="p">)</span>
+                <span class="n">df_grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">):</span>
+                <span class="n">filter_items</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">df_grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span><span class="o">.</span><span class="n">pivot</span><span class="p">(</span><span class="n">event_col</span><span class="p">)</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">filter_items</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">df_grouped</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupBy</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">operation</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_aggregation_preprocessing</span><span class="p">(</span><span class="n">df_grouped</span><span class="p">,</span> <span class="n">agg_column</span><span class="p">,</span> 
+                                                     <span class="n">operation</span><span class="p">,</span> <span class="n">event_col</span><span class="p">,</span> <span class="n">filter_items</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span>
+                                                     <span class="n">new_name</span><span class="p">,</span> <span class="n">data_type</span><span class="o">=</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;data_type&quot;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">new_name</span><span class="p">:</span>
+                    <span class="n">new_name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="n">agg_column</span><span class="p">,</span> <span class="n">new_name</span><span class="p">)</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="n">new_name</span><span class="p">)</span><span class="o">.</span><span class="n">dropDuplicates</span><span class="p">()</span>
+
+            <span class="c1"># When filter is all, the column names will change a bit and that&#39;s why the below code</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="s2">&quot;filter&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">):</span>
+
+                <span class="n">updated_name</span> <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s2">&quot;updated_name&quot;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">updated_name</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">):</span>
+                    <span class="n">categories_list</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">categories_list</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">category</span> <span class="o">!=</span> <span class="n">groupby_col</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span> <span class="ow">in</span> <span class="n">updated_name</span><span class="p">:</span>
+                                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span>
+                                    <span class="n">category</span><span class="p">,</span> <span class="n">updated_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">category</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()))</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span>
+                                    <span class="n">category</span><span class="p">,</span> <span class="n">updated_name</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">category</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">categories_list</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+                    <span class="k">for</span> <span class="n">category</span> <span class="ow">in</span> <span class="n">categories_list</span><span class="p">:</span>
+                        <span class="n">sufix_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">column_mapping</span><span class="p">[</span><span class="n">operation</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">category</span> <span class="o">+</span> \
+                            <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">filter_items</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> \
+                            <span class="n">agg_column</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">time</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;days&quot;</span>
+                        <span class="k">if</span> <span class="p">(</span><span class="n">category</span> <span class="o">!=</span> <span class="n">groupby_col</span><span class="p">):</span>
+                            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">sufix_name</span><span class="p">)</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># Merging the data</span>
+            <span class="k">if</span> <span class="n">count</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">preprocessed_df</span> <span class="o">=</span> <span class="n">df</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">preprocessed_df</span> <span class="o">=</span> <span class="n">preprocessed_df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="n">groupby_col</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+                
+        <span class="k">return</span> <span class="n">preprocessed_df</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

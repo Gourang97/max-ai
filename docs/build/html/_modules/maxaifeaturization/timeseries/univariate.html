@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxaifeaturization.timeseries.univariate &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxaifeaturization.timeseries.univariate</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxaifeaturization.timeseries.univariate</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">pyspark.sql.types</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">pandas_udf</span><span class="p">,</span> <span class="n">PandasUDFType</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.seasonal</span> <span class="kn">import</span> <span class="n">seasonal_decompose</span><span class="p">,</span> <span class="n">STL</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tsa.stattools</span> <span class="kn">import</span> <span class="n">adfuller</span><span class="p">,</span> <span class="n">kpss</span>
+
+<span class="c1"># TODO: rename value_col to target_col, in accordance with other modules</span>
+
+<div class="viewcode-block" id="autocorrelation"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.autocorrelation">[docs]</a><span class="k">def</span> <span class="nf">autocorrelation</span><span class="p">(</span>
+    <span class="n">spark_df</span><span class="p">,</span> <span class="n">groupby_col</span><span class="p">,</span> <span class="n">datetime_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">,</span> <span class="n">nlags</span><span class="p">,</span> <span class="n">partial</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;computes the Pearson correlation between the Series and its shifted self</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        spark_df (spark DataFrame): the dataframe on which operation is to be performed</span>
+<span class="sd">        groupby_col (str): entity column name for which a time series is defined</span>
+<span class="sd">        datetime_col (str): datetime column name</span>
+<span class="sd">        value_col (str): value/quantity column name</span>
+<span class="sd">        nlags (int): number of lags for which the autocorrelation is to be calculated</span>
+<span class="sd">        partial (bool): if True, partial correlation will be calculated</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        spark DataFrame: a dataframe with lag and autocorrelation for each grouped entity</span>
+
+<span class="sd">    -------</span>
+<span class="sd">    Example:-</span>
+<span class="sd">    ```</span>
+<span class="sd">    import pandas as pd</span>
+
+<span class="sd">    entities = [&quot;A1&quot;, &quot;B2&quot;, &quot;C3&quot;, &quot;D4&quot;, &quot;E5&quot;]</span>
+<span class="sd">    data_list = []</span>
+<span class="sd">    date_list = []</span>
+<span class="sd">    entity_list = []</span>
+<span class="sd">    for entity in entities:</span>
+<span class="sd">        for i in range(0, 100):</span>
+<span class="sd">            sin_val = np.sin(i) + np.random.rand()</span>
+<span class="sd">            date_val = datetime(2022, 1, 1) + timedelta(days=i)</span>
+<span class="sd">            entity_list.append(entity)</span>
+<span class="sd">            data_list.append(sin_val)</span>
+<span class="sd">            date_list.append(date_val)</span>
+
+<span class="sd">    pandas_df = pd.DataFrame({</span>
+<span class="sd">        &quot;machine_id&quot;: entity_list,</span>
+<span class="sd">        &quot;date&quot;: date_list,</span>
+<span class="sd">        &quot;sensor_reading&quot;: data_list</span>
+<span class="sd">    })</span>
+<span class="sd">    spark_df = spark.createDataFrame(pandas_df)</span>
+
+<span class="sd">    abdf = autocorrelation(spark_df, groupby_col=&quot;machine_id&quot;, datetime_col=&quot;date&quot;, value_col=&quot;sensor_reading&quot;, nlags=2, partial=True)</span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spark_df</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;spark_df should be of pyspark.sql.DataFrame type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">spark_df</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;groupby_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">datetime_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;datetime_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">datetime_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;value_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">value_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="n">nlags</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nlags</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;nlags should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">nlags</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">partial</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;partial should be of bool type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">partial</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pass_args</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="n">datetime_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">,</span> <span class="n">nlags</span><span class="p">,</span> <span class="n">partial</span><span class="p">):</span>
+        <span class="nd">@pandas_udf</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">PandasUDFType</span><span class="o">.</span><span class="n">GROUPED_MAP</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">acf</span><span class="p">(</span><span class="n">pdf</span><span class="p">):</span>
+            <span class="n">pdf</span> <span class="o">=</span> <span class="n">pdf</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="n">datetime_col</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">nobs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pdf</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">nlags</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">n_lags</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">nobs</span><span class="p">),</span> <span class="n">nobs</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">n_lags</span> <span class="o">=</span> <span class="n">nlags</span>
+            <span class="k">if</span> <span class="n">partial</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">pdf</span><span class="p">[</span><span class="n">value_col</span><span class="p">]</span> <span class="o">=</span> <span class="n">pdf</span><span class="p">[</span><span class="n">value_col</span><span class="p">]</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">periods</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">lags_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">autocorrelation_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_lags</span><span class="p">):</span>
+                <span class="n">lags_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="n">autocorrelation_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pdf</span><span class="p">[</span><span class="n">value_col</span><span class="p">]</span><span class="o">.</span><span class="n">autocorr</span><span class="p">(</span><span class="n">lag</span><span class="o">=</span><span class="n">i</span><span class="p">))</span>
+            <span class="n">autocorr_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="n">groupby_col</span><span class="p">:</span> <span class="n">pdf</span><span class="p">[</span><span class="n">groupby_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">&quot;lag&quot;</span><span class="p">:</span> <span class="n">lags_list</span><span class="p">,</span>
+                    <span class="s2">&quot;autocorrelation&quot;</span><span class="p">:</span> <span class="n">autocorrelation_list</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">autocorr_df</span>
+
+        <span class="k">return</span> <span class="n">acf</span>
+
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">StructType</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;lag&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">IntegerType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;autocorrelation&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">calc_acf</span> <span class="o">=</span> <span class="n">pass_args</span><span class="p">(</span>
+        <span class="n">groupby_col</span><span class="o">=</span><span class="n">groupby_col</span><span class="p">,</span>
+        <span class="n">datetime_col</span><span class="o">=</span><span class="n">datetime_col</span><span class="p">,</span>
+        <span class="n">value_col</span><span class="o">=</span><span class="n">value_col</span><span class="p">,</span>
+        <span class="n">nlags</span><span class="o">=</span><span class="n">nlags</span><span class="p">,</span>
+        <span class="n">partial</span><span class="o">=</span><span class="n">partial</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">autocorrelation_df</span> <span class="o">=</span> <span class="n">spark_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">calc_acf</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">autocorrelation_df</span></div>
+
+
+<div class="viewcode-block" id="Decompose"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.Decompose">[docs]</a><span class="k">class</span> <span class="nc">Decompose</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="Decompose.moving_average"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.Decompose.moving_average">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">moving_average</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;model&quot;</span><span class="p">,</span> <span class="s2">&quot;additive&quot;</span><span class="p">)</span>
+        <span class="n">filt</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;filt&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">two_sided</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;two_sided&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">extrapolate_trend</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;extrapolate_trend&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;model should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">filt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filt</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;filt should be of np.ndarray type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="nb">type</span><span class="p">(</span><span class="n">filt</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;period should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">two_sided</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;two_sided should be of bool type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">two_sided</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">extrapolate_trend</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;extrapolate_trend should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">extrapolate_trend</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">model_list</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;additive&quot;</span><span class="p">,</span> <span class="s2">&quot;multiplicative&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">model</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model_list</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Only </span><span class="si">{}</span><span class="s2"> types of methods are supported, and should be selected from </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">model_list</span><span class="p">),</span> <span class="n">model_list</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">sd_obj</span> <span class="o">=</span> <span class="n">seasonal_decompose</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span>
+            <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+            <span class="n">filt</span><span class="o">=</span><span class="n">filt</span><span class="p">,</span>
+            <span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">,</span>
+            <span class="n">two_sided</span><span class="o">=</span><span class="n">two_sided</span><span class="p">,</span>
+            <span class="n">extrapolate_trend</span><span class="o">=</span><span class="n">extrapolate_trend</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">trend</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">,</span> <span class="n">residual</span> <span class="o">=</span> <span class="n">sd_obj</span><span class="o">.</span><span class="n">trend</span><span class="p">,</span> <span class="n">sd_obj</span><span class="o">.</span><span class="n">seasonal</span><span class="p">,</span> <span class="n">sd_obj</span><span class="o">.</span><span class="n">resid</span>
+        <span class="k">return</span> <span class="n">trend</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">,</span> <span class="n">residual</span></div>
+
+<div class="viewcode-block" id="Decompose.loess"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.Decompose.loess">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">loess</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;method&quot;</span><span class="p">,</span> <span class="s2">&quot;additive&quot;</span><span class="p">)</span>
+        <span class="n">period</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;period&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">seasonal</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seasonal&quot;</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+        <span class="n">trend</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;trend&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">low_pass</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;low_pass&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">seasonal_deg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seasonal_deg&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">trend_deg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;trend_deg&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">low_pass_deg</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;low_pass_deg&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">robust</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;robust&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">seasonal_jump</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;seasonal_jump&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">trend_jump</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;trend_jump&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">low_pass_jump</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;low_pass_jump&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;method should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">period</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;period should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">period</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seasonal</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;seasonal should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">seasonal</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">trend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trend</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;trend should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="nb">type</span><span class="p">(</span><span class="n">trend</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="n">low_pass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">low_pass</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+                <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;low_pass should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="nb">type</span><span class="p">(</span><span class="n">low_pass</span><span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seasonal_deg</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;seasonal_deg should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">seasonal_deg</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trend_deg</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;trend_deg should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">trend_deg</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">low_pass_deg</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;low_pass_deg should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">low_pass_deg</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">robust</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;robust should be of bool type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">robust</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">seasonal_jump</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;seasonal_jump should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">seasonal_jump</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">trend_jump</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;trend_jump should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">trend_jump</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">low_pass_jump</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;low_pass_jump should be of int type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="nb">type</span><span class="p">(</span><span class="n">low_pass_jump</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="c1"># TODO</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;multiplicative&quot;</span><span class="p">:</span>
+            <span class="c1"># to apply multiplicative decomposition, take log of input data and then components should be back-transformed</span>
+            <span class="c1"># reference:- https://otexts.com/fpp2/stl.html</span>
+            <span class="k">pass</span>
+
+        <span class="n">stl_obj</span> <span class="o">=</span> <span class="n">STL</span><span class="p">(</span>
+            <span class="n">df</span><span class="p">,</span>
+            <span class="n">period</span><span class="o">=</span><span class="n">period</span><span class="p">,</span>
+            <span class="n">seasonal</span><span class="o">=</span><span class="n">seasonal</span><span class="p">,</span>
+            <span class="n">trend</span><span class="o">=</span><span class="n">trend</span><span class="p">,</span>
+            <span class="n">low_pass</span><span class="o">=</span><span class="n">low_pass</span><span class="p">,</span>
+            <span class="n">seasonal_deg</span><span class="o">=</span><span class="n">seasonal_deg</span><span class="p">,</span>
+            <span class="n">trend_deg</span><span class="o">=</span><span class="n">trend_deg</span><span class="p">,</span>
+            <span class="n">low_pass_deg</span><span class="o">=</span><span class="n">low_pass_deg</span><span class="p">,</span>
+            <span class="n">robust</span><span class="o">=</span><span class="n">robust</span><span class="p">,</span>
+            <span class="n">seasonal_jump</span><span class="o">=</span><span class="n">seasonal_jump</span><span class="p">,</span>
+            <span class="n">trend_jump</span><span class="o">=</span><span class="n">trend_jump</span><span class="p">,</span>
+            <span class="n">low_pass_jump</span><span class="o">=</span><span class="n">low_pass_jump</span><span class="p">,</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="n">trend</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">,</span> <span class="n">residual</span> <span class="o">=</span> <span class="n">stl_obj</span><span class="o">.</span><span class="n">trend</span><span class="p">,</span> <span class="n">stl_obj</span><span class="o">.</span><span class="n">seasonal</span><span class="p">,</span> <span class="n">stl_obj</span><span class="o">.</span><span class="n">resid</span>
+        <span class="k">return</span> <span class="n">trend</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">,</span> <span class="n">residual</span></div></div>
+
+
+<div class="viewcode-block" id="time_series_decomposition"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.time_series_decomposition">[docs]</a><span class="k">def</span> <span class="nf">time_series_decomposition</span><span class="p">(</span>
+    <span class="n">spark_df</span><span class="p">,</span> <span class="n">groupby_col</span><span class="p">,</span> <span class="n">datetime_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;moving_average&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Example</span>
+<span class="sd">    ```</span>
+<span class="sd">    ddf = time_series_decomposition(spark_df, groupby_col=&quot;machine_id&quot;, datetime_col=&quot;date&quot;, value_col=&quot;sensor_reading&quot;, method=&quot;loess&quot;)</span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spark_df</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;spark_df should be of pyspark.sql.DataFrame type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">spark_df</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;groupby_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">datetime_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;datetime_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">datetime_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;value_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">value_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pass_args</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="n">datetime_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nd">@pandas_udf</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">PandasUDFType</span><span class="o">.</span><span class="n">GROUPED_MAP</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">decompose</span><span class="p">(</span><span class="n">pdf</span><span class="p">):</span>
+            <span class="n">univariate_df</span> <span class="o">=</span> <span class="n">pdf</span><span class="p">[[</span><span class="n">datetime_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">]]</span>
+            <span class="n">univariate_df</span> <span class="o">=</span> <span class="n">univariate_df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">datetime_col</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;moving_average&quot;</span><span class="p">:</span>
+                <span class="n">trend</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">,</span> <span class="n">residual</span> <span class="o">=</span> <span class="n">Decompose</span><span class="p">()</span><span class="o">.</span><span class="n">moving_average</span><span class="p">(</span>
+                    <span class="n">univariate_df</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;loess&quot;</span><span class="p">:</span>
+                <span class="n">trend</span><span class="p">,</span> <span class="n">seasonal</span><span class="p">,</span> <span class="n">residual</span> <span class="o">=</span> <span class="n">Decompose</span><span class="p">()</span><span class="o">.</span><span class="n">loess</span><span class="p">(</span><span class="n">univariate_df</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;please enter valid a Time-Series decomposition method. Currently, only &#39;moving_average&#39; and &#39;Loess&#39; are supported.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">decompose_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="n">groupby_col</span><span class="p">:</span> <span class="n">pdf</span><span class="p">[</span><span class="n">groupby_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">datetime_col</span><span class="p">:</span> <span class="n">pdf</span><span class="p">[</span><span class="n">datetime_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="n">value_col</span><span class="p">:</span> <span class="n">pdf</span><span class="p">[</span><span class="n">value_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;trend&quot;</span><span class="p">:</span> <span class="n">trend</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;seasonal&quot;</span><span class="p">:</span> <span class="n">seasonal</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;residual&quot;</span><span class="p">:</span> <span class="n">residual</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">decompose_df</span>
+
+        <span class="k">return</span> <span class="n">decompose</span>
+
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">StructType</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="n">datetime_col</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">DateType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="n">value_col</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;trend&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;seasonal&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;residual&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">decompose_series</span> <span class="o">=</span> <span class="n">pass_args</span><span class="p">(</span>
+        <span class="n">groupby_col</span><span class="o">=</span><span class="n">groupby_col</span><span class="p">,</span>
+        <span class="n">datetime_col</span><span class="o">=</span><span class="n">datetime_col</span><span class="p">,</span>
+        <span class="n">value_col</span><span class="o">=</span><span class="n">value_col</span><span class="p">,</span>
+        <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    <span class="n">decompose_df</span> <span class="o">=</span> <span class="n">spark_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">decompose_series</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">decompose_df</span></div>
+
+
+<div class="viewcode-block" id="StationarityTest"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.StationarityTest">[docs]</a><span class="k">class</span> <span class="nc">StationarityTest</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="StationarityTest.adf"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.StationarityTest.adf">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">adf</span><span class="p">(</span><span class="n">pandas_df</span><span class="p">,</span> <span class="n">value_col</span><span class="p">):</span>
+        <span class="n">timeseries</span> <span class="o">=</span> <span class="n">pandas_df</span><span class="p">[</span><span class="n">value_col</span><span class="p">]</span>
+        <span class="n">dftest</span> <span class="o">=</span> <span class="n">adfuller</span><span class="p">(</span><span class="n">timeseries</span><span class="p">,</span> <span class="n">autolag</span><span class="o">=</span><span class="s2">&quot;AIC&quot;</span><span class="p">)</span>
+        <span class="n">dfoutput</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="n">dftest</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">4</span><span class="p">],</span>
+            <span class="n">index</span><span class="o">=</span><span class="p">[</span>
+                <span class="s2">&quot;Test Statistic&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;p-value&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;#Lags Used&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;Number of Observations Used&quot;</span><span class="p">,</span>
+            <span class="p">],</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">dftest</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">dfoutput</span><span class="p">[</span><span class="s2">&quot;Critical Value (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="n">dfoutput</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;statistics&quot;</span><span class="p">:</span> <span class="n">dfoutput</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">dfoutput</span><span class="p">}</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dfoutput</span></div>
+
+<div class="viewcode-block" id="StationarityTest.kpss"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.StationarityTest.kpss">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">kpss</span><span class="p">(</span><span class="n">pandas_df</span><span class="p">,</span> <span class="n">value_col</span><span class="p">):</span>
+        <span class="n">timeseries</span> <span class="o">=</span> <span class="n">pandas_df</span><span class="p">[</span><span class="n">value_col</span><span class="p">]</span>
+        <span class="n">kpsstest</span> <span class="o">=</span> <span class="n">kpss</span><span class="p">(</span><span class="n">timeseries</span><span class="p">,</span> <span class="n">regression</span><span class="o">=</span><span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="n">nlags</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+        <span class="n">kpss_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
+            <span class="n">kpsstest</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Test Statistic&quot;</span><span class="p">,</span> <span class="s2">&quot;p-value&quot;</span><span class="p">,</span> <span class="s2">&quot;Lags Used&quot;</span><span class="p">]</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kpsstest</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">kpss_output</span><span class="p">[</span><span class="s2">&quot;Critical Value (</span><span class="si">%s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="n">kpss_output</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+            <span class="p">{</span><span class="s2">&quot;statistics&quot;</span><span class="p">:</span> <span class="n">kpss_output</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">kpss_output</span><span class="p">}</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">kpss_output</span></div></div>
+
+
+<div class="viewcode-block" id="check_stationarity"><a class="viewcode-back" href="../../../maxaifeaturization.timeseries.html#maxaifeaturization.timeseries.univariate.check_stationarity">[docs]</a><span class="k">def</span> <span class="nf">check_stationarity</span><span class="p">(</span>
+    <span class="n">spark_df</span><span class="p">,</span> <span class="n">groupby_col</span><span class="p">,</span> <span class="n">datetime_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="s2">&quot;adf&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">spark_df</span><span class="p">,</span> <span class="n">DataFrame</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;spark_df should be of pyspark.sql.DataFrame type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">spark_df</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;groupby_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">datetime_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;datetime_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">datetime_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_col</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;value_col should be of string type but an object of </span><span class="si">{}</span><span class="s2"> was provided instead&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="nb">type</span><span class="p">(</span><span class="n">value_col</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">pass_args</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="n">datetime_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nd">@pandas_udf</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">PandasUDFType</span><span class="o">.</span><span class="n">GROUPED_MAP</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">test_fn</span><span class="p">(</span><span class="n">pdf</span><span class="p">):</span>
+            <span class="n">univariate_df</span> <span class="o">=</span> <span class="n">pdf</span><span class="p">[[</span><span class="n">datetime_col</span><span class="p">,</span> <span class="n">value_col</span><span class="p">]]</span>
+
+            <span class="k">if</span> <span class="n">test</span> <span class="o">==</span> <span class="s2">&quot;ADF&quot;</span><span class="p">:</span>
+                <span class="n">result_df</span> <span class="o">=</span> <span class="n">StationarityTest</span><span class="p">()</span><span class="o">.</span><span class="n">adf</span><span class="p">(</span><span class="n">univariate_df</span><span class="p">,</span> <span class="n">value_col</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">test</span> <span class="o">==</span> <span class="s2">&quot;KPSS&quot;</span><span class="p">:</span>
+                <span class="n">result_df</span> <span class="o">=</span> <span class="n">StationarityTest</span><span class="p">()</span><span class="o">.</span><span class="n">kpss</span><span class="p">(</span><span class="n">univariate_df</span><span class="p">,</span> <span class="n">value_col</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;please enter valid a stationarity test. Currently, only &#39;ADF&#39; and &#39;KPSS&#39; are supported.&quot;</span>
+                <span class="p">)</span>
+
+            <span class="n">resultant_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="n">groupby_col</span><span class="p">:</span> <span class="n">pdf</span><span class="p">[</span><span class="n">groupby_col</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="s2">&quot;statistics&quot;</span><span class="p">:</span> <span class="n">result_df</span><span class="p">[</span><span class="s2">&quot;statistics&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="n">result_df</span><span class="p">[</span><span class="s2">&quot;value&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">resultant_df</span>
+
+        <span class="k">return</span> <span class="n">test_fn</span>
+
+    <span class="n">schema</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">StructType</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;statistics&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">StringType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+            <span class="n">T</span><span class="o">.</span><span class="n">StructField</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="n">T</span><span class="o">.</span><span class="n">FloatType</span><span class="p">(),</span> <span class="kc">True</span><span class="p">),</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">s_test_series</span> <span class="o">=</span> <span class="n">pass_args</span><span class="p">(</span>
+        <span class="n">groupby_col</span><span class="o">=</span><span class="n">groupby_col</span><span class="p">,</span>
+        <span class="n">datetime_col</span><span class="o">=</span><span class="n">datetime_col</span><span class="p">,</span>
+        <span class="n">value_col</span><span class="o">=</span><span class="n">value_col</span><span class="p">,</span>
+        <span class="n">test</span><span class="o">=</span><span class="n">test</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span>
+    <span class="n">resultant_df</span> <span class="o">=</span> <span class="n">spark_df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">groupby_col</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">s_test_series</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">resultant_df</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

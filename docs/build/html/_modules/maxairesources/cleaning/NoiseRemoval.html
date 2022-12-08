@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxairesources.cleaning.NoiseRemoval &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxairesources.cleaning.NoiseRemoval</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxairesources.cleaning.NoiseRemoval</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">functions</span> <span class="k">as</span> <span class="n">F</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">to_timestamp</span><span class="p">,</span> <span class="n">date_format</span><span class="p">,</span><span class="n">to_utc_timestamp</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
+<span class="kn">from</span> <span class="nn">pyspark.mllib.stat</span> <span class="kn">import</span> <span class="n">Statistics</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.functions</span> <span class="kn">import</span> <span class="n">col</span><span class="p">,</span> <span class="n">isnan</span><span class="p">,</span> <span class="n">when</span><span class="p">,</span> <span class="n">count</span>
+<span class="kn">from</span> <span class="nn">maxairesources.logging.logger</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NoiseRemoval"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval">[docs]</a><span class="k">class</span> <span class="nc">NoiseRemoval</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config_path</span> <span class="o">=</span> <span class="n">path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columns</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">treat_cols</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="s2">&quot;numerical_cols&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">date_cols</span> <span class="o">=</span> <span class="n">columns</span><span class="p">[</span><span class="s2">&quot;date_cols&quot;</span><span class="p">]</span>
+        
+
+
+<div class="viewcode-block" id="NoiseRemoval.determine_outlier_thersholds_std"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.determine_outlier_thersholds_std">[docs]</a>    <span class="k">def</span> <span class="nf">determine_outlier_thersholds_std</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col_name</span><span class="p">):</span>
+        <span class="n">df_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">toPandas</span><span class="p">()</span>
+        <span class="n">upper_boundary</span> <span class="o">=</span> <span class="n">df_new</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span> <span class="n">df_new</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="n">lower_boundary</span> <span class="o">=</span> <span class="n">df_new</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">-</span> <span class="mi">3</span><span class="o">*</span> <span class="n">df_new</span><span class="p">[</span><span class="n">col_name</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span>
+        <span class="k">del</span> <span class="n">df_new</span>
+        <span class="k">return</span> <span class="n">lower_boundary</span><span class="p">,</span> <span class="n">upper_boundary</span></div>
+
+
+<div class="viewcode-block" id="NoiseRemoval.determine_outlier_thresholds_iqr"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.determine_outlier_thresholds_iqr">[docs]</a>    <span class="k">def</span> <span class="nf">determine_outlier_thresholds_iqr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">):</span>
+        <span class="n">less_q1</span> <span class="o">=</span> <span class="s2">&quot;less_Q1_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="n">more_q3</span> <span class="o">=</span> <span class="s2">&quot;more_Q3_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="s2">&quot;Q1_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="n">q3</span> <span class="o">=</span> <span class="s2">&quot;Q3_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+
+        <span class="c1"># Q1 : First Quartile ., Q3 : Third Quartile</span>
+        <span class="n">q1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">approxQuantile</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.25</span><span class="p">],</span> <span class="n">relativeError</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">q3</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">approxQuantile</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.75</span><span class="p">],</span> <span class="n">relativeError</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">iqr</span> <span class="o">=</span> <span class="n">q3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">q1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># selecting the data, with -1.5*IQR to + 1.5*IQR., where param = 1.5 default value</span>
+        <span class="n">less_q1</span> <span class="o">=</span> <span class="n">q1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">iqr</span>
+        <span class="n">more_q3</span> <span class="o">=</span> <span class="n">q3</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mf">1.5</span> <span class="o">*</span> <span class="n">iqr</span>
+        <span class="k">return</span> <span class="n">less_q1</span><span class="p">,</span> <span class="n">more_q3</span></div>
+
+
+
+<div class="viewcode-block" id="NoiseRemoval.outlier_detect"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.outlier_detect">[docs]</a>    <span class="k">def</span> <span class="nf">outlier_detect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;iqr&quot;</span><span class="p">):</span>
+        <span class="n">df_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;std&quot;</span><span class="p">:</span>
+            <span class="n">lower_limit</span><span class="p">,</span> <span class="n">upper_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">determine_outlier_thersholds_std</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;iqr&quot;</span><span class="p">:</span>
+            <span class="n">lower_limit</span><span class="p">,</span> <span class="n">upper_limit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">determine_outlier_thresholds_iqr</span><span class="p">(</span><span class="n">column</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">lower_limit</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">:</span>
+            <span class="n">df_temp</span> <span class="o">=</span> <span class="n">df_temp</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">df_temp</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper_limit</span><span class="p">,</span> <span class="n">upper_limit</span><span class="p">)</span><span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="n">df_temp</span><span class="p">[</span><span class="n">column</span><span class="p">]))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df_temp</span> <span class="o">=</span> <span class="n">df_temp</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">df_temp</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">lower_limit</span><span class="p">,</span> <span class="n">lower_limit</span><span class="p">)</span><span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="n">df_temp</span><span class="p">[</span><span class="n">column</span><span class="p">]))</span>
+            <span class="n">df_temp</span> <span class="o">=</span> <span class="n">df_temp</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">column</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">when</span><span class="p">(</span><span class="n">df_temp</span><span class="p">[</span><span class="n">column</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">upper_limit</span><span class="p">,</span> <span class="n">upper_limit</span><span class="p">)</span><span class="o">.</span><span class="n">otherwise</span><span class="p">(</span><span class="n">df_temp</span><span class="p">[</span><span class="n">column</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df_temp</span>
+        <span class="k">del</span> <span class="n">df_temp</span> 
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span> </div>
+    
+<div class="viewcode-block" id="NoiseRemoval.read_config"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.read_config">[docs]</a>    <span class="k">def</span> <span class="nf">read_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config_path</span><span class="p">)</span>  
+            <span class="n">report</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Json File Missing&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Unable to load data from json file&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">report</span></div>
+    
+<div class="viewcode-block" id="NoiseRemoval.remove_outlier"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.remove_outlier">[docs]</a>    <span class="k">def</span> <span class="nf">remove_outlier</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        remove_outlier: method is used to remove the outliers from the dataset</span>
+
+<span class="sd">        input : Dataframe, Numerical Column list</span>
+<span class="sd">        Approach : We are reading the config file generated from the datacheck module and </span>
+<span class="sd">        based on the outlier percentages and skewness of the featues, we are capping outliers based on IQR Range or Standard Deviation Method</span>
+<span class="sd">        return : Return the processed dataframe which is free from outliers</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Removing outlier has started&quot;</span><span class="p">)</span>
+        
+        <span class="n">report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_config</span><span class="p">()</span>
+                
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">treat_cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;outlier_percentage&quot;</span> <span class="ow">in</span> <span class="n">report</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">report</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;outlier_percentage&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Feature </span><span class="si">{}</span><span class="s2"> needs treatment&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                    <span class="c1">## Check the skewness and then Treat Outlier</span>
+                    <span class="k">if</span> <span class="n">report</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;skewness_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;approximately symmetrical&quot;</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Feature </span><span class="si">{}</span><span class="s2"> is treated using Standard Deviation&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outlier_detect</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;std&quot;</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Feature </span><span class="si">{}</span><span class="s2"> is treated&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Feature </span><span class="si">{}</span><span class="s2"> is treated using IQR Range&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">outlier_detect</span><span class="p">(</span><span class="n">column</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="s2">&quot;iqr&quot;</span><span class="p">)</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Feature </span><span class="si">{}</span><span class="s2"> is treated&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Data is free from outliers&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span></div>
+    
+<div class="viewcode-block" id="NoiseRemoval.impute_null"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.impute_null">[docs]</a>    <span class="k">def</span> <span class="nf">impute_null</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        impute_null: method is used to remove the null values from the dataset</span>
+
+<span class="sd">        input : Dataframe, Numerical Column list</span>
+<span class="sd">        Approach : We are reading the config file generated from the datacheck module and </span>
+<span class="sd">        based on the null percentages and skewness of the featues, we are imputing null values.</span>
+<span class="sd">        Skewness type : Symmetrical, Imputation Method - Mean</span>
+<span class="sd">        Skewness type : Asymmetrical, Imputation Method - Median</span>
+<span class="sd">        Return : Processed Dataframe free from Null Values</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Null Imputation has started&quot;</span><span class="p">)</span>
+        <span class="n">skew_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">mean_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">median_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">report</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_config</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">treat_cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">report</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;skewness_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;approximately symmetrical&quot;</span><span class="p">:</span>
+                <span class="n">mean_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">report</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;mean&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">median_dict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">stat</span><span class="o">.</span><span class="n">approxQuantile</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">],</span> <span class="mf">0.001</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Features with Mean Imputation : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean_dict</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">mean_dict</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Mean Imputation Completed for features: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean_dict</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Features with Median Imputation : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean_dict</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="n">median_dict</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Median Imputation Completed for features: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">mean_dict</span><span class="p">))</span>
+        <span class="k">del</span> <span class="n">mean_dict</span><span class="p">,</span> <span class="n">median_dict</span><span class="p">,</span> <span class="n">skew_dict</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Data is free from NULL values&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span></div>
+    
+<div class="viewcode-block" id="NoiseRemoval.convert_timeformat"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.convert_timeformat">[docs]</a>    <span class="k">def</span> <span class="nf">convert_timeformat</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        convert_timeformat: method is used to convert the timeformat to UTC for all date columns from the dataset</span>
+
+<span class="sd">        input : Dataframe, Date Column list</span>
+<span class="sd">        Approach : </span>
+<span class="sd">        Return : Processed Dataframe with all date columns of type timestamp in UTC format</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Datetime Conversion [UTC Format] for features : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date_cols</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">reduce</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">temp_df</span><span class="p">,</span> <span class="n">col_name</span><span class="p">:</span> <span class="n">temp_df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span>
+                <span class="n">to_utc_timestamp</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="s2">&quot;UTC&quot;</span><span class="p">)),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">date_cols</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Datetime Conversion [UTC Format] for features completed: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">date_cols</span><span class="p">))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span></div>
+    
+<div class="viewcode-block" id="NoiseRemoval.drop_duplicates"><a class="viewcode-back" href="../../../maxairesources.cleaning.html#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.drop_duplicates">[docs]</a>    <span class="k">def</span> <span class="nf">drop_duplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        drop_duplicates: method is used to drop duplicates rows from the dataset</span>
+
+<span class="sd">        input : Dataframe</span>
+<span class="sd">        Approach : </span>
+<span class="sd">        Return : Processed Dataframe with no duplicate rows.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Dropping Duplicates Started&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Size of Data : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">dropDuplicates</span><span class="p">()</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Size of data post dropping duplicates : </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span></div></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

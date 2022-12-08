@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxairesources.utilities package &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">maxairesources.utilities package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-maxairesources.utilities.common_utils">maxairesources.utilities.common_utils module</a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.common_utils.write_file_to_s3"><code class="docutils literal notranslate"><span class="pre">write_file_to_s3()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxairesources-utilities-data-connectors-module">maxairesources.utilities.data_connectors module</a></li>
+<li><a class="reference internal" href="#module-maxairesources.utilities.encryption">maxairesources.utilities.encryption module</a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.encryption.Encryption"><code class="docutils literal notranslate"><span class="pre">Encryption</span></code></a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.encryption.Encryption.decrypt"><code class="docutils literal notranslate"><span class="pre">Encryption.decrypt()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.encryption.Encryption.decrypt_columns"><code class="docutils literal notranslate"><span class="pre">Encryption.decrypt_columns()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.encryption.Encryption.encrypt"><code class="docutils literal notranslate"><span class="pre">Encryption.encrypt()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.encryption.Encryption.encrypt_columns"><code class="docutils literal notranslate"><span class="pre">Encryption.encrypt_columns()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxairesources.utilities.misc">maxairesources.utilities.misc module</a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.misc.get_run_id_timestamp"><code class="docutils literal notranslate"><span class="pre">get_run_id_timestamp()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.misc.overwrite_dict"><code class="docutils literal notranslate"><span class="pre">overwrite_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxairesources.utilities.multi_train">maxairesources.utilities.multi_train module</a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.multi_train.MultiTrain"><code class="docutils literal notranslate"><span class="pre">MultiTrain</span></code></a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.multi_train.MultiTrain.predict"><code class="docutils literal notranslate"><span class="pre">MultiTrain.predict()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.multi_train.MultiTrain.train_models"><code class="docutils literal notranslate"><span class="pre">MultiTrain.train_models()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.multi_train.MultiTrain.trained_models"><code class="docutils literal notranslate"><span class="pre">MultiTrain.trained_models</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxairesources.utilities.preprocessing">maxairesources.utilities.preprocessing module</a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.preprocessing.Preprocessing"><code class="docutils literal notranslate"><span class="pre">Preprocessing</span></code></a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.preprocessing.Preprocessing.aggregate_transactional_data"><code class="docutils literal notranslate"><span class="pre">Preprocessing.aggregate_transactional_data()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxairesources.utilities.spark_distributor">maxairesources.utilities.spark_distributor module</a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.spark_distributor.SparkDistributor"><code class="docutils literal notranslate"><span class="pre">SparkDistributor</span></code></a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.spark_distributor.SparkDistributor.pandas_to_spark_wrapper"><code class="docutils literal notranslate"><span class="pre">SparkDistributor.pandas_to_spark_wrapper()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxairesources.utilities.train_test_split">maxairesources.utilities.train_test_split module</a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.train_test_split.TrainTestSplit"><code class="docutils literal notranslate"><span class="pre">TrainTestSplit</span></code></a><ul>
+<li><a class="reference internal" href="#maxairesources.utilities.train_test_split.TrainTestSplit.random_split"><code class="docutils literal notranslate"><span class="pre">TrainTestSplit.random_split()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.train_test_split.TrainTestSplit.stratified_split"><code class="docutils literal notranslate"><span class="pre">TrainTestSplit.stratified_split()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.train_test_split.TrainTestSplit.time_series_split"><code class="docutils literal notranslate"><span class="pre">TrainTestSplit.time_series_split()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.utilities.train_test_split.TrainTestSplit.train_test_split"><code class="docutils literal notranslate"><span class="pre">TrainTestSplit.train_test_split()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxairesources.utilities">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">maxairesources.utilities package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/maxairesources.utilities.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maxairesources-utilities-package">
+<h1>maxairesources.utilities package<a class="headerlink" href="#maxairesources-utilities-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.utilities.tests.html">maxairesources.utilities.tests package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.utilities.tests.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.utilities.tests.html#maxairesources-utilities-tests-test-data-connector-module">maxairesources.utilities.tests.test_data_connector module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.utilities.tests.html#maxairesources-utilities-tests-test-multi-train-module">maxairesources.utilities.tests.test_multi_train module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.utilities.tests.html#maxairesources-utilities-tests-test-spark-distributor-module">maxairesources.utilities.tests.test_spark_distributor module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.utilities.tests.html#maxairesources-utilities-tests-test-train-test-split-module">maxairesources.utilities.tests.test_train_test_split module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.utilities.tests.html#module-maxairesources.utilities.tests">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxairesources.utilities.common_utils">
+<span id="maxairesources-utilities-common-utils-module"></span><h2>maxairesources.utilities.common_utils module<a class="headerlink" href="#module-maxairesources.utilities.common_utils" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="maxairesources.utilities.common_utils.write_file_to_s3">
+<span class="sig-prename descclassname"><span class="pre">maxairesources.utilities.common_utils.</span></span><span class="sig-name descname"><span class="pre">write_file_to_s3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/common_utils.html#write_file_to_s3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.common_utils.write_file_to_s3" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="maxairesources-utilities-data-connectors-module">
+<h2>maxairesources.utilities.data_connectors module<a class="headerlink" href="#maxairesources-utilities-data-connectors-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxairesources.utilities.encryption">
+<span id="maxairesources-utilities-encryption-module"></span><h2>maxairesources.utilities.encryption module<a class="headerlink" href="#module-maxairesources.utilities.encryption" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxairesources.utilities.encryption.Encryption">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.utilities.encryption.</span></span><span class="sig-name descname"><span class="pre">Encryption</span></span><a class="reference internal" href="_modules/maxairesources/utilities/encryption.html#Encryption"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.encryption.Encryption" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.encryption.Encryption.decrypt">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cipher</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/encryption.html#Encryption.decrypt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.encryption.Encryption.decrypt" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.encryption.Encryption.decrypt_columns">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">decrypt_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'myKey'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'f_'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/encryption.html#Encryption.decrypt_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.encryption.Encryption.decrypt_columns" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.encryption.Encryption.encrypt">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">msg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/encryption.html#Encryption.encrypt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.encryption.Encryption.encrypt" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.encryption.Encryption.encrypt_columns">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">encrypt_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'myKey'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'f_'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/encryption.html#Encryption.encrypt_columns"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.encryption.Encryption.encrypt_columns" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxairesources.utilities.misc">
+<span id="maxairesources-utilities-misc-module"></span><h2>maxairesources.utilities.misc module<a class="headerlink" href="#module-maxairesources.utilities.misc" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="maxairesources.utilities.misc.get_run_id_timestamp">
+<span class="sig-prename descclassname"><span class="pre">maxairesources.utilities.misc.</span></span><span class="sig-name descname"><span class="pre">get_run_id_timestamp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/misc.html#get_run_id_timestamp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.misc.get_run_id_timestamp" title="Permalink to this definition"></a></dt>
+<dd><p>returns unique timestamp for run IDs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="maxairesources.utilities.misc.overwrite_dict">
+<span class="sig-prename descclassname"><span class="pre">maxairesources.utilities.misc.</span></span><span class="sig-name descname"><span class="pre">overwrite_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">d2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/maxairesources/utilities/misc.html#overwrite_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.misc.overwrite_dict" title="Permalink to this definition"></a></dt>
+<dd><p>method to append and overwrite two nested dictionaries</p>
+</dd></dl>
+
+</section>
+<section id="module-maxairesources.utilities.multi_train">
+<span id="maxairesources-utilities-multi-train-module"></span><h2>maxairesources.utilities.multi_train module<a class="headerlink" href="#module-maxairesources.utilities.multi_train" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxairesources.utilities.multi_train.MultiTrain">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.utilities.multi_train.</span></span><span class="sig-name descname"><span class="pre">MultiTrain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">models</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/multi_train.html#MultiTrain"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.multi_train.MultiTrain" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>class for training multiple models in parallel</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.multi_train.MultiTrain.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/multi_train.html#MultiTrain.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.multi_train.MultiTrain.predict" title="Permalink to this definition"></a></dt>
+<dd><p>Inference for all the trained models on the data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong><strong>(</strong><strong>DataFrame</strong><strong>)</strong> – Spark Dataframe with inference data</p>
+</dd>
+<dt class="field-even">Return predcitions(dict)</dt>
+<dd class="field-even"><p>dictionary with model name as key</p>
+</dd>
+</dl>
+<p>and predcition as value.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.multi_train.MultiTrain.train_models">
+<span class="sig-name descname"><span class="pre">train_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/multi_train.html#MultiTrain.train_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.multi_train.MultiTrain.train_models" title="Permalink to this definition"></a></dt>
+<dd><p>function trains all the models in model dict on the givem data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>data</strong><strong>(</strong><strong>DataFrame</strong><strong>)</strong> – Spark Dataframe with training data</p>
+</dd>
+<dt class="field-even">Return trained_models(dict)</dt>
+<dd class="field-even"><p>dictionary with model name as key</p>
+</dd>
+</dl>
+<p>and trained model as value.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="maxairesources.utilities.multi_train.MultiTrain.trained_models">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">trained_models</span></span><a class="headerlink" href="#maxairesources.utilities.multi_train.MultiTrain.trained_models" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxairesources.utilities.preprocessing">
+<span id="maxairesources-utilities-preprocessing-module"></span><h2>maxairesources.utilities.preprocessing module<a class="headerlink" href="#module-maxairesources.utilities.preprocessing" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxairesources.utilities.preprocessing.Preprocessing">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.utilities.preprocessing.</span></span><span class="sig-name descname"><span class="pre">Preprocessing</span></span><a class="reference internal" href="_modules/maxairesources/utilities/preprocessing.html#Preprocessing"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.preprocessing.Preprocessing" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.preprocessing.Preprocessing.aggregate_transactional_data">
+<span class="sig-name descname"><span class="pre">aggregate_transactional_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/preprocessing.html#Preprocessing.aggregate_transactional_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.preprocessing.Preprocessing.aggregate_transactional_data" title="Permalink to this definition"></a></dt>
+<dd><p>Converting transaction to cross sectional data</p>
+<dl>
+<dt>Args:</dt><dd><p>dataframe: transactional dataframe to apply the pre-processing function
+groupby_col: the column on which groupby is done before finding aggregation
+arguments: list of dictionaries containing event column, filter items, aggregation column, operation and time period.</p>
+</dd>
+<dt>Returns:</dt><dd><p>preprocessed_df : dataframe after pre-processing</p>
+</dd>
+<dt>Examples:</dt><dd><dl>
+<dt>Inputs:</dt><dd><p>dataframe: df
+groupby_col: “customer_id”
+arguments = [{“event_column”:”product”, “agg_col”:”revenue”, “filter”: “all”,</p>
+<blockquote>
+<div><blockquote>
+<div><p>“operation”: 2, “time_period”: 60},</p>
+</div></blockquote>
+<dl class="simple">
+<dt>{“event_column”:”product”, “agg_col”:”revenue”, “filter”: “all”,</dt><dd><p>“operation”: 1, “time_period”: 30}]</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+<dt>Output:</dt><dd><p>preprocessed_df: preprocessed dataframe with appropriate names</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxairesources.utilities.spark_distributor">
+<span id="maxairesources-utilities-spark-distributor-module"></span><h2>maxairesources.utilities.spark_distributor module<a class="headerlink" href="#module-maxairesources.utilities.spark_distributor" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxairesources.utilities.spark_distributor.SparkDistributor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.utilities.spark_distributor.</span></span><span class="sig-name descname"><span class="pre">SparkDistributor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">python_function</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark_dataframe</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_schema</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallelism</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/spark_distributor.html#SparkDistributor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.spark_distributor.SparkDistributor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Pyspark wrapper module to distribute python functions which are mainly written using Pandas.</p>
+<dl>
+<dt>Args:</dt><dd><p>python_function (function)       : A user defined function that should take Pandas Dataframe as input and return Pandas Dataframe as output
+spark_dataframe (spark dataframe): The Dataframe which needs to be processed using the python function
+args                             : Arguments to Python function                         
+sample_size (int)                : The number of sample records to be used to call the python function directly.</p>
+<blockquote>
+<div><p>The call to python function using sample of a pandas dataframe is used to infer the schema for the Final Dataframe. 
+Increase the sample size if the python function is not able to execute with the given sample size</p>
+</div></blockquote>
+<dl class="simple">
+<dt>output_schema<span class="classifier">schema of the output dataframe. If None the function tries to infer the schema by using sample of data.</span></dt><dd><p>The size of the sample is specified by sample size</p>
+</dd>
+</dl>
+<p>group_key                        : Name of the column to do grouby on. If None then spark partition id is used as a group_key
+parallelism                      : Specifies the number of partitions. If none then no repartition is performed
+kwargs                           : Keyword Arguments to Python Function</p>
+</dd>
+</dl>
+<p>Example:</p>
+<p>import SparkDistributor</p>
+<p>spark_wrapper = SparkDistributor(python_function,spark_df)
+result = spark_wrapper.pandas_to_spark_wrapper()
+result.show()</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.spark_distributor.SparkDistributor.pandas_to_spark_wrapper">
+<span class="sig-name descname"><span class="pre">pandas_to_spark_wrapper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/spark_distributor.html#SparkDistributor.pandas_to_spark_wrapper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.spark_distributor.SparkDistributor.pandas_to_spark_wrapper" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxairesources.utilities.train_test_split">
+<span id="maxairesources-utilities-train-test-split-module"></span><h2>maxairesources.utilities.train_test_split module<a class="headerlink" href="#module-maxairesources.utilities.train_test_split" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxairesources.utilities.train_test_split.TrainTestSplit">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.utilities.train_test_split.</span></span><span class="sig-name descname"><span class="pre">TrainTestSplit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">train_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{'random_state':</span> <span class="pre">True,</span> <span class="pre">'stratify':</span> <span class="pre">None,</span> <span class="pre">'ts':</span> <span class="pre">False}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">123</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/train_test_split.html#TrainTestSplit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.train_test_split.TrainTestSplit" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A Pyspark wrapper module to do a Train Test split.</p>
+<dl>
+<dt>Args:</dt><dd><p>data (spark_dataframe)  : spark dataframe to be passed on which train_test_split needs to happend
+train_size (float)      : train_size to be passed in ratio
+params (dictionary)     : Three options are supported in params and should be passed as true</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>random_state -  to do a random split</p></li>
+<li><p>stratify - to do a stratified split</p></li>
+<li><p>ts - to do a time series split</p></li>
+</ol>
+</div></blockquote>
+<p>seed (int)              : pass same seed for reproducibility</p>
+</dd>
+</dl>
+<p>Example:</p>
+<p>import train_test_split
+<a href="#id1"><span class="problematic" id="id2">``</span></a>`
+split = TrainTestSplit(data = spark_df,</p>
+<blockquote>
+<div><p>train_size = 0.8,
+params = {“random_state”:True},
+seed = 123)</p>
+</div></blockquote>
+<p>train,test = split.train_test_split()
+train.show()
+<a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.train_test_split.TrainTestSplit.random_split">
+<span class="sig-name descname"><span class="pre">random_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fraction</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/train_test_split.html#TrainTestSplit.random_split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.train_test_split.TrainTestSplit.random_split" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.train_test_split.TrainTestSplit.stratified_split">
+<span class="sig-name descname"><span class="pre">stratified_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frac</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_on</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/train_test_split.html#TrainTestSplit.stratified_split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.train_test_split.TrainTestSplit.stratified_split" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.train_test_split.TrainTestSplit.time_series_split">
+<span class="sig-name descname"><span class="pre">time_series_split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">frac</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/train_test_split.html#TrainTestSplit.time_series_split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.train_test_split.TrainTestSplit.time_series_split" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.utilities.train_test_split.TrainTestSplit.train_test_split">
+<span class="sig-name descname"><span class="pre">train_test_split</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/utilities/train_test_split.html#TrainTestSplit.train_test_split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.utilities.train_test_split.TrainTestSplit.train_test_split" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxairesources.utilities">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxairesources.utilities" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

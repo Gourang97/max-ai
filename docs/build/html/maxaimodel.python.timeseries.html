@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxaimodel.python.timeseries package &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">maxaimodel.python.timeseries package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-maxaimodel.python.timeseries.arima">maxaimodel.python.timeseries.arima module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima"><code class="docutils literal notranslate"><span class="pre">Arima</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima.build"><code class="docutils literal notranslate"><span class="pre">Arima.build()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima.fit"><code class="docutils literal notranslate"><span class="pre">Arima.fit()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima.get_model_diagnostics"><code class="docutils literal notranslate"><span class="pre">Arima.get_model_diagnostics()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima.get_params"><code class="docutils literal notranslate"><span class="pre">Arima.get_params()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima.load"><code class="docutils literal notranslate"><span class="pre">Arima.load()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima.predict"><code class="docutils literal notranslate"><span class="pre">Arima.predict()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima.save"><code class="docutils literal notranslate"><span class="pre">Arima.save()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.arima.Arima.training_framework"><code class="docutils literal notranslate"><span class="pre">Arima.training_framework</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.python.timeseries.garch">maxaimodel.python.timeseries.garch module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch"><code class="docutils literal notranslate"><span class="pre">Garch</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch.build"><code class="docutils literal notranslate"><span class="pre">Garch.build()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch.fit"><code class="docutils literal notranslate"><span class="pre">Garch.fit()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch.get_model_diagnostics"><code class="docutils literal notranslate"><span class="pre">Garch.get_model_diagnostics()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch.get_params"><code class="docutils literal notranslate"><span class="pre">Garch.get_params()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch.load"><code class="docutils literal notranslate"><span class="pre">Garch.load()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch.predict"><code class="docutils literal notranslate"><span class="pre">Garch.predict()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch.save"><code class="docutils literal notranslate"><span class="pre">Garch.save()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.garch.Garch.training_framework"><code class="docutils literal notranslate"><span class="pre">Garch.training_framework</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.python.timeseries.neuroprophet">maxaimodel.python.timeseries.neuroprophet module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet"><code class="docutils literal notranslate"><span class="pre">NProphet</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.build"><code class="docutils literal notranslate"><span class="pre">NProphet.build()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.fit"><code class="docutils literal notranslate"><span class="pre">NProphet.fit()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.get_event_df"><code class="docutils literal notranslate"><span class="pre">NProphet.get_event_df()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.get_model_diagnostics"><code class="docutils literal notranslate"><span class="pre">NProphet.get_model_diagnostics()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.get_params"><code class="docutils literal notranslate"><span class="pre">NProphet.get_params()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.load"><code class="docutils literal notranslate"><span class="pre">NProphet.load()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.predict"><code class="docutils literal notranslate"><span class="pre">NProphet.predict()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.save"><code class="docutils literal notranslate"><span class="pre">NProphet.save()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.training_framework"><code class="docutils literal notranslate"><span class="pre">NProphet.training_framework</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.python.timeseries.prophet">maxaimodel.python.timeseries.prophet module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet"><code class="docutils literal notranslate"><span class="pre">FBProphet</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.build"><code class="docutils literal notranslate"><span class="pre">FBProphet.build()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.fit"><code class="docutils literal notranslate"><span class="pre">FBProphet.fit()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.get_holiday_df"><code class="docutils literal notranslate"><span class="pre">FBProphet.get_holiday_df()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.get_model_diagnostics"><code class="docutils literal notranslate"><span class="pre">FBProphet.get_model_diagnostics()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.get_params"><code class="docutils literal notranslate"><span class="pre">FBProphet.get_params()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.load"><code class="docutils literal notranslate"><span class="pre">FBProphet.load()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.predict"><code class="docutils literal notranslate"><span class="pre">FBProphet.predict()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.save"><code class="docutils literal notranslate"><span class="pre">FBProphet.save()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.python.timeseries.prophet.FBProphet.training_framework"><code class="docutils literal notranslate"><span class="pre">FBProphet.training_framework</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.python.timeseries">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">maxaimodel.python.timeseries package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/maxaimodel.python.timeseries.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maxaimodel-python-timeseries-package">
+<h1>maxaimodel.python.timeseries package<a class="headerlink" href="#maxaimodel-python-timeseries-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxaimodel.python.timeseries.arima">
+<span id="maxaimodel-python-timeseries-arima-module"></span><h2>maxaimodel.python.timeseries.arima module<a class="headerlink" href="#module-maxaimodel.python.timeseries.arima" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.python.timeseries.arima.</span></span><span class="sig-name descname"><span class="pre">Arima</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exog_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/arima.html#Arima"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Wrapper that act as a basic interface for ARIMA-type models</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>time_col (str): column that captures datetime
+target_col (str): attribute to be forecasted
+params (dict): a dictionary that captures hyperparameters. Not required if param_grid is defined
+param_grid (dict): a dictionary that captures list hyperparameters on which grid search is to be performed
+val_periods (int, optional): validation period, will be used during the tuning phase
+metric (str, optional): validation metrics as defined in <cite>sklearn.metrics</cite>. E.g. for RMSE, add <cite>mean_squared_error</cite>
+exog_cols (list, optional): list of names of the exogenous variables</p>
+</dd>
+<dt>Attributes:</dt><dd><p>training_framework</p>
+</dd>
+<dt>Methods:</dt><dd><p>fit: Fit (estimate and tunes) the parameters of the model
+predict: After a model has been fit predict returns the fitted values</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/arima.html#Arima.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/arima.html#Arima.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit (estimate and tunes) the parameters of the model</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data (spark.DataFrame): dataframe with <cite>time_col</cite>, <cite>target_col</cite></p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima.get_model_diagnostics">
+<span class="sig-name descname"><span class="pre">get_model_diagnostics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/arima.html#Arima.get_model_diagnostics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima.get_model_diagnostics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/arima.html#Arima.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima.get_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/arima.html#Arima.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima.load" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/arima.html#Arima.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima.predict" title="Permalink to this definition"></a></dt>
+<dd><p>After a model has been fit predict, returns the forecasted values</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>periods (int): time-steps for which forecast is to be made.
+freq (str, optional): frequency of forecast. Daily (“D”), Monthly (“M”) etc.
+data (spark.DataFrame, optional): requires only if exogenous variables are being used.</p>
+</dd>
+<dt>Returns:</dt><dd><p>forecast_df (spark.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/arima.html#Arima.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima.save" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.arima.Arima.training_framework">
+<span class="sig-name descname"><span class="pre">training_framework</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'python'</span></em><a class="headerlink" href="#maxaimodel.python.timeseries.arima.Arima.training_framework" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.python.timeseries.garch">
+<span id="maxaimodel-python-timeseries-garch-module"></span><h2>maxaimodel.python.timeseries.garch module<a class="headerlink" href="#module-maxaimodel.python.timeseries.garch" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.python.timeseries.garch.</span></span><span class="sig-name descname"><span class="pre">Garch</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exog_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/garch.html#Garch"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Wrapper that act as a basic interface for GARCH-type models</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>time_col (str): column that captures datetime
+target_col (str): attribute to be forecasted
+params (dict): a dictionary that captures hyperparameters. Not required if param_grid is defined
+param_grid (dict): a dictionary that captures list hyperparameters on which grid search is to be performed
+val_periods (int, optional): validation period, will be used during the tuning phase
+metric (str, optional): validation metrics as defined in <cite>sklearn.metrics</cite>. E.g. for RMSE, add <cite>mean_squared_error</cite>
+exog_cols (list, optional): list of names of the exogenous variables</p>
+</dd>
+<dt>Attributes:</dt><dd><p>training_framework</p>
+</dd>
+<dt>Methods:</dt><dd><p>fit: Fit (estimate and tunes) the parameters of the model
+predict: After a model has been fit predict returns the fitted values</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/garch.html#Garch.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/garch.html#Garch.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit (estimate and tunes) the parameters of the model</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data (spark.DataFrame): dataframe with <cite>time_col</cite>, <cite>target_col</cite></p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch.get_model_diagnostics">
+<span class="sig-name descname"><span class="pre">get_model_diagnostics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/garch.html#Garch.get_model_diagnostics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch.get_model_diagnostics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/garch.html#Garch.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch.get_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/garch.html#Garch.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch.load" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/garch.html#Garch.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch.predict" title="Permalink to this definition"></a></dt>
+<dd><p>After a model has been fit predict, returns the forecasted values</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>periods (int): time-steps for which forecast is to be made.
+freq (str, optional): frequency of forecast. Daily (“D”), Monthly (“M”) etc.
+data (spark.DataFrame, optional): requires only if exogenous variables are being used.</p>
+</dd>
+<dt>Returns:</dt><dd><p>forecast_df (spark.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/garch.html#Garch.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch.save" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.garch.Garch.training_framework">
+<span class="sig-name descname"><span class="pre">training_framework</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'python'</span></em><a class="headerlink" href="#maxaimodel.python.timeseries.garch.Garch.training_framework" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.python.timeseries.neuroprophet">
+<span id="maxaimodel-python-timeseries-neuroprophet-module"></span><h2>maxaimodel.python.timeseries.neuroprophet module<a class="headerlink" href="#module-maxaimodel.python.timeseries.neuroprophet" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.python.timeseries.neuroprophet.</span></span><span class="sig-name descname"><span class="pre">NProphet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">events</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">future_regressors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lag_regressors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_seasonality</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Wrapper that act as a basic interface for NeuralProphet model
+Refer: <a class="reference external" href="https://neuralprophet.com/html/forecaster.html">https://neuralprophet.com/html/forecaster.html</a></p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>time_col (str): column that captures datetime
+target_col (str): attribute to be forecasted
+params (dict): Not required if param_grid is defined. For complete list, refer: <a class="reference external" href="https://neuralprophet.com/html/hyperparameter-selection.html">https://neuralprophet.com/html/hyperparameter-selection.html</a>
+param_grid (dict): a dictionary that captures list hyperparameters on which grid search is to be performed
+val_periods (int, optional): validation period, will be used during the tuning phase
+freq (str, optional): frequency of time-series
+metric (str, optional): validation metrics as defined in <cite>sklearn.metrics</cite>. E.g. for RMSE, add <cite>mean_squared_error</cite>
+events (list, optional): list of events 
+exog_cols (list, optional): list of names of the exogenous variables
+future_regressors (list, optional): external variables which have known future values
+lag_regressors (list, optional): lagged regressors, only available when the AR-Net is enabled
+custom_seasonality(list[dict]): list of custom seasonality dicts</p>
+</dd>
+<dt>Attributes:</dt><dd><p>training_framework</p>
+</dd>
+<dt>Methods:</dt><dd><p>fit: Fit (estimate and tunes) the parameters of the model
+get_event_df: Returns event DF
+predict: After a model has been fit predict returns the fitted values</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit (estimate and tunes) the parameters of the model</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data (spark.DataFrame): dataframe with <cite>time_col</cite>, <cite>target_col</cite></p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.get_event_df">
+<span class="sig-name descname"><span class="pre">get_event_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet.get_event_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.get_event_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.get_model_diagnostics">
+<span class="sig-name descname"><span class="pre">get_model_diagnostics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet.get_model_diagnostics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.get_model_diagnostics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.get_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.load" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.predict" title="Permalink to this definition"></a></dt>
+<dd><p>After a model has been fit predict, returns the forecasted values</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>periods (int): time-steps for which forecast is to be made.
+freq (str, optional): frequency of forecast. Daily (“D”), Monthly (“M”) etc.
+data (pd.DataFrame, optional): requires only if exogenous variables are being used.</p>
+</dd>
+<dt>Returns:</dt><dd><p>forecast_df (pd.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/neuroprophet.html#NProphet.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.save" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.neuroprophet.NProphet.training_framework">
+<span class="sig-name descname"><span class="pre">training_framework</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'python'</span></em><a class="headerlink" href="#maxaimodel.python.timeseries.neuroprophet.NProphet.training_framework" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.python.timeseries.prophet">
+<span id="maxaimodel-python-timeseries-prophet-module"></span><h2>maxaimodel.python.timeseries.prophet module<a class="headerlink" href="#module-maxaimodel.python.timeseries.prophet" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.python.timeseries.prophet.</span></span><span class="sig-name descname"><span class="pre">FBProphet</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">val_periods</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metric</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'mean_squared_error'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">holidays</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">holiday_countries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_seasonality</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_regressors</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">list</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<p>Wrapper that act as a basic interface for Prophet model
+Refer: <a class="reference external" href="https://facebook.github.io/prophet/docs/seasonality,_holiday_effects,_and_regressors.html">https://facebook.github.io/prophet/docs/seasonality,_holiday_effects,_and_regressors.html</a></p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>time_col (str): column that captures datetime
+target_col (str): attribute to be forecasted
+params (dict): Not required if param_grid is defined. For complete list, refer: <a class="reference external" href="https://neuralprophet.com/html/hyperparameter-selection.html">https://neuralprophet.com/html/hyperparameter-selection.html</a>
+param_grid (dict): a dictionary that captures list hyperparameters on which grid search is to be performed
+val_periods (int, optional): validation period, will be used during the tuning phase
+freq (str, optional): frequency of time-series
+metric (str, optional): validation metrics as defined in <cite>sklearn.metrics</cite>. E.g. for RMSE, add <cite>mean_squared_error</cite>
+holidays (list, optional): list of holiday columns
+holiday_countries (list, optional): list of holiday countries
+custom_seasonality (list[dict]): list of custom seasonality dicts
+extra_regressors (list): list of extra regressors</p>
+</dd>
+<dt>Attributes:</dt><dd><p>training_framework</p>
+</dd>
+<dt>Methods:</dt><dd><p>fit: Fit (estimate and tunes) the parameters of the model
+get_event_df: Returns event DF
+predict: After a model has been fit predict returns the fitted values</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit (estimate and tunes) the parameters of the model</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data (spark.DataFrame): dataframe with <cite>time_col</cite>, <cite>target_col</cite></p>
+</dd>
+<dt>Returns:</dt><dd><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.get_holiday_df">
+<span class="sig-name descname"><span class="pre">get_holiday_df</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet.get_holiday_df"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.get_holiday_df" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.get_model_diagnostics">
+<span class="sig-name descname"><span class="pre">get_model_diagnostics</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet.get_model_diagnostics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.get_model_diagnostics" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.get_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.load" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periods</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.predict" title="Permalink to this definition"></a></dt>
+<dd><p>After a model has been fit predict, returns the forecasted values</p>
+<dl class="simple">
+<dt>Args:</dt><dd><p>periods (int): time-steps for which forecast is to be made.
+freq (str, optional): frequency of forecast. Daily (“D”), Monthly (“M”) etc.
+data (spark.DataFrame, optional): requires only if exogenous variables are being used.</p>
+</dd>
+<dt>Returns:</dt><dd><p>forecast_df (spark.DataFrame)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/python/timeseries/prophet.html#FBProphet.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.save" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="maxaimodel.python.timeseries.prophet.FBProphet.training_framework">
+<span class="sig-name descname"><span class="pre">training_framework</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'python'</span></em><a class="headerlink" href="#maxaimodel.python.timeseries.prophet.FBProphet.training_framework" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.python.timeseries">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaimodel.python.timeseries" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

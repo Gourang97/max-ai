@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxaifeaturization.aggregation package &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">maxaifeaturization.aggregation package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-maxaifeaturization.aggregation.aggregation">maxaifeaturization.aggregation.aggregation module</a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.aggregation.aggregation.Aggregation"><code class="docutils literal notranslate"><span class="pre">Aggregation</span></code></a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.aggregation.aggregation.Aggregation.execute"><code class="docutils literal notranslate"><span class="pre">Aggregation.execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaifeaturization.aggregation.aggregation.Constants"><code class="docutils literal notranslate"><span class="pre">Constants</span></code></a><ul>
+<li><a class="reference internal" href="#maxaifeaturization.aggregation.aggregation.Constants.operation_dict"><code class="docutils literal notranslate"><span class="pre">Constants.operation_dict</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaifeaturization.aggregation">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">maxaifeaturization.aggregation package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/maxaifeaturization.aggregation.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maxaifeaturization-aggregation-package">
+<h1>maxaifeaturization.aggregation package<a class="headerlink" href="#maxaifeaturization-aggregation-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxaifeaturization.aggregation.aggregation">
+<span id="maxaifeaturization-aggregation-aggregation-module"></span><h2>maxaifeaturization.aggregation.aggregation module<a class="headerlink" href="#module-maxaifeaturization.aggregation.aggregation" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaifeaturization.aggregation.aggregation.Aggregation">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.aggregation.aggregation.</span></span><span class="sig-name descname"><span class="pre">Aggregation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/aggregation/aggregation.html#Aggregation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.aggregation.aggregation.Aggregation" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Performs aggregation operations on the passed DataFrame</p>
+<dl>
+<dt>Args:</dt><dd><p>df (spark.DataFrame): DataFrame on which operations are to be performed
+arguments (dict): list of dictionaries containing <cite>aggregation</cite>, <cite>feature_name</cite>, <cite>output_column_name</cite> keys.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>aggregation (int): aggregation operation (sum, average, etc) to be performed. List of operations available:</p></li>
+</ul>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
+{</p>
+<blockquote>
+<div><p>1: “sum”,
+2: “mean”,
+3: “stddev”,
+4: “max”,
+5: “min”,
+6: “count”,
+7: “count_distinct”,
+8: “variance”,
+9: “percentile”,
+10: “quantile”,
+11: “median”,
+12: “most_frequent”</p>
+</div></blockquote>
+<ul class="simple">
+<li><p>feature (list): Name of feature on which aggregation is to performed. Accepts only one input</p></li>
+<li><p>output_column_name (list): Name of the output column generated post aggregation</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+<p>—
+Example:
+<a href="#id3"><span class="problematic" id="id4">``</span></a>`
+from maxaifeaturization.aggregation import Aggregation</p>
+<p>df = spark.read.csv(filepath)    # file on which aggregations are to performed
+agg_dict = {</p>
+<blockquote>
+<div><p>“entity_column”: “customer_id”,
+“aggregation_ops”: [</p>
+<blockquote>
+<div><dl class="simple">
+<dt>{</dt><dd><p>“aggregation”: 2,
+“feature”: [“total_revenue”],
+“output_column_name”: [“mean_rev”]</p>
+</dd>
+</dl>
+<p>},
+{</p>
+<blockquote>
+<div><p>“aggregation”: 4,
+“feature”: [“total_revenue”],
+“output_column_name”: [“max_rev”]</p>
+</div></blockquote>
+<p>},</p>
+</div></blockquote>
+<p>]</p>
+</div></blockquote>
+<p>}</p>
+<p>agg_obj = Aggregation(df=df, arguments=agg_dict)
+agg_df = agg_obj.execute()
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaifeaturization.aggregation.aggregation.Aggregation.execute">
+<span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/aggregation/aggregation.html#Aggregation.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.aggregation.aggregation.Aggregation.execute" title="Permalink to this definition"></a></dt>
+<dd><p>driver method</p>
+<dl class="simple">
+<dt>Returns:</dt><dd><p>spark.DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaifeaturization.aggregation.aggregation.Constants">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.aggregation.aggregation.</span></span><span class="sig-name descname"><span class="pre">Constants</span></span><a class="reference internal" href="_modules/maxaifeaturization/aggregation/aggregation.html#Constants"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.aggregation.aggregation.Constants" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="maxaifeaturization.aggregation.aggregation.Constants.operation_dict">
+<span class="sig-name descname"><span class="pre">operation_dict</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{1:</span> <span class="pre">'sum',</span> <span class="pre">2:</span> <span class="pre">'mean',</span> <span class="pre">3:</span> <span class="pre">'stddev',</span> <span class="pre">4:</span> <span class="pre">'max',</span> <span class="pre">5:</span> <span class="pre">'min',</span> <span class="pre">6:</span> <span class="pre">'count',</span> <span class="pre">7:</span> <span class="pre">'count_distinct',</span> <span class="pre">8:</span> <span class="pre">'variance',</span> <span class="pre">9:</span> <span class="pre">'percentile',</span> <span class="pre">10:</span> <span class="pre">'quantile',</span> <span class="pre">11:</span> <span class="pre">'median',</span> <span class="pre">12:</span> <span class="pre">'most_frequent'}</span></em><a class="headerlink" href="#maxaifeaturization.aggregation.aggregation.Constants.operation_dict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaifeaturization.aggregation">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaifeaturization.aggregation" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

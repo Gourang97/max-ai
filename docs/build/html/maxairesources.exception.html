@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxairesources.exception package &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">maxairesources.exception package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-maxairesources.exception.exceptions">maxairesources.exception.exceptions module</a><ul>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.DataSourceNotDefinedError"><code class="docutils literal notranslate"><span class="pre">DataSourceNotDefinedError</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.FeatureTransformException"><code class="docutils literal notranslate"><span class="pre">FeatureTransformException</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException"><code class="docutils literal notranslate"><span class="pre">MaxAIException</span></code></a><ul>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException.getErrorMessage"><code class="docutils literal notranslate"><span class="pre">MaxAIException.getErrorMessage()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.MissingEnvironmentVariable"><code class="docutils literal notranslate"><span class="pre">MissingEnvironmentVariable</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.ModelLoadException"><code class="docutils literal notranslate"><span class="pre">ModelLoadException</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.ModelNotImplemented"><code class="docutils literal notranslate"><span class="pre">ModelNotImplemented</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.ModelSaveException"><code class="docutils literal notranslate"><span class="pre">ModelSaveException</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.ModelTrainException"><code class="docutils literal notranslate"><span class="pre">ModelTrainException</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.ModelTypeNotDefinedException"><code class="docutils literal notranslate"><span class="pre">ModelTypeNotDefinedException</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.PortInformationNotFoundError"><code class="docutils literal notranslate"><span class="pre">PortInformationNotFoundError</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.exception.exceptions.UnknownOperationMode"><code class="docutils literal notranslate"><span class="pre">UnknownOperationMode</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxairesources.exception">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">maxairesources.exception package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/maxairesources.exception.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maxairesources-exception-package">
+<h1>maxairesources.exception package<a class="headerlink" href="#maxairesources-exception-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxairesources.exception.exceptions">
+<span id="maxairesources-exception-exceptions-module"></span><h2>maxairesources.exception.exceptions module<a class="headerlink" href="#module-maxairesources.exception.exceptions" title="Permalink to this heading"></a></h2>
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.DataSourceNotDefinedError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">DataSourceNotDefinedError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#DataSourceNotDefinedError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.DataSourceNotDefinedError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Raised when a particular data source is not defined for data import or export.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.FeatureTransformException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">FeatureTransformException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#FeatureTransformException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.FeatureTransformException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Exception in tansforming features</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.MaxAIException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">MaxAIException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#MaxAIException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.MaxAIException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+<p>Exception class</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.MaxAIException.getErrorMessage">
+<span class="sig-name descname"><span class="pre">getErrorMessage</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#MaxAIException.getErrorMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.MaxAIException.getErrorMessage" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.MissingEnvironmentVariable">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">MissingEnvironmentVariable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#MissingEnvironmentVariable"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.MissingEnvironmentVariable" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Raised when an environment variable is missing</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.ModelLoadException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">ModelLoadException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#ModelLoadException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.ModelLoadException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Exception in loading a model</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.ModelNotImplemented">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">ModelNotImplemented</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#ModelNotImplemented"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.ModelNotImplemented" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Exception when type of model is not implemented</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.ModelSaveException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">ModelSaveException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#ModelSaveException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.ModelSaveException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Exception in saving a model</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.ModelTrainException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">ModelTrainException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#ModelTrainException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.ModelTrainException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Exception in taining a model</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.ModelTypeNotDefinedException">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">ModelTypeNotDefinedException</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#ModelTypeNotDefinedException"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.ModelTypeNotDefinedException" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Exception when type of model is not defined</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.PortInformationNotFoundError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">PortInformationNotFoundError</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#PortInformationNotFoundError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.PortInformationNotFoundError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Raised when port details are not found for the particular port.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="maxairesources.exception.exceptions.UnknownOperationMode">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.exception.exceptions.</span></span><span class="sig-name descname"><span class="pre">UnknownOperationMode</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/exception/exceptions.html#UnknownOperationMode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.exception.exceptions.UnknownOperationMode" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#maxairesources.exception.exceptions.MaxAIException" title="maxairesources.exception.exceptions.MaxAIException"><code class="xref py py-class docutils literal notranslate"><span class="pre">MaxAIException</span></code></a></p>
+<p>Raised when a method or feature is not defined.</p>
+</dd></dl>
+
+</section>
+<section id="module-maxairesources.exception">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxairesources.exception" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxaimetadata.maxflow &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxaimetadata.maxflow</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxaimetadata.maxflow</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">mlflow</span>
+<span class="kn">import</span> <span class="nn">atexit</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">RLock</span>
+<span class="kn">from</span> <span class="nn">mlflow.tracking</span> <span class="kn">import</span> <span class="n">MlflowClient</span>
+<span class="kn">from</span> <span class="nn">mlflow.entities</span> <span class="kn">import</span> <span class="n">Metric</span><span class="p">,</span><span class="n">Param</span><span class="p">,</span><span class="n">RunTag</span>
+
+<span class="n">_MLFLOW_USR</span> <span class="o">=</span> <span class="s1">&#39;MLFLOW_TRACKING_USERNAME&#39;</span>
+<span class="n">_MLFLOW_PWD</span> <span class="o">=</span> <span class="s1">&#39;MLFLOW_TRACKING_PASSWORD&#39;</span>
+<span class="n">_PROJECT_PROPERTY_NAME</span> <span class="o">=</span> <span class="s1">&#39;__maxai_project__&#39;</span>
+<span class="n">_GIT_REPO_PROPERTY</span> <span class="o">=</span> <span class="s2">&quot;__maxai_repo__&quot;</span>
+<span class="n">_GIT_BRANCH_PROPERTY</span> <span class="o">=</span> <span class="s2">&quot;__maxai_branch__&quot;</span>
+<span class="n">_GIT_COMMIT_PROPERTY</span> <span class="o">=</span> <span class="s2">&quot;__maxai_commit__&quot;</span>
+<span class="n">_RUN_TYPE</span> <span class="o">=</span> <span class="s2">&quot;__maxai_run_type__&quot;</span>
+<span class="n">_REGISTERED_MODELS</span> <span class="o">=</span> <span class="s2">&quot;__maxai_registered_models__&quot;</span>
+
+
+<div class="viewcode-block" id="MaxRun"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun">[docs]</a><span class="k">class</span> <span class="nc">MaxRun</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Max.ai Wrapper class for mlflow run&quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">uri</span><span class="p">,</span>
+                 <span class="n">exp</span><span class="p">,</span>
+                 <span class="n">run</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">MlflowClient</span><span class="p">(</span><span class="n">tracking_uri</span><span class="o">=</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">uri</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exp</span> <span class="o">=</span> <span class="n">exp</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span> <span class="o">=</span> <span class="n">run</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child_runs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">nested</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="n">atexit</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_run</span><span class="p">)</span>
+    
+<div class="viewcode-block" id="MaxRun.start_child_run"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.start_child_run">[docs]</a>    <span class="k">def</span> <span class="nf">start_child_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;mlflow.parentRunId&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">}</span>
+        <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
+            <span class="n">tags</span><span class="p">[</span><span class="s1">&#39;mlflow.runName&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">create_run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">tags</span><span class="p">)</span>
+        <span class="n">run</span> <span class="o">=</span> <span class="n">MaxRun</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="p">,</span> <span class="n">run</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">child_runs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+        <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeRuns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">run</span></div>
+
+<div class="viewcode-block" id="MaxRun.end_run"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.end_run">[docs]</a>    <span class="k">def</span> <span class="nf">end_run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">end_run</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">set_terminated</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">)</span>
+        <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeRuns</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span></div>
+    
+<div class="viewcode-block" id="MaxRun.set_active"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.set_active">[docs]</a>    <span class="k">def</span> <span class="nf">set_active</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeRuns</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeRuns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="MaxRun.log_dict"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_dict">[docs]</a>    <span class="k">def</span> <span class="nf">log_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">file_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaxRun.log_artifact"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_artifact">[docs]</a>    <span class="k">def</span> <span class="nf">log_artifact</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">artifact_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">local_path</span><span class="p">,</span> <span class="n">artifact_path</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="MaxRun.log_artifacts"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_artifacts">[docs]</a>    <span class="k">def</span> <span class="nf">log_artifacts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_dir</span><span class="p">,</span> <span class="n">artifact_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_artifact</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">local_dir</span><span class="p">,</span> <span class="n">artifact_path</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="MaxRun.log_figure"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_figure">[docs]</a>    <span class="k">def</span> <span class="nf">log_figure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">artifact_file</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_figure</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">figure</span><span class="p">,</span> <span class="n">artifact_file</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="MaxRun.log_metric"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_metric">[docs]</a>    <span class="k">def</span> <span class="nf">log_metric</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaxRun.log_metrics"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_metrics">[docs]</a>    <span class="k">def</span> <span class="nf">log_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">metric_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">metric_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Metric</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_batch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metric_list</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="MaxRun.log_param"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_param">[docs]</a>    <span class="k">def</span> <span class="nf">log_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">==</span><span class="s1">&#39;str&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">250</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">log_dict</span><span class="p">({</span><span class="n">key</span><span class="p">:</span><span class="n">value</span><span class="p">},</span> <span class="n">key</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;artifact - </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_param</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaxRun.log_params"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_params">[docs]</a>    <span class="k">def</span> <span class="nf">log_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">param_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="mi">250</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">log_dict</span><span class="p">({</span><span class="n">key</span><span class="p">:</span><span class="n">value</span><span class="p">},</span> <span class="n">key</span><span class="p">)</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;artifact - </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="n">param_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Param</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">value</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_batch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">param_list</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="MaxRun.set_tag"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.set_tag">[docs]</a>    <span class="k">def</span> <span class="nf">set_tag</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">set_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span></div>
+        
+<div class="viewcode-block" id="MaxRun.set_tags"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.set_tags">[docs]</a>    <span class="k">def</span> <span class="nf">set_tags</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">tag_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">tags</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">tag_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">RunTag</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">log_batch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="n">tag_list</span><span class="p">)</span>       </div>
+
+<div class="viewcode-block" id="MaxRun.log_data"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_data">[docs]</a>    <span class="k">def</span> <span class="nf">log_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feature_view</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;feature_view&#39;</span><span class="p">:</span> <span class="n">feature_view</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_tags</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MaxRun.log_model"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxRun.log_model">[docs]</a>    <span class="k">def</span> <span class="nf">log_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">training_framework</span> <span class="o">==</span> <span class="s1">&#39;spark&#39;</span><span class="p">:</span>
+            <span class="n">mlflow</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">model</span><span class="o">.</span><span class="n">training_framework</span> <span class="o">==</span> <span class="s1">&#39;h2o&#39;</span><span class="p">:</span>
+            <span class="c1">#logging model using spark flour as h20 models are wrapped using sparkpipeline</span>
+            <span class="n">mlflow</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Training Framework </span><span class="si">{}</span><span class="s1"> is not currently supported&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">training_framework</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="fm">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_run</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="MaxFlow"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow">[docs]</a><span class="k">class</span> <span class="nc">MaxFlow</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Max.ai Wrapper class for mlflow&quot;&quot;&quot;</span>
+    
+    <span class="n">_activeFlow</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">_activeRuns</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_lock</span> <span class="o">=</span> <span class="n">RLock</span><span class="p">()</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">uri</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;./mlruns&#39;</span><span class="p">,</span>
+                 <span class="n">usr</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">pwd</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeFlow</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot have more than one active maxflow Session &quot;</span>
+                            <span class="s2">&quot;Please reuse existing session&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">uri</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Uri must be set and must be string type&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">usr</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">_MLFLOW_USR</span><span class="p">]</span> <span class="o">=</span> <span class="n">usr</span>
+        <span class="k">if</span> <span class="n">pwd</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">_MLFLOW_PWD</span><span class="p">]</span> <span class="o">=</span> <span class="n">pwd</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">MlflowClient</span><span class="p">(</span><span class="n">tracking_uri</span><span class="o">=</span><span class="n">uri</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">uri</span> <span class="o">=</span> <span class="n">uri</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repo</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeFlow</span> <span class="o">=</span> <span class="bp">self</span>
+    
+<div class="viewcode-block" id="MaxFlow.get_active_flow"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow.get_active_flow">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_active_flow</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_activeFlow</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_activeFlow</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No Active MaxFlow Session Available&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="MaxFlow.get_active_run"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow.get_active_run">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">get_active_run</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_activeRuns</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_activeRuns</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No Active runs Available&#39;</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="MaxFlow.set_experiment"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow.set_experiment">[docs]</a>    <span class="k">def</span> <span class="nf">set_experiment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                       <span class="n">experiment</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                       <span class="n">project</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">repo_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">experiment</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Experiment name must be string&#39;</span><span class="p">)</span>
+            <span class="c1"># set exp as active or create a new experiment if missing</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="n">experiment</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">project</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">project</span><span class="p">,</span> <span class="nb">str</span><span class="p">)):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;project name must be string&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">_PROJECT_PROPERTY_NAME</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="n">_PROJECT_PROPERTY_NAME</span><span class="p">]</span> <span class="o">==</span> <span class="n">project</span><span class="p">:</span>
+                        <span class="k">pass</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                            <span class="s1">&#39;Experiment cannot belong to multiple project. </span><span class="se">\</span>
+<span class="s1">                            Experiment is attached to </span><span class="si">{}</span><span class="s1"> project&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">experiment</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="n">_PROJECT_PROPERTY_NAME</span><span class="p">]))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">set_experiment_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">,</span> <span class="n">_PROJECT_PROPERTY_NAME</span><span class="p">,</span> <span class="n">project</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">repo_path</span><span class="p">:</span>
+                <span class="kn">from</span> <span class="nn">git</span> <span class="kn">import</span> <span class="n">Repo</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">repo</span> <span class="o">=</span> <span class="n">Repo</span><span class="p">(</span><span class="n">repo_path</span><span class="p">)</span>
+            <span class="c1"># Get update experiment</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">get_experiment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">)</span></div>
+            
+        
+
+<div class="viewcode-block" id="MaxFlow.start_run"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow.start_run">[docs]</a>    <span class="k">def</span> <span class="nf">start_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                  <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                  <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span> <span class="ow">and</span> <span class="p">(</span>
+                <span class="n">mlflow</span><span class="o">.</span><span class="n">get_run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">)</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">status</span> <span class="o">!=</span> <span class="s2">&quot;FINISHED&quot;</span><span class="p">):</span>
+                <span class="c1"># return already active run</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;run_id: </span><span class="si">{}</span><span class="s2">, is already active&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">MaxRun</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">)</span> 
+            <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span><span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">active_run</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Active run_id: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">))</span>
+            <span class="n">tags</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">:</span>
+                <span class="n">tags</span><span class="p">[</span><span class="n">_RUN_TYPE</span><span class="p">]</span> <span class="o">=</span> <span class="nb">type</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">is_dirty</span><span class="p">(</span><span class="n">untracked_files</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">git</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="nb">all</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">commit</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">commit</span><span class="p">(</span>
+                            <span class="s2">&quot;run_id: </span><span class="si">{}</span><span class="s2">, experiment: </span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span>
+                            <span class="p">)</span>
+                        <span class="p">)</span>
+                    <span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">commit</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">commit</span><span class="p">)</span>
+                <span class="n">tags</span><span class="p">[</span><span class="n">_GIT_REPO_PROPERTY</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">remotes</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
+                <span class="n">tags</span><span class="p">[</span><span class="n">_GIT_BRANCH_PROPERTY</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">repo</span><span class="o">.</span><span class="n">active_branch</span><span class="p">)</span>
+                <span class="n">tags</span><span class="p">[</span><span class="n">_GIT_COMMIT_PROPERTY</span><span class="p">]</span> <span class="o">=</span> <span class="n">commit</span>
+
+            <span class="n">mlflow</span><span class="o">.</span><span class="n">set_tags</span><span class="p">(</span><span class="n">tags</span><span class="p">)</span>
+            <span class="n">run</span> <span class="o">=</span> <span class="n">MaxRun</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">uri</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_activeRuns</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">run</span></div>
+    
+<div class="viewcode-block" id="MaxFlow.auto_log"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow.auto_log">[docs]</a>    <span class="k">def</span> <span class="nf">auto_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">log_models</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">autolog</span><span class="p">(</span><span class="n">log_models</span><span class="o">=</span><span class="n">log_models</span><span class="p">,</span> <span class="n">exclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+ 
+<div class="viewcode-block" id="MaxFlow.register_model"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow.register_model">[docs]</a>    <span class="k">def</span> <span class="nf">register_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">run</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">run_id</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Experiment must be set before regustering models&#39;</span><span class="p">)</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="s2">&quot;runs:/</span><span class="si">{}</span><span class="s2">/</span><span class="si">{}</span><span class="s2">/&quot;</span>
+            <span class="k">if</span> <span class="n">run</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">run_id</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
+                    <span class="s2">&quot;Either an active run must be present or exactly one of run or run_id must be set&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">run</span><span class="p">:</span>
+                <span class="n">run</span> <span class="o">=</span> <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeRuns</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">registered_models</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">run</span><span class="p">):</span>
+                <span class="nb">id</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">run_id</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">run</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mlflow.runName&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> 
+                <span class="n">run_details</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">get_run</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">run_details</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mlflow.log-model.history&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+                    <span class="n">logged_models</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">run_details</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="s1">&#39;mlflow.log-model.history&#39;</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">logged_models</span><span class="p">:</span>
+                        <span class="n">model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;artifact_path&#39;</span><span class="p">]</span>
+                        <span class="n">mlflow</span><span class="o">.</span><span class="n">register_model</span><span class="p">(</span><span class="n">path</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">model</span><span class="p">[</span><span class="s1">&#39;artifact_path&#39;</span><span class="p">]),</span> <span class="n">model_name</span><span class="p">)</span>
+                        <span class="n">registered_models</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model_name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">run</span><span class="o">.</span><span class="n">child_runs</span><span class="p">:</span>
+                        <span class="n">register</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+            <span class="n">register</span><span class="p">(</span><span class="n">run</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">current_registered_models</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="n">_REGISTERED_MODELS</span><span class="p">])</span>
+                <span class="n">registered_models</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">registered_models</span> <span class="o">+</span> <span class="n">current_registered_models</span><span class="p">))</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">set_experiment_tag</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">,</span>
+                                               <span class="n">_REGISTERED_MODELS</span><span class="p">,</span>
+                                               <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">registered_models</span><span class="p">))</span>
+            <span class="c1"># Get update experiment</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">get_experiment</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">experiment_id</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="MaxFlow.get_registered_model"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow.get_registered_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_registered_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stage</span><span class="o">=</span><span class="s1">&#39;None&#39;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Experiment must be set before regustering models&#39;</span><span class="p">)</span>
+        <span class="n">registered_models</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="o">.</span><span class="n">tags</span><span class="p">[</span><span class="n">_REGISTERED_MODELS</span><span class="p">])</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">registered_models</span><span class="p">:</span>
+            <span class="n">result</span><span class="p">[</span><span class="n">model</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">get_latest_versions</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">stage</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">source</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+    
+<div class="viewcode-block" id="MaxFlow.stop"><a class="viewcode-back" href="../../maxaimetadata.html#maxaimetadata.maxflow.MaxFlow.stop">[docs]</a>    <span class="k">def</span> <span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeRuns</span><span class="p">:</span>
+            <span class="n">run</span><span class="o">.</span><span class="n">end_run</span><span class="p">()</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">end_run</span><span class="p">()</span>
+        <span class="n">MaxFlow</span><span class="o">.</span><span class="n">_activeFlow</span> <span class="o">=</span> <span class="kc">None</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

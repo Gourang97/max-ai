@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxairesources.exception.exceptions &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxairesources.exception.exceptions</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxairesources.exception.exceptions</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+
+
+<div class="viewcode-block" id="MaxAIException"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.MaxAIException">[docs]</a><span class="k">class</span> <span class="nc">MaxAIException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception class&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_message</span> <span class="o">=</span> <span class="n">message</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+<div class="viewcode-block" id="MaxAIException.getErrorMessage"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.MaxAIException.getErrorMessage">[docs]</a>    <span class="k">def</span> <span class="nf">getErrorMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_message</span></div>
+
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_timestamp</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_message</span><span class="si">}</span><span class="s2">&quot;</span></div>
+
+
+<div class="viewcode-block" id="ModelTrainException"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.ModelTrainException">[docs]</a><span class="k">class</span> <span class="nc">ModelTrainException</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception in taining a model&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="FeatureTransformException"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.FeatureTransformException">[docs]</a><span class="k">class</span> <span class="nc">FeatureTransformException</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception in tansforming features&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ModelSaveException"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.ModelSaveException">[docs]</a><span class="k">class</span> <span class="nc">ModelSaveException</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception in saving a model&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ModelLoadException"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.ModelLoadException">[docs]</a><span class="k">class</span> <span class="nc">ModelLoadException</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception in loading a model&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ModelTypeNotDefinedException"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.ModelTypeNotDefinedException">[docs]</a><span class="k">class</span> <span class="nc">ModelTypeNotDefinedException</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception when type of model is not defined&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="ModelNotImplemented"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.ModelNotImplemented">[docs]</a><span class="k">class</span> <span class="nc">ModelNotImplemented</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exception when type of model is not implemented&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="DataSourceNotDefinedError"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.DataSourceNotDefinedError">[docs]</a><span class="k">class</span> <span class="nc">DataSourceNotDefinedError</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when a particular data source is not defined for data import or export.&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="PortInformationNotFoundError"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.PortInformationNotFoundError">[docs]</a><span class="k">class</span> <span class="nc">PortInformationNotFoundError</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when port details are not found for the particular port.&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="UnknownOperationMode"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.UnknownOperationMode">[docs]</a><span class="k">class</span> <span class="nc">UnknownOperationMode</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when a method or feature is not defined.&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="MissingEnvironmentVariable"><a class="viewcode-back" href="../../../maxairesources.exception.html#maxairesources.exception.exceptions.MissingEnvironmentVariable">[docs]</a><span class="k">class</span> <span class="nc">MissingEnvironmentVariable</span><span class="p">(</span><span class="n">MaxAIException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when an environment variable is missing&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

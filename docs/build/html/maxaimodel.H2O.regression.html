@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxaimodel.H2O.regression package &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">maxaimodel.H2O.regression package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-maxaimodel.H2O.regression.h2o_dl_regressor">maxaimodel.H2O.regression.h2o_dl_regressor module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_dl_regressor.H2ODLRegressor"><code class="docutils literal notranslate"><span class="pre">H2ODLRegressor</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_dl_regressor.H2ODLRegressor.build"><code class="docutils literal notranslate"><span class="pre">H2ODLRegressor.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.H2O.regression.h2o_drf_regressor">maxaimodel.H2O.regression.h2o_drf_regressor module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_drf_regressor.H2ODRFRegressor"><code class="docutils literal notranslate"><span class="pre">H2ODRFRegressor</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_drf_regressor.H2ODRFRegressor.build"><code class="docutils literal notranslate"><span class="pre">H2ODRFRegressor.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.H2O.regression.h2o_gam_regressor">maxaimodel.H2O.regression.h2o_gam_regressor module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor"><code class="docutils literal notranslate"><span class="pre">H2OGAMRegressor</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor.build"><code class="docutils literal notranslate"><span class="pre">H2OGAMRegressor.build()</span></code></a></li>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor.optimise_model"><code class="docutils literal notranslate"><span class="pre">H2OGAMRegressor.optimise_model()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.H2O.regression.h2o_gbm_regressor">maxaimodel.H2O.regression.h2o_gbm_regressor module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_gbm_regressor.H2OGBMRegressor"><code class="docutils literal notranslate"><span class="pre">H2OGBMRegressor</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_gbm_regressor.H2OGBMRegressor.build"><code class="docutils literal notranslate"><span class="pre">H2OGBMRegressor.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.H2O.regression.h2o_glm_regressor">maxaimodel.H2O.regression.h2o_glm_regressor module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_glm_regressor.H2OGLMRegressor"><code class="docutils literal notranslate"><span class="pre">H2OGLMRegressor</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_glm_regressor.H2OGLMRegressor.build"><code class="docutils literal notranslate"><span class="pre">H2OGLMRegressor.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#maxaimodel-h2o-regression-h2o-rulefit-regressor-module">maxaimodel.H2O.regression.h2o_rulefit_regressor module</a></li>
+<li><a class="reference internal" href="#module-maxaimodel.H2O.regression.h2o_xgb_regressor">maxaimodel.H2O.regression.h2o_xgb_regressor module</a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_xgb_regressor.H2OXGBRegressor"><code class="docutils literal notranslate"><span class="pre">H2OXGBRegressor</span></code></a><ul>
+<li><a class="reference internal" href="#maxaimodel.H2O.regression.h2o_xgb_regressor.H2OXGBRegressor.build"><code class="docutils literal notranslate"><span class="pre">H2OXGBRegressor.build()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxaimodel.H2O.regression">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">maxaimodel.H2O.regression package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/maxaimodel.H2O.regression.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maxaimodel-h2o-regression-package">
+<h1>maxaimodel.H2O.regression package<a class="headerlink" href="#maxaimodel-h2o-regression-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxaimodel.H2O.regression.h2o_dl_regressor">
+<span id="maxaimodel-h2o-regression-h2o-dl-regressor-module"></span><h2>maxaimodel.H2O.regression.h2o_dl_regressor module<a class="headerlink" href="#module-maxaimodel.H2O.regression.h2o_dl_regressor" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_dl_regressor.H2ODLRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.H2O.regression.h2o_dl_regressor.</span></span><span class="sig-name descname"><span class="pre">H2ODLRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_dl_regressor.html#H2ODLRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_dl_regressor.H2ODLRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">H2ORegressorBaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_dl_regressor.H2ODLRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_dl_regressor.html#H2ODLRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_dl_regressor.H2ODLRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.H2O.regression.h2o_drf_regressor">
+<span id="maxaimodel-h2o-regression-h2o-drf-regressor-module"></span><h2>maxaimodel.H2O.regression.h2o_drf_regressor module<a class="headerlink" href="#module-maxaimodel.H2O.regression.h2o_drf_regressor" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_drf_regressor.H2ODRFRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.H2O.regression.h2o_drf_regressor.</span></span><span class="sig-name descname"><span class="pre">H2ODRFRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_drf_regressor.html#H2ODRFRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_drf_regressor.H2ODRFRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">H2ORegressorBaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_drf_regressor.H2ODRFRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_drf_regressor.html#H2ODRFRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_drf_regressor.H2ODRFRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.H2O.regression.h2o_gam_regressor">
+<span id="maxaimodel-h2o-regression-h2o-gam-regressor-module"></span><h2>maxaimodel.H2O.regression.h2o_gam_regressor module<a class="headerlink" href="#module-maxaimodel.H2O.regression.h2o_gam_regressor" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.H2O.regression.h2o_gam_regressor.</span></span><span class="sig-name descname"><span class="pre">H2OGAMRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_gam_regressor.html#H2OGAMRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">H2ORegressorBaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_gam_regressor.html#H2OGAMRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor.optimise_model">
+<span class="sig-name descname"><span class="pre">optimise_model</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_gam_regressor.html#H2OGAMRegressor.optimise_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_gam_regressor.H2OGAMRegressor.optimise_model" title="Permalink to this definition"></a></dt>
+<dd><p>optimises model by using H2O Grid Search</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.H2O.regression.h2o_gbm_regressor">
+<span id="maxaimodel-h2o-regression-h2o-gbm-regressor-module"></span><h2>maxaimodel.H2O.regression.h2o_gbm_regressor module<a class="headerlink" href="#module-maxaimodel.H2O.regression.h2o_gbm_regressor" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_gbm_regressor.H2OGBMRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.H2O.regression.h2o_gbm_regressor.</span></span><span class="sig-name descname"><span class="pre">H2OGBMRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_gbm_regressor.html#H2OGBMRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_gbm_regressor.H2OGBMRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">H2ORegressorBaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_gbm_regressor.H2OGBMRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_gbm_regressor.html#H2OGBMRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_gbm_regressor.H2OGBMRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.H2O.regression.h2o_glm_regressor">
+<span id="maxaimodel-h2o-regression-h2o-glm-regressor-module"></span><h2>maxaimodel.H2O.regression.h2o_glm_regressor module<a class="headerlink" href="#module-maxaimodel.H2O.regression.h2o_glm_regressor" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_glm_regressor.H2OGLMRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.H2O.regression.h2o_glm_regressor.</span></span><span class="sig-name descname"><span class="pre">H2OGLMRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_glm_regressor.html#H2OGLMRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_glm_regressor.H2OGLMRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">H2ORegressorBaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_glm_regressor.H2OGLMRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_glm_regressor.html#H2OGLMRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_glm_regressor.H2OGLMRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="maxaimodel-h2o-regression-h2o-rulefit-regressor-module">
+<h2>maxaimodel.H2O.regression.h2o_rulefit_regressor module<a class="headerlink" href="#maxaimodel-h2o-regression-h2o-rulefit-regressor-module" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxaimodel.H2O.regression.h2o_xgb_regressor">
+<span id="maxaimodel-h2o-regression-h2o-xgb-regressor-module"></span><h2>maxaimodel.H2O.regression.h2o_xgb_regressor module<a class="headerlink" href="#module-maxaimodel.H2O.regression.h2o_xgb_regressor" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_xgb_regressor.H2OXGBRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.H2O.regression.h2o_xgb_regressor.</span></span><span class="sig-name descname"><span class="pre">H2OXGBRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_xgb_regressor.html#H2OXGBRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_xgb_regressor.H2OXGBRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">H2ORegressorBaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.H2O.regression.h2o_xgb_regressor.H2OXGBRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/H2O/regression/h2o_xgb_regressor.html#H2OXGBRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.H2O.regression.h2o_xgb_regressor.H2OXGBRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxaimodel.H2O.regression">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaimodel.H2O.regression" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

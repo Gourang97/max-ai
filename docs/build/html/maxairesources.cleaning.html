@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxairesources.cleaning package &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">maxairesources.cleaning package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-maxairesources.cleaning.NoiseRemoval">maxairesources.cleaning.NoiseRemoval module</a><ul>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval</span></code></a><ul>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.convert_timeformat"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval.convert_timeformat()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.determine_outlier_thersholds_std"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval.determine_outlier_thersholds_std()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.determine_outlier_thresholds_iqr"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval.determine_outlier_thresholds_iqr()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.drop_duplicates"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval.drop_duplicates()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.impute_null"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval.impute_null()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.outlier_detect"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval.outlier_detect()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.read_config"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval.read_config()</span></code></a></li>
+<li><a class="reference internal" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.remove_outlier"><code class="docutils literal notranslate"><span class="pre">NoiseRemoval.remove_outlier()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-maxairesources.cleaning">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a></li>
+      <li class="breadcrumb-item active">maxairesources.cleaning package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/maxairesources.cleaning.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maxairesources-cleaning-package">
+<h1>maxairesources.cleaning package<a class="headerlink" href="#maxairesources-cleaning-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-maxairesources.cleaning.NoiseRemoval">
+<span id="maxairesources-cleaning-noiseremoval-module"></span><h2>maxairesources.cleaning.NoiseRemoval module<a class="headerlink" href="#module-maxairesources.cleaning.NoiseRemoval" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.cleaning.NoiseRemoval.</span></span><span class="sig-name descname"><span class="pre">NoiseRemoval</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">columns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval.convert_timeformat">
+<span class="sig-name descname"><span class="pre">convert_timeformat</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval.convert_timeformat"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.convert_timeformat" title="Permalink to this definition"></a></dt>
+<dd><p>convert_timeformat: method is used to convert the timeformat to UTC for all date columns from the dataset</p>
+<p>input : Dataframe, Date Column list
+Approach : 
+Return : Processed Dataframe with all date columns of type timestamp in UTC format</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval.determine_outlier_thersholds_std">
+<span class="sig-name descname"><span class="pre">determine_outlier_thersholds_std</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval.determine_outlier_thersholds_std"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.determine_outlier_thersholds_std" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval.determine_outlier_thresholds_iqr">
+<span class="sig-name descname"><span class="pre">determine_outlier_thresholds_iqr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval.determine_outlier_thresholds_iqr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.determine_outlier_thresholds_iqr" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval.drop_duplicates">
+<span class="sig-name descname"><span class="pre">drop_duplicates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval.drop_duplicates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.drop_duplicates" title="Permalink to this definition"></a></dt>
+<dd><p>drop_duplicates: method is used to drop duplicates rows from the dataset</p>
+<p>input : Dataframe
+Approach : 
+Return : Processed Dataframe with no duplicate rows.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval.impute_null">
+<span class="sig-name descname"><span class="pre">impute_null</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval.impute_null"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.impute_null" title="Permalink to this definition"></a></dt>
+<dd><p>impute_null: method is used to remove the null values from the dataset</p>
+<p>input : Dataframe, Numerical Column list
+Approach : We are reading the config file generated from the datacheck module and 
+based on the null percentages and skewness of the featues, we are imputing null values.
+Skewness type : Symmetrical, Imputation Method - Mean
+Skewness type : Asymmetrical, Imputation Method - Median
+Return : Processed Dataframe free from Null Values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval.outlier_detect">
+<span class="sig-name descname"><span class="pre">outlier_detect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'iqr'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval.outlier_detect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.outlier_detect" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval.read_config">
+<span class="sig-name descname"><span class="pre">read_config</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval.read_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.read_config" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.cleaning.NoiseRemoval.NoiseRemoval.remove_outlier">
+<span class="sig-name descname"><span class="pre">remove_outlier</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/cleaning/NoiseRemoval.html#NoiseRemoval.remove_outlier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.cleaning.NoiseRemoval.NoiseRemoval.remove_outlier" title="Permalink to this definition"></a></dt>
+<dd><p>remove_outlier: method is used to remove the outliers from the dataset</p>
+<p>input : Dataframe, Numerical Column list
+Approach : We are reading the config file generated from the datacheck module and 
+based on the outlier percentages and skewness of the featues, we are capping outliers based on IQR Range or Standard Deviation Method
+return : Return the processed dataframe which is free from outliers</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-maxairesources.cleaning">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxairesources.cleaning" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
