@@ -11,15 +11,19 @@ Max.ai comes equipped with utilities to store, process and transform data, autom
 
 You can refer to how to :ref:`quickstart` to install max.ai on your project.
 
+.. automodule:: max
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-    maxaifeaturization
-    maxaimetadata
-    maxaimodel
-    maxaimodel
-    maxaimonitoring
-    maxairesources
+   :maxdepth: 4
+
+   maxaifeaturization
+   maxaimetadata
+   maxaimodel
+   maxaimonitoring
+   maxairesources
 
 
 

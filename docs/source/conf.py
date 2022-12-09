@@ -8,7 +8,7 @@
 
 import os
 import sys
-sys.path.append("/home/jovyan/max.ai.ds.core")
+sys.path.append(os.path.abspath("../../../max.ai.ds.core"))
 
 project = 'Max.AI'
 copyright = '2022, Team Personalize.AI'
@@ -18,7 +18,12 @@ release = 'v1.0'
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.todo', 'sphinx.ext.viewcode', 'sphinx.ext.autodoc']
+extensions = [
+    'sphinx.ext.todo',
+    'sphinx.ext.viewcode',
+    'sphinx.ext.autodoc',
+    'sphinx.ext.napoleon'
+]
 
 templates_path = ['_templates']
 exclude_patterns = []

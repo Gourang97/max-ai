@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxaibase.model.H2O.h2o_regressor &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxairesources.html">maxairesources package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxaibase.model.H2O.h2o_regressor</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxaibase.model.H2O.h2o_regressor</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">pysparkling.ml</span> <span class="kn">import</span> <span class="n">H2OGridSearch</span>
+<span class="kn">from</span> <span class="nn">maxairesources.logging.logger</span> <span class="kn">import</span> <span class="n">get_logger</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml</span> <span class="kn">import</span> <span class="n">Pipeline</span><span class="p">,</span> <span class="n">PipelineModel</span>
+
+<span class="kn">from</span> <span class="nn">maxaibase.model.H2O.h2o_base</span> <span class="kn">import</span> <span class="n">H2OBaseModel</span>
+<span class="kn">from</span> <span class="nn">maxaimetadata.maxflow</span> <span class="kn">import</span> <span class="n">MaxFlow</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_logger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="H2ORegressorBaseModel"><a class="viewcode-back" href="../../../../maxaibase.model.H2O.html#maxaibase.model.H2O.h2o_regressor.H2ORegressorBaseModel">[docs]</a><span class="k">class</span> <span class="nc">H2ORegressorBaseModel</span><span class="p">(</span><span class="n">H2OBaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    runs regression model </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span> <span class="o">=</span> <span class="n">MaxFlow</span><span class="o">.</span><span class="n">get_active_flow</span><span class="p">()</span><span class="o">.</span><span class="n">get_active_run</span><span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+<div class="viewcode-block" id="H2ORegressorBaseModel.build"><a class="viewcode-back" href="../../../../maxaibase.model.H2O.html#maxaibase.model.H2O.h2o_regressor.H2ORegressorBaseModel.build">[docs]</a>    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span><span class="nb">dict</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="H2ORegressorBaseModel.get_model"><a class="viewcode-back" href="../../../../maxaibase.model.H2O.html#maxaibase.model.H2O.h2o_regressor.H2ORegressorBaseModel.get_model">[docs]</a>    <span class="k">def</span> <span class="nf">get_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">PipelineModel</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">stages</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span></div>
+
+<div class="viewcode-block" id="H2ORegressorBaseModel.get_params"><a class="viewcode-back" href="../../../../maxaibase.model.H2O.html#maxaibase.model.H2O.h2o_regressor.H2ORegressorBaseModel.get_params">[docs]</a>    <span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        gets the params</span>
+<span class="sd">        returns:</span>
+<span class="sd">            parameters and parameter grid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span> <span class="s2">&quot;param_grid&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">}</span></div>
+
+<div class="viewcode-block" id="H2ORegressorBaseModel.optimise_model"><a class="viewcode-back" href="../../../../maxaibase.model.H2O.html#maxaibase.model.H2O.h2o_regressor.H2ORegressorBaseModel.optimise_model">[docs]</a>    <span class="k">def</span> <span class="nf">optimise_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        optimises model by using H2O Grid Search</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize H2O Grid search</span>
+        <span class="n">grid</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">H2OGridSearch</span><span class="p">()</span>
+            <span class="o">.</span><span class="n">setHyperParameters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">setAlgo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">setStrategy</span><span class="p">(</span><span class="s2">&quot;Cartesian&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">(</span><span class="n">stages</span><span class="o">=</span><span class="p">[</span><span class="n">grid</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">:</span>
+            <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">log_params</span><span class="p">({</span><span class="s1">&#39;param_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">})</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Model </span><span class="si">{}</span><span class="s1"> optimized successfully on param grid&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+                            <span class="n">extra</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;param_grid&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">})</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">log_params</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">best_params</span><span class="p">())</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;Model </span><span class="si">{}</span><span class="s1"> trained successfully on best parameters&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
+                        <span class="n">extra</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_params</span><span class="p">())</span>
+                    
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="H2ORegressorBaseModel.fit"><a class="viewcode-back" href="../../../../maxaibase.model.H2O.html#maxaibase.model.H2O.h2o_regressor.H2ORegressorBaseModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        fits the model to the data and calls optimise_model function</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">optimise_model</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="H2ORegressorBaseModel.predict"><a class="viewcode-back" href="../../../../maxaibase.model.H2O.html#maxaibase.model.H2O.h2o_regressor.H2ORegressorBaseModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        makes prediction on the data </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            data with prediction column</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Making predictions</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;load model before calling predict&quot;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="H2ORegressorBaseModel.get_model_diagnostics"><a class="viewcode-back" href="../../../../maxaibase.model.H2O.html#maxaibase.model.H2O.h2o_regressor.H2ORegressorBaseModel.get_model_diagnostics">[docs]</a>    <span class="k">def</span> <span class="nf">get_model_diagnostics</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># spark classification metrics</span>
+        <span class="k">pass</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

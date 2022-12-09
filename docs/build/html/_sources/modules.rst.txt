@@ -10,3 +10,5 @@ max.ai.ds.core
    maxaimetadata
    maxaimodel
    maxairesources
+   pdoc_setup
+   setup
