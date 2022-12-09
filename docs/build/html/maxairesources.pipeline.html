@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxairesources.utilities package" href="maxairesources.utilities.html" />
+    <link rel="prev" title="maxairesources.optimizer package" href="maxairesources.optimizer.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,24 +39,40 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxairesources.pipeline package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-maxairesources.pipeline.pipeline_factory">maxairesources.pipeline.pipeline_factory module</a><ul>
-<li><a class="reference internal" href="#maxairesources.pipeline.pipeline_factory.SparkTransformerFactory"><code class="docutils literal notranslate"><span class="pre">SparkTransformerFactory</span></code></a><ul>
-<li><a class="reference internal" href="#maxairesources.pipeline.pipeline_factory.SparkTransformerFactory.get_transformer"><code class="docutils literal notranslate"><span class="pre">SparkTransformerFactory.get_transformer()</span></code></a></li>
-<li><a class="reference internal" href="#maxairesources.pipeline.pipeline_factory.SparkTransformerFactory.register_transformer"><code class="docutils literal notranslate"><span class="pre">SparkTransformerFactory.register_transformer()</span></code></a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxairesources.html">maxairesources package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxairesources.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.cleaning.html">maxairesources.cleaning package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.customer360.html">maxairesources.customer360 package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.datachecks.html">maxairesources.datachecks package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.ensemble.html">maxairesources.ensemble package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.eval.html">maxairesources.eval package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.exception.html">maxairesources.exception package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.factory.html">maxairesources.factory package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.logging.html">maxairesources.logging package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.model_approval.html">maxairesources.model_approval package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.optimizer.html">maxairesources.optimizer package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">maxairesources.pipeline package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxairesources.pipeline.pipeline_factory">maxairesources.pipeline.pipeline_factory module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxairesources.pipeline.spark_pipeline">maxairesources.pipeline.spark_pipeline module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxairesources.pipeline">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.utilities.html">maxairesources.utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.html#module-maxairesources.conftest">maxairesources.conftest module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.html#module-maxairesources">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</li>
-<li><a class="reference internal" href="#maxairesources-pipeline-spark-pipeline-module">maxairesources.pipeline.spark_pipeline module</a></li>
-<li><a class="reference internal" href="#module-maxairesources.pipeline">Module contents</a></li>
-</ul>
-</li>
-</ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -69,6 +87,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="maxairesources.html">maxairesources package</a></li>
       <li class="breadcrumb-item active">maxairesources.pipeline package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maxairesources.pipeline.rst.txt" rel="nofollow"> View page source</a>
@@ -110,8 +129,86 @@ Transformer/Estimator Object</p>
 </dd></dl>
 
 </section>
-<section id="maxairesources-pipeline-spark-pipeline-module">
-<h2>maxairesources.pipeline.spark_pipeline module<a class="headerlink" href="#maxairesources-pipeline-spark-pipeline-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxairesources.pipeline.spark_pipeline">
+<span id="maxairesources-pipeline-spark-pipeline-module"></span><h2>maxairesources.pipeline.spark_pipeline module<a class="headerlink" href="#module-maxairesources.pipeline.spark_pipeline" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxairesources.pipeline.spark_pipeline.</span></span><span class="sig-name descname"><span class="pre">SparkPipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stages</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Creates a Spark Pipeline consiting of Transformers and Estimators, calling fit on pipeline
+will execute the stages in order</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.build" title="Permalink to this definition"></a></dt>
+<dd><p>Method to creates Spark Pipeline
+Returns:
+A Spark Pipeline Object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.build_multiple">
+<span class="sig-name descname"><span class="pre">build_multiple</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline.build_multiple"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.build_multiple" title="Permalink to this definition"></a></dt>
+<dd><p>Method to creates Spark Pipeline for multiple columns with same transformers
+Returns:
+A Spark Pipeline Object</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fits pipeline on Spark dataframe
+Argument
+data : A spark dataframe on which pipeline object is fit
+Returns
+None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.fit_multiple">
+<span class="sig-name descname"><span class="pre">fit_multiple</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline.fit_multiple"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.fit_multiple" title="Permalink to this definition"></a></dt>
+<dd><p>Fits pipeline on Spark dataframe
+Argument
+data : A spark dataframe on which pipeline object is fit
+Returns
+None</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.get_params" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.load" title="Permalink to this definition"></a></dt>
+<dd><p>Load an existing pipeline</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'spark'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.save" title="Permalink to this definition"></a></dt>
+<dd><p>Save pipeline
+Argument
+path : file path where fit pipeline object is stored</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.training_framework">
+<span class="sig-name descname"><span class="pre">training_framework</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'spark'</span></em><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.training_framework" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxairesources.pipeline.spark_pipeline.SparkPipeline.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/pipeline/spark_pipeline.html#SparkPipeline.transform"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.pipeline.spark_pipeline.SparkPipeline.transform" title="Permalink to this definition"></a></dt>
+<dd><p>Transforms Spark dataframe using pipeline
+Argument
+data : A Spark dataframe to be transformed using an existing pipeline
+Returns
+spark dataframe</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-maxairesources.pipeline">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxairesources.pipeline" title="Permalink to this heading"></a></h2>
@@ -121,7 +218,10 @@ Transformer/Estimator Object</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxairesources.optimizer.html" class="btn btn-neutral float-left" title="maxairesources.optimizer package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxairesources.utilities.html" class="btn btn-neutral float-right" title="maxairesources.utilities package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

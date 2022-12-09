@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxaimodel.spark.timeseries package" href="maxaimodel.spark.timeseries.html" />
+    <link rel="prev" title="maxaimodel.spark.recommendation package" href="maxaimodel.spark.recommendation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,23 +39,40 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxaimodel.spark.regression package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-regression-spark-aft-survival-regression-module">maxaimodel.spark.regression.spark_aft_survival_regression module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-regression-spark-dt-regression-module">maxaimodel.spark.regression.spark_dt_regression module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-regression-spark-fm-regression-module">maxaimodel.spark.regression.spark_fm_regression module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-regression-spark-gbt-regression-module">maxaimodel.spark.regression.spark_gbt_regression module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-regression-spark-gl-regression-module">maxaimodel.spark.regression.spark_gl_regression module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-regression-spark-isotonic-regression-module">maxaimodel.spark.regression.spark_isotonic_regression module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-regression-spark-linear-regression-module">maxaimodel.spark.regression.spark_linear_regression module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-regression-spark-rf-regression-module">maxaimodel.spark.regression.spark_rf_regression module</a></li>
-<li><a class="reference internal" href="#module-maxaimodel.spark.regression">Module contents</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaimodel.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.H2O.html">maxaimodel.H2O package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.python.html">maxaimodel.python package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="maxaimodel.spark.html">maxaimodel.spark package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="maxaimodel.spark.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maxaimodel.spark.html#module-maxaimodel.spark">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="maxaimodel.html#module-maxaimodel">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaimodel.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.H2O.html">maxaimodel.H2O package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.python.html">maxaimodel.python package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="maxaimodel.spark.html">maxaimodel.spark package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="maxaimodel.spark.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maxaimodel.spark.html#module-maxaimodel.spark">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="maxaimodel.html#module-maxaimodel">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.html">maxairesources package</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -68,6 +87,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="maxaimodel.html">maxaimodel package</a></li>
+          <li class="breadcrumb-item"><a href="maxaimodel.spark.html">maxaimodel.spark package</a></li>
       <li class="breadcrumb-item active">maxaimodel.spark.regression package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maxaimodel.spark.regression.rst.txt" rel="nofollow"> View page source</a>
@@ -83,29 +104,642 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
-<section id="maxaimodel-spark-regression-spark-aft-survival-regression-module">
-<h2>maxaimodel.spark.regression.spark_aft_survival_regression module<a class="headerlink" href="#maxaimodel-spark-regression-spark-aft-survival-regression-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.regression.spark_aft_survival_regression">
+<span id="maxaimodel-spark-regression-spark-aft-survival-regression-module"></span><h2>maxaimodel.spark.regression.spark_aft_survival_regression module<a class="headerlink" href="#module-maxaimodel.spark.regression.spark_aft_survival_regression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_aft_survival_regression.SparkAFTSurvivalRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.regression.spark_aft_survival_regression.</span></span><span class="sig-name descname"><span class="pre">SparkAFTSurvivalRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">censorCol</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_aft_survival_regression.html#SparkAFTSurvivalRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_aft_survival_regression.SparkAFTSurvivalRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkRegressorBaseModel</span></code></p>
+<p>runs FM regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>float</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vectorised list of all the features used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.FMRegressionModel.html?highlight=regression#pyspark.ml.regression.FMRegressionModel">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.FMRegressionModel.html?highlight=regression#pyspark.ml.regression.FMRegressionModel</a>). Defaults to None</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.regression import spark_aft_survival_regression</p>
+<dl>
+<dt>aftsurvivalreg = spark_aft_survival_regression.SparkAFTSurvivalRegressor(</dt><dd><p>target_col = ‘medv’,
+feature_col = ‘features’,
+param_grid =  {</p>
+<blockquote>
+<div><p>‘maxIter’:[10,30]</p>
+</div></blockquote>
+</dd>
+</dl>
+<p>aftsurvivalreg.fit(train_aft)
+pred_aftreg = aftsurvivalreg.predict(test_aft)
+pred_aftreg.show(5)
+&gt;&gt;&gt; +——————–+—-+——+——————+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|medv|censor|        prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 8%" />
+<col style="width: 13%" />
+<col style="width: 38%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[0.04417,70.0,2.2…
+[0.03537,34.0,6.0…
+[0.09266,34.0,6.0…
+[0.1,34.0,6.09,0….
+[0.05515,33.0,2.1…</p></td>
+<td><p>24.8
+22.0
+26.4
+33.1
+36.1</p></td>
+<td><p>1.0
+1.0
+1.0
+1.0
+1.0</p></td>
+<td><dl class="simple">
+<dt>28.635527461813897</dt><dd><p>27.03455354521534</p>
+</dd>
+<dt>26.708353457826586</dt><dd><p>33.04563344447913
+38.12525657243664</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>aftsurvivalreg.save(path = “./models/aftsurvivalreg”)
+<a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_aft_survival_regression.SparkAFTSurvivalRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_aft_survival_regression.html#SparkAFTSurvivalRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_aft_survival_regression.SparkAFTSurvivalRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_aft_survival_regression.SparkAFTSurvivalRegressor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_aft_survival_regression.html#SparkAFTSurvivalRegressor.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_aft_survival_regression.SparkAFTSurvivalRegressor.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-regression-spark-dt-regression-module">
-<h2>maxaimodel.spark.regression.spark_dt_regression module<a class="headerlink" href="#maxaimodel-spark-regression-spark-dt-regression-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.regression.spark_dt_regression">
+<span id="maxaimodel-spark-regression-spark-dt-regression-module"></span><h2>maxaimodel.spark.regression.spark_dt_regression module<a class="headerlink" href="#module-maxaimodel.spark.regression.spark_dt_regression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_dt_regression.SparkDTRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.regression.spark_dt_regression.</span></span><span class="sig-name descname"><span class="pre">SparkDTRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_dt_regression.html#SparkDTRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_dt_regression.SparkDTRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkRegressorBaseModel</span></code></p>
+<p>runs decision tree regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>float</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.DecisionTreeRegressor.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.DecisionTreeRegressor.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.regression import spark_dt_regression</p>
+<dl class="simple">
+<dt>dt = spark_dt_regression.SparkDTRegressor(</dt><dd><p>target_col = ‘medv’,
+feature_col = ‘features’,
+param_grid =  {}
+)</p>
+</dd>
+</dl>
+<p>dt.fit(train)
+pred = dt.predict(test)
+pred.show(5)
+&gt;&gt;&gt; +——————–+—-+——————+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|medv|        prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 10%" />
+<col style="width: 43%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[0.04417,70.0,2.2…
+[0.03537,34.0,6.0…
+[0.09266,34.0,6.0…
+[0.1,34.0,6.09,0….
+[0.05515,33.0,2.1…</p></td>
+<td><p>24.8
+22.0
+26.4
+33.1
+36.1</p></td>
+<td><p>32.026086956521745
+25.149999999999995
+25.149999999999995
+31.600000000000005</p>
+<blockquote>
+<div><p>22.0</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_dt_regression.SparkDTRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_dt_regression.html#SparkDTRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_dt_regression.SparkDTRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_dt_regression.SparkDTRegressor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_dt_regression.html#SparkDTRegressor.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_dt_regression.SparkDTRegressor.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-regression-spark-fm-regression-module">
-<h2>maxaimodel.spark.regression.spark_fm_regression module<a class="headerlink" href="#maxaimodel-spark-regression-spark-fm-regression-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.regression.spark_fm_regression">
+<span id="maxaimodel-spark-regression-spark-fm-regression-module"></span><h2>maxaimodel.spark.regression.spark_fm_regression module<a class="headerlink" href="#module-maxaimodel.spark.regression.spark_fm_regression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_fm_regression.SparkFMRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.regression.spark_fm_regression.</span></span><span class="sig-name descname"><span class="pre">SparkFMRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_fm_regression.html#SparkFMRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_fm_regression.SparkFMRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkRegressorBaseModel</span></code></p>
+<p>runs FM regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>float</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vectorised list of all the features used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.FMRegressionModel.html?highlight=regression#pyspark.ml.regression.FMRegressionModel">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.FMRegressionModel.html?highlight=regression#pyspark.ml.regression.FMRegressionModel</a>). Defaults to None</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.regression import spark_fm_regression</p>
+<dl class="simple">
+<dt>fmreg = spark_fm_regression.SparkFMRegressor(</dt><dd><p>target_col = ‘medv’,
+feature_col = ‘features’,
+param_grid =  {}
+)</p>
+</dd>
+</dl>
+<p>fmreg.fit(train)
+pred_fmreg = fmreg.predict(test)
+pred_fmreg.show(5)
+&gt;&gt;&gt; +——————–+—-+——————+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|medv|        prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 10%" />
+<col style="width: 43%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[0.04417,70.0,2.2…
+[0.03537,34.0,6.0…
+[0.09266,34.0,6.0…
+[0.1,34.0,6.09,0….
+[0.05515,33.0,2.1…</p></td>
+<td><p>24.8
+22.0
+26.4
+33.1
+36.1</p></td>
+<td><blockquote>
+<div><p>40499.54522968596
+8732.454532015487</p>
+</div></blockquote>
+<dl class="simple">
+<dt>3825.8655364832666</dt><dd><p>5658.445061672479
+22837.07767793254</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>fmreg.save(path = “./models/fmreg”)
+<a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_fm_regression.SparkFMRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_fm_regression.html#SparkFMRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_fm_regression.SparkFMRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_fm_regression.SparkFMRegressor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_fm_regression.html#SparkFMRegressor.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_fm_regression.SparkFMRegressor.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-regression-spark-gbt-regression-module">
-<h2>maxaimodel.spark.regression.spark_gbt_regression module<a class="headerlink" href="#maxaimodel-spark-regression-spark-gbt-regression-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.regression.spark_gbt_regression">
+<span id="maxaimodel-spark-regression-spark-gbt-regression-module"></span><h2>maxaimodel.spark.regression.spark_gbt_regression module<a class="headerlink" href="#module-maxaimodel.spark.regression.spark_gbt_regression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_gbt_regression.SparkGBTRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.regression.spark_gbt_regression.</span></span><span class="sig-name descname"><span class="pre">SparkGBTRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_gbt_regression.html#SparkGBTRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_gbt_regression.SparkGBTRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkRegressorBaseModel</span></code></p>
+<p>runs gradient boosted regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>float</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vectorised list of all the features used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.GBTRegressionModel.html?highlight=regression#pyspark.ml.regression.GBTRegressionModel">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.GBTRegressionModel.html?highlight=regression#pyspark.ml.regression.GBTRegressionModel</a>). Defaults to None</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.regression import spark_gbt_regression</p>
+<dl class="simple">
+<dt>gbt = spark_gbt_regression.SparkGBTRegressor(</dt><dd><p>target_col = ‘medv’,
+feature_col = ‘features’,
+param_grid =  {}
+)</p>
+</dd>
+</dl>
+<p>gbt.fit(train)
+pred_gbt = gbt.predict(test)
+pred_gbt.show(5)
+&gt;&gt;&gt; +——————–+—-+——————+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|medv|        prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 10%" />
+<col style="width: 43%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[0.04417,70.0,2.2…
+[0.03537,34.0,6.0…
+[0.09266,34.0,6.0…
+[0.1,34.0,6.09,0….
+[0.05515,33.0,2.1…</p></td>
+<td><p>24.8
+22.0
+26.4
+33.1
+36.1</p></td>
+<td><p>30.846373877566844
+25.034746106946816
+25.456822769467188</p>
+<blockquote>
+<div><p>32.40380891308272
+22.23621896235877</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>gbt.save(path = “./models/gbt_reg”)
+gbt.save(path = “s3a://zs-sample-datasets-ds/pai-onboarding/regression_model_testing/gbt/”, mode=”onnx”)
+<a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_gbt_regression.SparkGBTRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_gbt_regression.html#SparkGBTRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_gbt_regression.SparkGBTRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_gbt_regression.SparkGBTRegressor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_gbt_regression.html#SparkGBTRegressor.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_gbt_regression.SparkGBTRegressor.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-regression-spark-gl-regression-module">
-<h2>maxaimodel.spark.regression.spark_gl_regression module<a class="headerlink" href="#maxaimodel-spark-regression-spark-gl-regression-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.regression.spark_gl_regression">
+<span id="maxaimodel-spark-regression-spark-gl-regression-module"></span><h2>maxaimodel.spark.regression.spark_gl_regression module<a class="headerlink" href="#module-maxaimodel.spark.regression.spark_gl_regression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_gl_regression.SparkGLRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.regression.spark_gl_regression.</span></span><span class="sig-name descname"><span class="pre">SparkGLRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_gl_regression.html#SparkGLRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_gl_regression.SparkGLRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkRegressorBaseModel</span></code></p>
+<p>runs generalized linear regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>float</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vectorised list of all the features used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.GeneralizedLinearRegression.html?highlight=regression#pyspark.ml.regression.GeneralizedLinearRegression">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.GeneralizedLinearRegression.html?highlight=regression#pyspark.ml.regression.GeneralizedLinearRegression</a>). Defaults to None</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.regression import spark_gl_regression</p>
+<dl class="simple">
+<dt>glinreg = spark_gl_regression.SparkGLRegressor(</dt><dd><p>target_col = ‘medv’,
+feature_col = ‘features’,
+param_grid =  {}
+)</p>
+</dd>
+</dl>
+<p>glinreg.fit(train)
+pred_glinreg = gbt.predict(test)</p>
+<p>pred_glinreg.show(5)
+&gt;&gt;&gt; +——————–+—-+——————+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|medv|        prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 10%" />
+<col style="width: 43%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[0.04417,70.0,2.2…
+[0.03537,34.0,6.0…
+[0.09266,34.0,6.0…
+[0.1,34.0,6.09,0….
+[0.05515,33.0,2.1…</p></td>
+<td><p>24.8
+22.0
+26.4
+33.1
+36.1</p></td>
+<td><p>30.846373877566844
+25.034746106946816
+25.456822769467188</p>
+<blockquote>
+<div><p>32.40380891308272
+22.23621896235877</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>glinreg.save(path = “./models/glinreg”)
+glinreg.save(path = “s3a://zs-sample-datasets-ds/pai-onboarding/regression_model_testing/glinreg/”, mode=”onnx”)
+<a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_gl_regression.SparkGLRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_gl_regression.html#SparkGLRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_gl_regression.SparkGLRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_gl_regression.SparkGLRegressor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_gl_regression.html#SparkGLRegressor.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_gl_regression.SparkGLRegressor.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-regression-spark-isotonic-regression-module">
-<h2>maxaimodel.spark.regression.spark_isotonic_regression module<a class="headerlink" href="#maxaimodel-spark-regression-spark-isotonic-regression-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.regression.spark_isotonic_regression">
+<span id="maxaimodel-spark-regression-spark-isotonic-regression-module"></span><h2>maxaimodel.spark.regression.spark_isotonic_regression module<a class="headerlink" href="#module-maxaimodel.spark.regression.spark_isotonic_regression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_isotonic_regression.SparkIsotonicRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.regression.spark_isotonic_regression.</span></span><span class="sig-name descname"><span class="pre">SparkIsotonicRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_isotonic_regression.html#SparkIsotonicRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_isotonic_regression.SparkIsotonicRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkRegressorBaseModel</span></code></p>
+<p>runs isotonic regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>float</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vectorised list of all the features used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.IsotonicRegression.html?highlight=regression#pyspark.ml.regression.IsotonicRegression">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.IsotonicRegression.html?highlight=regression#pyspark.ml.regression.IsotonicRegression</a>). Defaults to None</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.regression import spark_isotonic_regression</p>
+<dl class="simple">
+<dt>isoreg = spark_isotonic_regression.SparkIsotonicRegressor(</dt><dd><p>target_col = ‘medv’,
+feature_col = ‘features’,
+param_grid =  {}
+)</p>
+</dd>
+</dl>
+<p>isoreg.fit(train)
+pred_isoreg = isoreg.predict(test)
+pred_isoreg.show(5)
+&gt;&gt;&gt; +——————–+—-+—————–+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|medv|       prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 49%" />
+<col style="width: 10%" />
+<col style="width: 41%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[0.04417,70.0,2.2…
+[0.03537,34.0,6.0…
+[0.09266,34.0,6.0…
+[0.1,34.0,6.09,0….
+[0.05515,33.0,2.1…</p></td>
+<td><p>24.8
+22.0
+26.4
+33.1
+36.1</p></td>
+<td><p>25.48963210702341
+25.48963210702341
+25.48963210702341
+25.48963210702341
+25.48963210702341</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>isoreg.save(path = “./models/isoreg”)
+<a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_isotonic_regression.SparkIsotonicRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_isotonic_regression.html#SparkIsotonicRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_isotonic_regression.SparkIsotonicRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_isotonic_regression.SparkIsotonicRegressor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_isotonic_regression.html#SparkIsotonicRegressor.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_isotonic_regression.SparkIsotonicRegressor.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-regression-spark-linear-regression-module">
-<h2>maxaimodel.spark.regression.spark_linear_regression module<a class="headerlink" href="#maxaimodel-spark-regression-spark-linear-regression-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.regression.spark_linear_regression">
+<span id="maxaimodel-spark-regression-spark-linear-regression-module"></span><h2>maxaimodel.spark.regression.spark_linear_regression module<a class="headerlink" href="#module-maxaimodel.spark.regression.spark_linear_regression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_linear_regression.SparkLinearRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.regression.spark_linear_regression.</span></span><span class="sig-name descname"><span class="pre">SparkLinearRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_linear_regression.html#SparkLinearRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_linear_regression.SparkLinearRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkRegressorBaseModel</span></code></p>
+<p>runs linear regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>float</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vectorised list of all the features used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.LinearRegression.html?highlight=regression#pyspark.ml.regression.LinearRegression">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.LinearRegression.html?highlight=regression#pyspark.ml.regression.LinearRegression</a>). Defaults to None</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.regression import spark_linear_regression</p>
+<dl class="simple">
+<dt>linreg = spark_linear_regression.SparkLinearRegressor(</dt><dd><p>target_col = ‘medv’,
+feature_col = ‘features’,
+param_grid =  {}
+)</p>
+</dd>
+</dl>
+<p>linreg.fit(train)
+pred_linreg = gbt.predict(test)
+pred_linreg.show(5)
+&gt;&gt;&gt; +——————–+—-+——————+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|medv|        prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 10%" />
+<col style="width: 43%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[0.04417,70.0,2.2…
+[0.03537,34.0,6.0…
+[0.09266,34.0,6.0…
+[0.1,34.0,6.09,0….
+[0.05515,33.0,2.1…</p></td>
+<td><p>24.8
+22.0
+26.4
+33.1
+36.1</p></td>
+<td><p>30.846373877566844
+25.034746106946816
+25.456822769467188</p>
+<blockquote>
+<div><p>32.40380891308272
+22.23621896235877</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>linreg.save(path = “./models/linreg”)
+linreg.save(path = “s3a://zs-sample-datasets-ds/pai-onboarding/regression_model_testing/linreg/”, mode=”onnx”)
+<a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_linear_regression.SparkLinearRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_linear_regression.html#SparkLinearRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_linear_regression.SparkLinearRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_linear_regression.SparkLinearRegressor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_linear_regression.html#SparkLinearRegressor.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_linear_regression.SparkLinearRegressor.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-regression-spark-rf-regression-module">
-<h2>maxaimodel.spark.regression.spark_rf_regression module<a class="headerlink" href="#maxaimodel-spark-regression-spark-rf-regression-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.regression.spark_rf_regression">
+<span id="maxaimodel-spark-regression-spark-rf-regression-module"></span><h2>maxaimodel.spark.regression.spark_rf_regression module<a class="headerlink" href="#module-maxaimodel.spark.regression.spark_rf_regression" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_rf_regression.SparkRFRegressor">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.regression.spark_rf_regression.</span></span><span class="sig-name descname"><span class="pre">SparkRFRegressor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_rf_regression.html#SparkRFRegressor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_rf_regression.SparkRFRegressor" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkRegressorBaseModel</span></code></p>
+<p>runs random forest regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>float</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vectorised list of all the features used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.RandomForestRegressionModel.html?highlight=regression#pyspark.ml.regression.RandomForestRegressionModel">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.regression.RandomForestRegressionModel.html?highlight=regression#pyspark.ml.regression.RandomForestRegressionModel</a>). Defaults to None</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.regression import spark_rf_regression
+rf = spark_rf_regression.SparkRFRegressor(</p>
+<blockquote>
+<div><p>target_col = ‘medv’,
+feature_col = ‘features’,
+param_grid =  {</p>
+<blockquote>
+<div><p>}</p>
+</div></blockquote>
+<p>)</p>
+</div></blockquote>
+<p>rf.fit(train)
+pred = rf.predict(test)
+pred.show(5)
+&gt;&gt;&gt; +——————–+—-+——————+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|medv|        prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 48%" />
+<col style="width: 10%" />
+<col style="width: 43%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[0.04417,70.0,2.2…
+[0.03537,34.0,6.0…
+[0.09266,34.0,6.0…
+[0.1,34.0,6.09,0….
+[0.05515,33.0,2.1…</p></td>
+<td><p>24.8
+22.0
+26.4
+33.1
+36.1</p></td>
+<td><dl class="simple">
+<dt>31.168843024672547</dt><dd><p>24.03174578178511
+23.73252647489749
+30.70366392976648
+33.93450571558931</p>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>rf.save(path = “./models/rfr”)
+rf.save(path = “s3a://zs-sample-datasets-ds/pai-onboarding/regression_model_testing/rfr/”, mode=”onnx”)
+<a href="#id29"><span class="problematic" id="id30">``</span></a><a href="#id31"><span class="problematic" id="id32">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_rf_regression.SparkRFRegressor.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_rf_regression.html#SparkRFRegressor.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_rf_regression.SparkRFRegressor.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.regression.spark_rf_regression.SparkRFRegressor.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/regression/spark_rf_regression.html#SparkRFRegressor.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.regression.spark_rf_regression.SparkRFRegressor.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-maxaimodel.spark.regression">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaimodel.spark.regression" title="Permalink to this heading"></a></h2>
@@ -115,7 +749,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxaimodel.spark.recommendation.html" class="btn btn-neutral float-left" title="maxaimodel.spark.recommendation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxaimodel.spark.timeseries.html" class="btn btn-neutral float-right" title="maxaimodel.spark.timeseries package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

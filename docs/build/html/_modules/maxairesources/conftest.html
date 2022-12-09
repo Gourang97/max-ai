@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxairesources.conftest &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../maxairesources.html">maxairesources package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxairesources.conftest</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxairesources.conftest</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">SparkSession</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.linalg</span> <span class="kn">import</span> <span class="n">DenseVector</span>
+
+
+<div class="viewcode-block" id="spark_session"><a class="viewcode-back" href="../../maxairesources.html#maxairesources.conftest.spark_session">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">spark_session</span><span class="p">():</span>
+    <span class="n">spark</span> <span class="o">=</span> <span class="n">SparkSession</span><span class="o">.</span><span class="n">builder</span><span class="o">.</span><span class="n">appName</span><span class="p">(</span><span class="s2">&quot;Testing App&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">getOrCreate</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">spark</span></div>
+
+
+<div class="viewcode-block" id="binary_classifier_transformed_result"><a class="viewcode-back" href="../../maxairesources.html#maxairesources.conftest.binary_classifier_transformed_result">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">binary_classifier_transformed_result</span><span class="p">(</span><span class="n">spark_session</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">19.435</span><span class="p">,</span> <span class="o">-</span><span class="mf">19.345</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.027</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">19.345</span><span class="p">,</span> <span class="o">-</span><span class="mf">19.108</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.027</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">16.148</span><span class="p">,</span> <span class="o">-</span><span class="mf">16.148</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.704</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">5.455</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.455</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.004</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.893</span><span class="p">]),</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.993</span><span class="p">]),</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.793</span><span class="p">]),</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.693</span><span class="p">]),</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.653</span><span class="p">]),</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.70</span><span class="p">,</span> <span class="mf">0.253</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">]),</span> <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.90</span><span class="p">,</span> <span class="mf">0.293</span><span class="p">]),</span> <span class="mf">0.0</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;rawPrediction&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="s2">&quot;prediction&quot;</span><span class="p">)</span>
+    <span class="n">pdf</span> <span class="o">=</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pdf</span></div>
+
+
+<div class="viewcode-block" id="multiclass_classifier_transformed_result"><a class="viewcode-back" href="../../maxairesources.html#maxairesources.conftest.multiclass_classifier_transformed_result">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">multiclass_classifier_transformed_result</span><span class="p">(</span><span class="n">spark_session</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">19.108</span><span class="p">,</span> <span class="o">-</span><span class="mf">19.108</span><span class="p">,</span> <span class="o">-</span><span class="mf">22.32</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.95</span><span class="p">,</span> <span class="mf">0.04</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">19.108</span><span class="p">,</span> <span class="o">-</span><span class="mf">19.108</span><span class="p">,</span> <span class="mf">54.453</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.98</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">]),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">16.148</span><span class="p">,</span> <span class="o">-</span><span class="mf">16.148</span><span class="p">,</span> <span class="mf">56.340</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.90</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">]),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">,</span> <span class="o">-</span><span class="mf">22.43</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.60</span><span class="p">,</span> <span class="mf">0.30</span><span class="p">]),</span>
+            <span class="mf">1.0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">42.127</span><span class="p">,</span> <span class="mf">23.127</span><span class="p">,</span> <span class="o">-</span><span class="mf">211.9</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.050</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]),</span>
+            <span class="mf">2.0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="mi">1</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">62.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">,</span> <span class="mf">33.655</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.90</span><span class="p">,</span> <span class="mf">0.09</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">]),</span>
+            <span class="mf">1.0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="mi">2</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">29.127</span><span class="p">,</span> <span class="o">-</span><span class="mf">21.127</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.222</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.20</span><span class="p">,</span> <span class="mf">0.08</span><span class="p">,</span> <span class="mf">0.72</span><span class="p">]),</span>
+            <span class="mf">2.0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="mi">2</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">331.17</span><span class="p">,</span> <span class="o">-</span><span class="mf">24.44</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.90</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">,</span> <span class="mf">0.07</span><span class="p">]),</span>
+            <span class="mf">0.0</span><span class="p">,</span>
+        <span class="p">),</span>
+        <span class="p">(</span>
+            <span class="mi">2</span><span class="p">,</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="o">-</span><span class="mf">22.127</span><span class="p">,</span> <span class="mf">21.127</span><span class="p">,</span> <span class="mf">111.23</span><span class="p">]),</span>
+            <span class="n">DenseVector</span><span class="p">([</span><span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">0.70</span><span class="p">]),</span>
+            <span class="mf">2.0</span><span class="p">,</span>
+        <span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="s2">&quot;rawPrediction&quot;</span><span class="p">,</span> <span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="s2">&quot;prediction&quot;</span><span class="p">)</span>
+    <span class="n">pdf</span> <span class="o">=</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pdf</span></div>
+
+
+<div class="viewcode-block" id="normal_regressor_transformed_result"><a class="viewcode-back" href="../../maxairesources.html#maxairesources.conftest.normal_regressor_transformed_result">[docs]</a><span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">autouse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">normal_regressor_transformed_result</span><span class="p">(</span><span class="n">spark_session</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">28.98343821</span><span class="p">,</span> <span class="o">-</span><span class="mf">27.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">20.21491975</span><span class="p">,</span> <span class="mf">21.5</span><span class="p">),</span>
+        <span class="p">(</span><span class="o">-</span><span class="mf">25.98418959</span><span class="p">,</span> <span class="o">-</span><span class="mf">22.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">30.69731842</span><span class="p">,</span> <span class="mf">33.0</span><span class="p">),</span>
+        <span class="p">(</span><span class="mf">74.69283752</span><span class="p">,</span> <span class="mf">71.0</span><span class="p">),</span>
+    <span class="p">]</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="n">spark_session</span><span class="o">.</span><span class="n">createDataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;prediction&quot;</span><span class="p">,</span> <span class="s2">&quot;label&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">dataset</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -37,18 +37,14 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxaidatahandling package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#maxaidatahandling-data-evaluator-module">maxaidatahandling.data_evaluator module</a></li>
-<li><a class="reference internal" href="#maxaidatahandling-datafactory-module">maxaidatahandling.datafactory module</a></li>
-<li><a class="reference internal" href="#maxaidatahandling-dataset-module">maxaidatahandling.dataset module</a></li>
-<li><a class="reference internal" href="#module-maxaidatahandling">Module contents</a></li>
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.html">maxairesources package</a></li>
 </ul>
-</li>
-</ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -78,14 +74,183 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
-<section id="maxaidatahandling-data-evaluator-module">
-<h2>maxaidatahandling.data_evaluator module<a class="headerlink" href="#maxaidatahandling-data-evaluator-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaidatahandling.data_evaluator">
+<span id="maxaidatahandling-data-evaluator-module"></span><h2>maxaidatahandling.data_evaluator module<a class="headerlink" href="#module-maxaidatahandling.data_evaluator" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaidatahandling.data_evaluator.DataEvaluator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaidatahandling.data_evaluator.</span></span><span class="sig-name descname"><span class="pre">DataEvaluator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'data_integrity.html'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pre_process_spark_function</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/data_evaluator.html#DataEvaluator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.data_evaluator.DataEvaluator" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Model Evaluater module to run multile checks for validating models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>pandas.core.frame.DataFrame</em><em> or </em><em>pyspark.sql.dataframe.DataFrame</em>) – Reference Dataset</p></li>
+<li><p><strong>label_col</strong> (<em>str</em>) – save the report to a html file in the given location</p></li>
+<li><p><strong>sample_ratio</strong> (<em>Optional</em><em>[</em><em>float</em><em>]</em><em>, </em><em>optional</em>) – Sample size to convert the spark dataframe to Pandas dataframe for Reference Dataset. Defaults to 0.2.</p></li>
+<li><p><strong>pre_process_spark_function</strong> (<em>Callable</em><em>, </em><em>optional</em>) – A function which processes the given spark_dataframe. If this argument is passed then the above samples won’t be applied anymore. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>—
+Example:
+<a href="#id1"><span class="problematic" id="id2">``</span></a>`
+from maxaidatahandling.data_evaluator import DataEvaluator</p>
+<dl class="simple">
+<dt>evaluator = DataEvaluator(</dt><dd><p>data,
+label_col=’label’,
+sample_ratio = 0.2</p>
+</dd>
+</dl>
+<p>)
+integrity_results = evaluator.evaluate()
+<a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaidatahandling.data_evaluator.DataEvaluator.evaluate">
+<span class="sig-name descname"><span class="pre">evaluate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/data_evaluator.html#DataEvaluator.evaluate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.data_evaluator.DataEvaluator.evaluate" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaidatahandling-datafactory-module">
-<h2>maxaidatahandling.datafactory module<a class="headerlink" href="#maxaidatahandling-datafactory-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaidatahandling.datafactory">
+<span id="maxaidatahandling-datafactory-module"></span><h2>maxaidatahandling.datafactory module<a class="headerlink" href="#module-maxaidatahandling.datafactory" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaidatahandling.datafactory.MAXDataFactory">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaidatahandling.datafactory.</span></span><span class="sig-name descname"><span class="pre">MAXDataFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_factory_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/datafactory.html#MAXDataFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.datafactory.MAXDataFactory" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>This class reads and preprocess and summarise more than one dataset.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaidatahandling.datafactory.MAXDataFactory.get_all_datasets">
+<span class="sig-name descname"><span class="pre">get_all_datasets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/datafactory.html#MAXDataFactory.get_all_datasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.datafactory.MAXDataFactory.get_all_datasets" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaidatahandling.datafactory.MAXDataFactory.get_dataset">
+<span class="sig-name descname"><span class="pre">get_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/datafactory.html#MAXDataFactory.get_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.datafactory.MAXDataFactory.get_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaidatahandling.datafactory.MAXDataFactory.prepare_datasets">
+<span class="sig-name descname"><span class="pre">prepare_datasets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/datafactory.html#MAXDataFactory.prepare_datasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.datafactory.MAXDataFactory.prepare_datasets" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaidatahandling.datafactory.MAXDataFactory.store_datasets">
+<span class="sig-name descname"><span class="pre">store_datasets</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/datafactory.html#MAXDataFactory.store_datasets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.datafactory.MAXDataFactory.store_datasets" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaidatahandling-dataset-module">
-<h2>maxaidatahandling.dataset module<a class="headerlink" href="#maxaidatahandling-dataset-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaidatahandling.dataset">
+<span id="maxaidatahandling-dataset-module"></span><h2>maxaidatahandling.dataset module<a class="headerlink" href="#module-maxaidatahandling.dataset" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaidatahandling.dataset.MaxDataset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaidatahandling.dataset.</span></span><span class="sig-name descname"><span class="pre">MaxDataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/dataset.html#MaxDataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.dataset.MaxDataset" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>This class reads and preprocess and summarise loaded data. can be used both for data reader and writer.
+:param name: _description_
+:type name: str
+:param dataset_config: _description_. Defaults to None.
+:type dataset_config: dict, optional
+:param df: _description_. Defaults to None.
+:type df: spark.DataFrame, optional</p>
+<p>sample config for read mode:
+``
+{</p>
+<blockquote>
+<div><p>“port”: 1,
+“dataType”: “dataframe”,
+“sourceDetails”: {</p>
+<blockquote>
+<div><p>“source”: “s3”,
+“fileFormat”: “csv”,
+“filePath”: “dim_customer.csv”</p>
+</div></blockquote>
+<p>},
+“preprocess”: {</p>
+<blockquote>
+<div><dl class="simple">
+<dt>“rename_cols”: {</dt><dd><p>“dob”: “date_of_birth”,
+“is_employee”: “is_employee_bool”</p>
+</dd>
+</dl>
+<p>},
+“select_cols”: [</p>
+<blockquote>
+<div><p>“customer_id”,
+“signup_date”,
+“date_of_birth”,
+“first_store_id”,
+“is_employee_bool”,
+“is_outlier”,
+“gender”,
+“language”</p>
+</div></blockquote>
+<p>],
+“re_partition”: {</p>
+<blockquote>
+<div><dl class="simple">
+<dt>“on”: [</dt><dd><p>“customer_id”</p>
+</dd>
+</dl>
+<p>],
+“size”: 2</p>
+</div></blockquote>
+<p>},
+“data_analysis”: {</p>
+<blockquote>
+<div><dl>
+<dt>“col_types”: {</dt><dd><p>“numerical_cols”: [],
+“bool_cols”: [</p>
+<blockquote>
+<div><p>“is_employee_bool”,
+“is_outlier”</p>
+</div></blockquote>
+<p>],
+“categorical_cols”: [</p>
+<blockquote>
+<div><p>“gender”,
+“language”</p>
+</div></blockquote>
+<p>],
+“free_text_cols”: [],
+“unique_identifier_cols”: [</p>
+<blockquote>
+<div><p>“customer_id”</p>
+</div></blockquote>
+<p>]</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>},
+“cache”: True</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<section id="id7">
+<h3>}<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<p># TODO connect it with meta data or mlflow APIs from max</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaidatahandling.dataset.MaxDataset.prepare_dataset">
+<span class="sig-name descname"><span class="pre">prepare_dataset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/dataset.html#MaxDataset.prepare_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.dataset.MaxDataset.prepare_dataset" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaidatahandling.dataset.MaxDataset.store_data">
+<span class="sig-name descname"><span class="pre">store_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/dataset.html#MaxDataset.store_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.dataset.MaxDataset.store_data" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="maxaidatahandling.dataset.get_key_value">
+<span class="sig-prename descclassname"><span class="pre">maxaidatahandling.dataset.</span></span><span class="sig-name descname"><span class="pre">get_key_value</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nested_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">keys</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaidatahandling/dataset.html#get_key_value"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaidatahandling.dataset.get_key_value" title="Permalink to this definition"></a></dt>
+<dd><p>Check if <a href="#id8"><span class="problematic" id="id9">*</span></a>keys (nested) exists in <cite>element</cite> (dict).</p>
+</dd></dl>
+
 </section>
 <section id="module-maxaidatahandling">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaidatahandling" title="Permalink to this heading"></a></h2>

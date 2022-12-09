@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxaifeaturization.transformation package" href="maxaifeaturization.transformation.html" />
+    <link rel="prev" title="maxaifeaturization.selection package" href="maxaifeaturization.selection.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,31 +39,30 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxaifeaturization.timeseries package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-maxaifeaturization.timeseries.univariate">maxaifeaturization.timeseries.univariate module</a><ul>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.Decompose"><code class="docutils literal notranslate"><span class="pre">Decompose</span></code></a><ul>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.Decompose.loess"><code class="docutils literal notranslate"><span class="pre">Decompose.loess()</span></code></a></li>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.Decompose.moving_average"><code class="docutils literal notranslate"><span class="pre">Decompose.moving_average()</span></code></a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaifeaturization.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaifeaturization.aggregation.html">maxaifeaturization.aggregation package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaifeaturization.featuretools.html">maxaifeaturization.featuretools package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaifeaturization.selection.html">maxaifeaturization.selection package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">maxaifeaturization.timeseries package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxaifeaturization.timeseries.univariate">maxaifeaturization.timeseries.univariate module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxaifeaturization.timeseries">Module contents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.StationarityTest"><code class="docutils literal notranslate"><span class="pre">StationarityTest</span></code></a><ul>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.StationarityTest.adf"><code class="docutils literal notranslate"><span class="pre">StationarityTest.adf()</span></code></a></li>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.StationarityTest.kpss"><code class="docutils literal notranslate"><span class="pre">StationarityTest.kpss()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaifeaturization.transformation.html">maxaifeaturization.transformation package</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.autocorrelation"><code class="docutils literal notranslate"><span class="pre">autocorrelation()</span></code></a></li>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.check_stationarity"><code class="docutils literal notranslate"><span class="pre">check_stationarity()</span></code></a></li>
-<li><a class="reference internal" href="#maxaifeaturization.timeseries.univariate.time_series_decomposition"><code class="docutils literal notranslate"><span class="pre">time_series_decomposition()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxaifeaturization.html#module-maxaifeaturization">Module contents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-maxaifeaturization.timeseries">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.html">maxairesources package</a></li>
 </ul>
-</li>
-</ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -76,6 +77,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="maxaifeaturization.html">maxaifeaturization package</a></li>
       <li class="breadcrumb-item active">maxaifeaturization.timeseries package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maxaifeaturization.timeseries.rst.txt" rel="nofollow"> View page source</a>
@@ -129,17 +131,25 @@
 <dt class="sig sig-object py" id="maxaifeaturization.timeseries.univariate.autocorrelation">
 <span class="sig-prename descclassname"><span class="pre">maxaifeaturization.timeseries.univariate.</span></span><span class="sig-name descname"><span class="pre">autocorrelation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nlags</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partial</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/timeseries/univariate.html#autocorrelation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.timeseries.univariate.autocorrelation" title="Permalink to this definition"></a></dt>
 <dd><p>computes the Pearson correlation between the Series and its shifted self</p>
-<dl class="simple">
-<dt>Args:</dt><dd><p>spark_df (spark DataFrame): the dataframe on which operation is to be performed
-groupby_col (str): entity column name for which a time series is defined
-datetime_col (str): datetime column name
-value_col (str): value/quantity column name
-nlags (int): number of lags for which the autocorrelation is to be calculated
-partial (bool): if True, partial correlation will be calculated</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spark_df</strong> (<em>spark DataFrame</em>) – the dataframe on which operation is to be performed</p></li>
+<li><p><strong>groupby_col</strong> (<em>str</em>) – entity column name for which a time series is defined</p></li>
+<li><p><strong>datetime_col</strong> (<em>str</em>) – datetime column name</p></li>
+<li><p><strong>value_col</strong> (<em>str</em>) – value/quantity column name</p></li>
+<li><p><strong>nlags</strong> (<em>int</em>) – number of lags for which the autocorrelation is to be calculated</p></li>
+<li><p><strong>partial</strong> (<em>bool</em>) – if True, partial correlation will be calculated</p></li>
+</ul>
 </dd>
-<dt>Raises:</dt><dd><p>ValueError</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – </p>
 </dd>
-<dt>Returns:</dt><dd><p>spark DataFrame: a dataframe with lag and autocorrelation for each grouped entity</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>a dataframe with lag and autocorrelation for each grouped entity</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>spark DataFrame</p>
 </dd>
 </dl>
 <p>import pandas as pd</p>
@@ -178,10 +188,9 @@ spark_df = spark.createDataFrame(pandas_df)</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="maxaifeaturization.timeseries.univariate.time_series_decomposition">
 <span class="sig-prename descclassname"><span class="pre">maxaifeaturization.timeseries.univariate.</span></span><span class="sig-name descname"><span class="pre">time_series_decomposition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark_df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">datetime_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'moving_average'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/timeseries/univariate.html#time_series_decomposition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.timeseries.univariate.time_series_decomposition" title="Permalink to this definition"></a></dt>
-<dd><p>Example
-<code class="docutils literal notranslate"><span class="pre">`</span>
-<span class="pre">ddf</span> <span class="pre">=</span> <span class="pre">time_series_decomposition(spark_df,</span> <span class="pre">groupby_col=&quot;machine_id&quot;,</span> <span class="pre">datetime_col=&quot;date&quot;,</span> <span class="pre">value_col=&quot;sensor_reading&quot;,</span> <span class="pre">method=&quot;loess&quot;)</span>
-<span class="pre">`</span></code></p>
+<dd><p class="rubric">Example</p>
+<p>ddf = time_series_decomposition(spark_df, groupby_col=”machine_id”, datetime_col=”date”, value_col=”sensor_reading”, method=”loess”)
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
 </dd></dl>
 
 </section>
@@ -193,7 +202,10 @@ spark_df = spark.createDataFrame(pandas_df)</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxaifeaturization.selection.html" class="btn btn-neutral float-left" title="maxaifeaturization.selection package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxaifeaturization.transformation.html" class="btn btn-neutral float-right" title="maxaifeaturization.transformation package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

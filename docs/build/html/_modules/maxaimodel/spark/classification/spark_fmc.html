@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxaimodel.spark.classification.spark_fmc &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../maxairesources.html">maxairesources package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxaimodel.spark.classification.spark_fmc</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxaimodel.spark.classification.spark_fmc</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">maxaibase.model.spark.spark_classifier</span> <span class="kn">import</span> <span class="n">SparkClassifierBaseModel</span>
+<span class="kn">from</span> <span class="nn">maxairesources.factory.model_factory</span> <span class="kn">import</span> <span class="n">ModelFactory</span>
+<span class="kn">from</span> <span class="nn">pyspark.ml.classification</span> <span class="kn">import</span> <span class="n">FMClassifier</span><span class="p">,</span> <span class="n">FMClassificationModel</span>
+
+
+<div class="viewcode-block" id="SparkFMClassifier"><a class="viewcode-back" href="../../../../maxaimodel.spark.classification.html#maxaimodel.spark.classification.spark_fmc.SparkFMClassifier">[docs]</a><span class="nd">@ModelFactory</span><span class="o">.</span><span class="n">register_model</span><span class="p">(</span><span class="s2">&quot;FMClassifier&quot;</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SparkFMClassifier</span><span class="p">(</span><span class="n">SparkClassifierBaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Factorization Machines learning algorithm for classification</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        target_col (str): column to be predicted</span>
+<span class="sd">        feature_col (str): vector of all the features to be used for prediction</span>
+<span class="sd">        params (dict, optional): dictionary of parameters described [here](https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html). Defaults to None.</span>
+<span class="sd">        param_grid (dict, optional): dictionary of parameters of type `{&quot;param&quot;: []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None.</span>
+
+<span class="sd">    ------</span>
+<span class="sd">    Example:</span>
+<span class="sd">    ```</span>
+<span class="sd">    from maxaimodel.spark.classification import spark_fmc</span>
+<span class="sd">    </span>
+<span class="sd">    </span>
+<span class="sd">    fmc = spark_fmc.SparkFMClassifier(</span>
+<span class="sd">                target_col = &#39;Survived&#39;,</span>
+<span class="sd">                feature_col = &#39;features&#39;,               </span>
+<span class="sd">                )</span>
+<span class="sd">    fmc.fit(train)</span>
+<span class="sd">    pred = fmc.predict(test)</span>
+<span class="sd">    pred.show(4)</span>
+<span class="sd">    &gt;&gt;&gt; +--------------------+--------+--------------------+--------------------+----------+</span>
+<span class="sd">        |            features|Survived|       rawPrediction|         probability|prediction|</span>
+<span class="sd">        +--------------------+--------+--------------------+--------------------+----------+</span>
+<span class="sd">        |[3.0,1.0,39.0,0.0...|       1|[1.33457026278096...|[0.93518095165010...|       0.0|</span>
+<span class="sd">        |[3.0,1.0,26.0,0.0...|       0|[0.94935179013616...|[0.86974472614122...|       0.0|</span>
+<span class="sd">        |[3.0,0.0,21.0,1.0...|       0|[0.85640816425286...|[0.84720121826394...|       0.0|</span>
+<span class="sd">        |[3.0,1.0,28.0,1.0...|       0|[0.85772827992116...|[0.84754268646046...|       0.0|</span>
+<span class="sd">        +--------------------+--------+--------------------+--------------------+----------+</span>
+<span class="sd">    </span>
+<span class="sd">    fmc.save(path=&quot;./models/gbt&quot;) </span>
+<span class="sd">    ```</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_col</span><span class="p">,</span> <span class="n">feature_col</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">target_col</span> <span class="o">=</span> <span class="n">target_col</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_col</span> <span class="o">=</span> <span class="n">feature_col</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">params</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span> <span class="o">=</span> <span class="n">param_grid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        
+
+        <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">run</span><span class="o">.</span><span class="n">log_dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param_grid</span><span class="p">,</span> <span class="s2">&quot;param_grid.json&quot;</span><span class="p">)</span>
+        
+
+<div class="viewcode-block" id="SparkFMClassifier.build"><a class="viewcode-back" href="../../../../maxaimodel.spark.classification.html#maxaimodel.spark.classification.spark_fmc.SparkFMClassifier.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">!=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">))</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">FMClassifier</span><span class="p">(</span>
+                <span class="n">labelCol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">target_col</span><span class="p">,</span> 
+                <span class="n">featuresCol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_col</span><span class="p">,</span> 
+                <span class="o">**</span><span class="n">params</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+             <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">FMClassifier</span><span class="p">(</span>
+                <span class="n">labelCol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">target_col</span><span class="p">,</span> 
+                <span class="n">featuresCol</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_col</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="SparkFMClassifier.load"><a class="viewcode-back" href="../../../../maxaimodel.spark.classification.html#maxaimodel.spark.classification.spark_fmc.SparkFMClassifier.load">[docs]</a>    <span class="nd">@staticmethod</span>        
+    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;method to load the saved SparkFMClassifier model</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path (str): path of the saved model</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            SparkClassifierBaseModel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fmc_model</span> <span class="o">=</span> <span class="n">SparkFMClassifier</span><span class="p">(</span><span class="n">target_col</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_col</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="n">fmc_model</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">FMClassificationModel</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fmc_model</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

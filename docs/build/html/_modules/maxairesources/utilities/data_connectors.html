@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxairesources.utilities.data_connectors &mdash; Max.AI v1.0 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> Max.AI
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../maxairesources.html">maxairesources package</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Max.AI</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">maxairesources.utilities.data_connectors</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for maxairesources.utilities.data_connectors</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">maxairesources.exception.exceptions</span> <span class="kn">import</span> <span class="n">DataSourceNotDefinedError</span><span class="p">,</span> <span class="n">PortInformationNotFoundError</span><span class="p">,</span> <span class="n">UnknownOperationMode</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql</span> <span class="kn">import</span> <span class="n">DataFrame</span> <span class="k">as</span> <span class="n">SparkDataFrame</span>
+<span class="kn">from</span> <span class="nn">pyspark.sql.group</span> <span class="kn">import</span> <span class="n">GroupedData</span>
+<span class="kn">import</span> <span class="nn">pyspark.sql.functions</span> <span class="k">as</span> <span class="nn">F</span>
+<span class="kn">import</span> <span class="nn">pyspark.sql.types</span> <span class="k">as</span> <span class="nn">T</span>
+<span class="kn">from</span> <span class="nn">feast</span> <span class="kn">import</span> <span class="n">Entity</span><span class="p">,</span> <span class="n">Feature</span><span class="p">,</span> <span class="n">FeatureView</span><span class="p">,</span> <span class="n">FileSource</span><span class="p">,</span> <span class="n">ValueType</span>
+<span class="kn">from</span> <span class="nn">google.protobuf.duration_pb2</span> <span class="kn">import</span> <span class="n">Duration</span>
+<span class="kn">from</span> <span class="nn">feast</span> <span class="kn">import</span> <span class="n">FeatureStore</span>
+<span class="kn">from</span> <span class="nn">pyspark</span> <span class="kn">import</span> <span class="n">SparkFiles</span>
+<span class="kn">from</span> <span class="nn">maxai_feast.iceberg_source</span> <span class="kn">import</span> <span class="n">IcebergSource</span>
+<span class="kn">from</span> <span class="nn">feast.infra.offline_stores.file_source</span> <span class="kn">import</span> <span class="n">FileSource</span>
+<span class="kn">from</span> <span class="nn">maxairesources.utilities.encryption</span> <span class="kn">import</span> <span class="n">Encryption</span>
+
+
+<div class="viewcode-block" id="MaxAIDataFrame"><a class="viewcode-back" href="../../../maxairesources.utilities.html#maxairesources.utilities.data_connectors.MaxAIDataFrame">[docs]</a><span class="k">class</span> <span class="nc">MaxAIDataFrame</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">entity_path</span><span class="p">,</span> <span class="n">feature_view</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">df</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;df must be set&#39;</span><span class="p">)</span>
+        <span class="k">if</span>  <span class="ow">not</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">SparkDataFrame</span><span class="p">)</span> <span class="ow">or</span>  <span class="nb">isinstance</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">GroupedData</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;df must be of type spark dataframe&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">df</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity_path</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entity_path</span> <span class="o">=</span> <span class="n">entity_path</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">entity_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">entity_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">entity_path</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;entity path should be string&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">feature_view</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">feature_view</span> <span class="o">=</span> <span class="n">feature_view</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">feature_view</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">feature_view</span> <span class="o">=</span> <span class="p">[</span><span class="n">feature_view</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;feature_view should be string&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">call_df</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">args</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">MaxAIDataFrame</span><span class="p">):</span>
+                    <span class="n">args</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">j</span><span class="o">.</span><span class="n">df</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">entity_path</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">entity_path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> 
+                                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">j</span><span class="o">.</span><span class="n">entity_path</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_path</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">feature_view</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">feature_view</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> 
+                                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">j</span><span class="o">.</span><span class="n">feature_view</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_view</span><span class="p">]</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">attr</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">SparkDataFrame</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">GroupedData</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">MaxAIDataFrame</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_view</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">item</span> <span class="o">==</span> <span class="s1">&#39;randomSplit&#39;</span><span class="p">:</span>
+                <span class="n">result_updated</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">result</span><span class="p">:</span>
+                    <span class="n">result_updated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">MaxAIDataFrame</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">entity_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_view</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">result_updated</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">result</span>
+        <span class="k">if</span> <span class="n">callable</span><span class="p">(</span><span class="n">attr</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">call_df</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">attr</span>
+    
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">item</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="DataFrame"><a class="viewcode-back" href="../../../maxairesources.utilities.html#maxairesources.utilities.data_connectors.DataFrame">[docs]</a><span class="k">class</span> <span class="nc">DataFrame</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;class that gets a data-frame from the mentioned port of the input-data&quot;&quot;&quot;</span>
+
+    <span class="c1"># following sources are supported as of now</span>
+    <span class="n">CASSANDRA</span> <span class="o">=</span> <span class="s2">&quot;cassandra&quot;</span>
+    <span class="n">S3</span> <span class="o">=</span> <span class="s2">&quot;s3&quot;</span>
+    <span class="n">ADLS</span> <span class="o">=</span> <span class="s2">&quot;adls&quot;</span>
+    <span class="n">AZURE</span> <span class="o">=</span> <span class="s2">&quot;azure&quot;</span>
+    <span class="n">FEAST</span> <span class="o">=</span> <span class="s2">&quot;feast&quot;</span>
+    <span class="n">ICEBERG</span> <span class="o">=</span> <span class="s2">&quot;iceberg&quot;</span>
+    <span class="n">GS</span> <span class="o">=</span> <span class="s2">&quot;gs&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">spark_conn</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spark</span> <span class="o">=</span> <span class="n">spark_conn</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dataframes_supported</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;pandas&quot;</span><span class="p">,</span> <span class="s2">&quot;spark&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">formats_supported</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;.parquet&quot;</span><span class="p">,</span> <span class="s2">&quot;.csv&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sources_supported</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cassandra&quot;</span><span class="p">,</span> <span class="s2">&quot;s3&quot;</span><span class="p">,</span> <span class="s2">&quot;adls&quot;</span><span class="p">,</span> <span class="s2">&quot;azure&quot;</span><span class="p">,</span> <span class="s2">&quot;feast&quot;</span><span class="p">,</span> <span class="s2">&quot;gs&quot;</span><span class="p">,</span> <span class="s2">&quot;iceberg&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="DataFrame.get"><a class="viewcode-back" href="../../../maxairesources.utilities.html#maxairesources.utilities.data_connectors.DataFrame.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">port_number</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The function that gets the entire input configuration for the data and returns the selected data-frame.</span>
+<span class="sd">        param input_data: list of dictionary for input configuration.</span>
+<span class="sd">        param port_number: the port number from where the data has to be fetched.</span>
+<span class="sd">        return: spark data-frame</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_df</span><span class="p">(</span><span class="n">input_data</span><span class="o">=</span><span class="n">input_data</span><span class="p">,</span> <span class="n">port_number</span><span class="o">=</span><span class="n">port_number</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_df</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">,</span> <span class="n">port_number</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function that gets the entire input configuration for the data and returns the selected data-frame.&quot;&quot;&quot;</span>
+        <span class="n">port_information</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">get_data_for_a_port</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">input_data</span><span class="p">,</span> <span class="n">port_number</span><span class="o">=</span><span class="n">port_number</span><span class="p">,</span> <span class="n">connection_type</span><span class="o">=</span><span class="s2">&quot;input&quot;</span><span class="p">)</span>
+        <span class="n">data_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">port_information</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">CASSANDRA</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_cassandra</span><span class="p">(</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_s3</span><span class="p">(</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">ICEBERG</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_iceberg</span><span class="p">(</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">ADLS</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_adls</span><span class="p">(</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">AZURE</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_azure</span><span class="p">(</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">FEAST</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_feast</span><span class="p">(</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">GS</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_gs</span><span class="p">(</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataSourceNotDefinedError</span><span class="p">(</span><span class="s2">&quot;Data-frame import from </span><span class="si">{}</span><span class="s2"> is currently not supported.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_source</span><span class="p">))</span>
+
+        <span class="n">df_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">port_information</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">encryption_enabled</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__get_port_information</span><span class="p">(</span><span class="n">port_information</span><span class="p">,</span><span class="s2">&quot;encryption_enabled&quot;</span><span class="p">)</span>
+        <span class="nb">print</span> <span class="p">(</span><span class="n">encryption_enabled</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">encryption_enabled</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__get_port_information</span><span class="p">(</span><span class="n">port_information</span><span class="p">,</span><span class="s2">&quot;encrypt_key&quot;</span><span class="p">)</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__get_port_information</span><span class="p">(</span><span class="n">port_information</span><span class="p">,</span><span class="s2">&quot;encrypt_prefix&quot;</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">Encryption</span><span class="o">.</span><span class="n">decrypt_columns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df_type</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+<div class="viewcode-block" id="DataFrame.write"><a class="viewcode-back" href="../../../maxairesources.utilities.html#maxairesources.utilities.data_connectors.DataFrame.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">output_data</span><span class="p">,</span> <span class="n">port_number</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The function that gets the entire input configuration for the data and returns the selected data-frame.</span>
+<span class="sd">        param df: The spark data-frame to be written out.</span>
+<span class="sd">        param output_data: list of dictionary for output configuration.</span>
+<span class="sd">        param port_number: the port number to which the data has to be written.</span>
+<span class="sd">        return: boolean status</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__write</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">output_data</span><span class="o">=</span><span class="n">output_data</span><span class="p">,</span> <span class="n">port_number</span><span class="o">=</span><span class="n">port_number</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">output_data</span><span class="p">,</span> <span class="n">port_number</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function that gets the entire input configuration for the data and returns the selected data-frame.&quot;&quot;&quot;</span>
+        <span class="n">port_information</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">get_data_for_a_port</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">output_data</span><span class="p">,</span> <span class="n">port_number</span><span class="o">=</span><span class="n">port_number</span><span class="p">,</span> <span class="n">connection_type</span><span class="o">=</span><span class="s2">&quot;output&quot;</span><span class="p">)</span>
+        <span class="n">data_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">port_information</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="n">df_type</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">port_information</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">encryption_enabled</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__get_port_information</span><span class="p">(</span><span class="n">port_information</span><span class="p">,</span><span class="s2">&quot;encryption_enabled&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">encryption_enabled</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__get_port_information</span><span class="p">(</span><span class="n">port_information</span><span class="p">,</span><span class="s2">&quot;encrypt_key&quot;</span><span class="p">)</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__get_port_information</span><span class="p">(</span><span class="n">port_information</span><span class="p">,</span><span class="s2">&quot;encrypt_prefix&quot;</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">Encryption</span><span class="o">.</span><span class="n">encrypt_columns</span><span class="p">(</span><span class="n">df</span><span class="p">,</span><span class="n">df_type</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">CASSANDRA</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__write_to_cassandra</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="o">=</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">S3</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__write_to_s3</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="o">=</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">ADLS</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__write_to_adls</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="o">=</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">ICEBERG</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__write_to_iceberg</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="o">=</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">AZURE</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__write_to_azure</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="o">=</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">FEAST</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__write_to_feast</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="o">=</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">data_source</span> <span class="o">==</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">GS</span><span class="p">:</span>
+            <span class="n">flag</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__write_to_gs</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="o">=</span><span class="n">port_information</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DataSourceNotDefinedError</span><span class="p">(</span><span class="s2">&quot;Data-frame export to </span><span class="si">{}</span><span class="s2"> is currently not supported.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">data_source</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">flag</span>
+
+    <span class="k">def</span> <span class="nf">__write_to_iceberg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;The function to write data to a Iceberg table.&quot;&quot;&quot;</span>
+
+        <span class="n">table_name</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;tableName&quot;</span><span class="p">]</span>
+        <span class="n">database_name</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;database&quot;</span><span class="p">]</span>
+        <span class="n">write_mode</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;writeMode&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">partition_cols</span> <span class="o">=</span> <span class="n">source_information</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;partitionCols&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">partition_cols</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">partition_cols</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;partiitonCols should be a list of col names&#39;</span><span class="p">)</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sortWithinPartitions</span><span class="p">(</span><span class="o">*</span><span class="n">partition_cols</span><span class="p">)</span>
+        
+        <span class="c1"># Create database if not already existing</span>
+        <span class="k">if</span> <span class="ow">not</span><span class="p">(</span><span class="n">database_name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">i</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">catalog</span><span class="o">.</span><span class="n">listDatabases</span><span class="p">()]):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s1">&#39;CREATE DATABASE iceberg.</span><span class="si">{}</span><span class="s1">;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">database_name</span><span class="p">))</span>
+            
+        <span class="k">def</span> <span class="nf">merge_schema</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+            <span class="n">df_curr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_iceberg</span><span class="p">(</span><span class="n">source_information</span><span class="p">)</span>
+            <span class="n">current_cols</span> <span class="o">=</span> <span class="n">df_curr</span><span class="o">.</span><span class="n">columns</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">new_types</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">dtypes</span>
+            <span class="n">new_cols</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+            <span class="k">for</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">new_types</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">current_cols</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span><span class="s1">&#39;ALTER TABLE </span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1"> ADD COLUMN </span><span class="si">{}</span><span class="s1"> </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="s2">&quot;iceberg&quot;</span><span class="p">,</span> <span class="n">database_name</span><span class="p">,</span> <span class="n">table_name</span><span class="p">,</span> <span class="n">col_name</span><span class="p">,</span> <span class="n">dtype</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="n">current_cols</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">new_cols</span><span class="p">:</span>
+                    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">withColumn</span><span class="p">(</span><span class="n">col_name</span><span class="p">,</span> <span class="n">F</span><span class="o">.</span><span class="n">lit</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">NullType</span><span class="p">()))</span> 
+            <span class="k">return</span> <span class="n">df</span>
+            
+        <span class="k">if</span> <span class="n">write_mode</span> <span class="o">==</span> <span class="s2">&quot;append&quot;</span><span class="p">:</span>
+            <span class="c1"># merge schema fucntion to add new cols to table</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">merge_schema</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">writeTo</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;iceberg&quot;</span><span class="p">,</span><span class="n">database_name</span><span class="p">,</span><span class="n">table_name</span><span class="p">))</span><span class="o">.</span><span class="n">append</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">write_mode</span> <span class="o">==</span> <span class="s2">&quot;overwrite&quot;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">writeTo</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;iceberg&quot;</span><span class="p">,</span><span class="n">database_name</span><span class="p">,</span><span class="n">table_name</span><span class="p">))</span><span class="o">.</span><span class="n">replace</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">write_mode</span> <span class="o">==</span> <span class="s2">&quot;create&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">partition_cols</span><span class="p">:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">createOrReplaceTempView</span><span class="p">(</span><span class="s2">&quot;temp_table&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">sql</span><span class="p">(</span>
+                    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                    create or replace table {}.{}.{} using iceberg</span>
+<span class="sd">                    PARTITIONED BY ({})</span>
+<span class="sd">                    as select * from temp_table</span>
+<span class="sd">                    &quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;iceberg&quot;</span><span class="p">,</span><span class="n">database_name</span><span class="p">,</span><span class="n">table_name</span><span class="p">,</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">partition_cols</span><span class="p">))</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">writeTo</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;iceberg&quot;</span><span class="p">,</span> <span class="n">database_name</span><span class="p">,</span> <span class="n">table_name</span><span class="p">))</span><span class="o">.</span><span class="n">createOrReplace</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">write_mode</span> <span class="o">==</span> <span class="s2">&quot;partition&quot;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">writeTo</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;iceberg&quot;</span><span class="p">,</span><span class="n">database_name</span><span class="p">,</span><span class="n">table_name</span><span class="p">))</span><span class="o">.</span><span class="n">overwritePartitions</span><span class="p">()</span>       
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnknownOperationMode</span><span class="p">(</span><span class="s2">&quot;The mentioned writing mode </span><span class="si">{}</span><span class="s2"> is not defined for Iceberg.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">write_mode</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__write_to_cassandra</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function to write data to a cassandra table.&quot;&quot;&quot;</span>
+        <span class="n">table_name</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;tableName&quot;</span><span class="p">]</span>
+        <span class="n">keyspace_name</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;keyspace&quot;</span><span class="p">]</span>
+        <span class="n">write_mode</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;writeMode&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">write_mode</span> <span class="o">==</span> <span class="s2">&quot;append&quot;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;org.apache.spark.sql.cassandra&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">write_mode</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">keyspace</span><span class="o">=</span><span class="n">keyspace_name</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">write_mode</span> <span class="o">==</span> <span class="s2">&quot;overwrite&quot;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;org.apache.spark.sql.cassandra&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">write_mode</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">keyspace</span><span class="o">=</span><span class="n">keyspace_name</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">UnknownOperationMode</span><span class="p">(</span><span class="s2">&quot;The mentioned writing mode </span><span class="si">{}</span><span class="s2"> is not defined for Cassandra.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">write_mode</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    
+    
+    <span class="k">def</span> <span class="nf">__return_mode</span><span class="p">(</span><span class="n">source_information</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s2">&quot;mode&quot;</span> <span class="ow">in</span> <span class="n">source_information</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;mode&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;overwrite&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s2">&quot;overwrite&quot;</span>
+        
+        <span class="k">return</span> <span class="n">mode</span>
+        
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__write_to_s3</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;filePath&quot;</span><span class="p">]</span>
+        <span class="n">file_format</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;fileFormat&quot;</span><span class="p">]</span>
+        <span class="n">df_type</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__return_mode</span><span class="p">(</span><span class="n">source_information</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;pandas&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;parquet&#39;</span><span class="p">:</span>
+                <span class="n">compression</span> <span class="o">=</span> <span class="n">source_information</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="s1">&#39;snappy&#39;</span><span class="p">)</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File format </span><span class="si">{}</span><span class="s2"> currently not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;spark&#39;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_format</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataframe type </span><span class="si">{</span><span class="n">df_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__write_to_gs</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;filePath&quot;</span><span class="p">]</span>
+        <span class="n">file_format</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;fileFormat&quot;</span><span class="p">]</span>
+        <span class="n">df_type</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__return_mode</span><span class="p">(</span><span class="n">source_information</span><span class="p">)</span> 
+        <span class="k">if</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;pandas&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;parquet&#39;</span><span class="p">:</span>
+                <span class="n">compression</span> <span class="o">=</span> <span class="n">source_information</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="s1">&#39;snappy&#39;</span><span class="p">)</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File format </span><span class="si">{}</span><span class="s2"> currently not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;spark&#39;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_format</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataframe type </span><span class="si">{</span><span class="n">df_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__write_to_adls</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;filePath&quot;</span><span class="p">]</span>
+        <span class="n">file_format</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;fileFormat&quot;</span><span class="p">]</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__return_mode</span><span class="p">(</span><span class="n">source_information</span><span class="p">)</span> 
+        <span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_format</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__write_to_azure</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;filePath&quot;</span><span class="p">]</span>
+        <span class="n">file_format</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;fileFormat&quot;</span><span class="p">]</span>
+        <span class="n">df_type</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="o">.</span><span class="n">__return_mode</span><span class="p">(</span><span class="n">source_information</span><span class="p">)</span> 
+        <span class="k">if</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;pandas&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;parquet&#39;</span><span class="p">:</span>
+                <span class="n">compression</span> <span class="o">=</span> <span class="n">source_information</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;compression&quot;</span><span class="p">,</span> <span class="s1">&#39;snappy&#39;</span><span class="p">)</span>
+                <span class="n">df</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">compression</span><span class="o">=</span><span class="n">compression</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File format </span><span class="si">{}</span><span class="s2"> currently not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;spark&#39;</span><span class="p">:</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">write</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_format</span><span class="p">)</span><span class="o">.</span><span class="n">mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataframe type </span><span class="si">{</span><span class="n">df_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">__write_to_feast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function will register an entity to Feast&quot;&quot;&quot;</span>
+        
+        <span class="c1"># Write dataframe to iceberg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__write_to_iceberg</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;icebergDetails&quot;</span><span class="p">])</span>
+        
+        <span class="c1"># read the dataframe back from iceberg to update the current state in feast </span>
+        <span class="n">df_curr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_iceberg</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;icebergDetails&quot;</span><span class="p">])</span>
+
+        <span class="n">_SPARK_FEAST_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;null&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="p">,</span>
+                        <span class="s2">&quot;byte&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">BYTES</span><span class="p">,</span>
+                        <span class="s2">&quot;string&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
+                        <span class="s2">&quot;int&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">INT32</span><span class="p">,</span>
+                        <span class="s2">&quot;short&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">INT32</span><span class="p">,</span>
+                        <span class="s2">&quot;bigint&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">INT64</span><span class="p">,</span>
+                        <span class="s2">&quot;long&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">INT64</span><span class="p">,</span>
+                        <span class="s2">&quot;double&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">DOUBLE</span><span class="p">,</span>
+                        <span class="s2">&quot;float&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">FLOAT</span><span class="p">,</span>
+                        <span class="s2">&quot;boolean&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">BOOL</span><span class="p">,</span>
+                        <span class="s2">&quot;date&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">UNIX_TIMESTAMP</span><span class="p">,</span>
+                        <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">UNIX_TIMESTAMP</span><span class="p">,</span>
+                        <span class="s2">&quot;array&lt;byte&gt;&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">BYTES_LIST</span><span class="p">,</span>
+                        <span class="s2">&quot;array&lt;string&gt;&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">STRING_LIST</span><span class="p">,</span>
+                        <span class="s2">&quot;array&lt;int&gt;&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">INT32_LIST</span><span class="p">,</span>
+                        <span class="s2">&quot;array&lt;bigint&gt;&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">INT64_LIST</span><span class="p">,</span>
+                        <span class="s2">&quot;array&lt;double&gt;&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">DOUBLE_LIST</span><span class="p">,</span>
+                        <span class="s2">&quot;array&lt;float&gt;&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">FLOAT_LIST</span><span class="p">,</span>
+                        <span class="s2">&quot;array&lt;boolean&gt;&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">BOOL_LIST</span><span class="p">,</span>
+                        <span class="s2">&quot;array&lt;timestamp&gt;&quot;</span><span class="p">:</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">UNIX_TIMESTAMP_LIST</span><span class="p">,</span>
+                    <span class="p">}</span>
+        <span class="c1"># iceberg details to save the dataframe which acts as a source to feast</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;icebergDetails&quot;</span><span class="p">][</span><span class="s2">&quot;tableName&quot;</span><span class="p">]</span>
+        <span class="n">database</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;icebergDetails&quot;</span><span class="p">][</span><span class="s2">&quot;database&quot;</span><span class="p">]</span>
+        <span class="n">write_mode</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;icebergDetails&quot;</span><span class="p">][</span><span class="s2">&quot;writeMode&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">iceberg_type</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;icebergDetails&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="n">uri</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;icebergDetails&quot;</span><span class="p">][</span><span class="s2">&quot;uri&quot;</span><span class="p">]</span>
+        
+        <span class="c1"># Details for creating feast feature view</span>
+        <span class="n">timestamp</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span>
+        <span class="n">primary_key</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;primaryKey&quot;</span><span class="p">]</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+        <span class="n">feature_view_name</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;featureView&quot;</span><span class="p">]</span>
+        <span class="n">entity_name</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;entityName&quot;</span><span class="p">]</span>
+        <span class="n">registry_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;feastYamlPath&quot;</span><span class="p">]</span>
+        
+        
+        <span class="k">if</span> <span class="n">registry_path</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">registry_path</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">registry_path</span><span class="o">=</span><span class="n">SparkFiles</span><span class="o">.</span><span class="n">getRootDirectory</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">registry_path</span> <span class="o">=</span> <span class="n">registry_path</span>
+            
+        <span class="n">store</span> <span class="o">=</span> <span class="n">FeatureStore</span><span class="p">(</span><span class="n">repo_path</span> <span class="o">=</span> <span class="n">registry_path</span><span class="p">)</span>
+
+        <span class="c1">## Iceberg source to Feast</span>
+        <span class="n">entity_source</span> <span class="o">=</span> <span class="n">IcebergSource</span><span class="p">(</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;iceberg&quot;</span><span class="p">,</span><span class="n">database</span><span class="p">,</span><span class="n">table</span><span class="p">),</span>
+            <span class="n">iceberg_type</span><span class="o">=</span><span class="n">iceberg_type</span><span class="p">,</span>
+            <span class="n">uri</span><span class="o">=</span><span class="n">uri</span><span class="p">,</span>
+            <span class="n">event_timestamp_column</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
+            <span class="n">created_timestamp_column</span><span class="o">=</span><span class="n">timestamp</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">create_entity</span> <span class="o">=</span> <span class="n">Entity</span><span class="p">(</span><span class="n">name</span><span class="o">=</span> <span class="n">entity_name</span><span class="p">,</span> <span class="n">join_key</span><span class="o">=</span><span class="n">primary_key</span><span class="p">,</span> <span class="n">value_type</span><span class="o">=</span><span class="n">ValueType</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+
+        <span class="c1">## creating column list</span>
+        <span class="n">feature_li</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">df_curr</span><span class="o">.</span><span class="n">dtypes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">primary_key</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">]:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">dtype</span> <span class="o">=</span>  <span class="n">_SPARK_FEAST_MAPPING</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Spark type </span><span class="si">{}</span><span class="s1"> not currently supported for feast&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="n">feature_li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Feature</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">))</span>
+
+        <span class="n">feature_li</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Feature</span><span class="p">(</span><span class="n">name</span> <span class="o">=</span> <span class="n">primary_key</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">ValueType</span><span class="o">.</span><span class="n">STRING</span><span class="p">))</span>
+
+        <span class="n">feature_view</span> <span class="o">=</span> <span class="n">FeatureView</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">feature_view_name</span><span class="p">,</span>
+                <span class="n">entities</span><span class="o">=</span><span class="p">[</span><span class="n">entity_name</span><span class="p">],</span>
+                <span class="n">ttl</span><span class="o">=</span><span class="n">Duration</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="mi">86400</span> <span class="o">*</span> <span class="mi">30</span><span class="p">),</span>
+                <span class="n">features</span><span class="o">=</span><span class="n">feature_li</span><span class="p">,</span>
+                <span class="n">online</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">batch_source</span> <span class="o">=</span> <span class="n">entity_source</span><span class="p">,</span>
+                <span class="n">tags</span><span class="o">=</span><span class="p">{},</span>
+            <span class="p">)</span> 
+
+        <span class="n">store</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">objects</span><span class="o">=</span><span class="p">[</span><span class="n">create_entity</span><span class="p">,</span> <span class="n">feature_view</span><span class="p">])</span>
+        
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">def</span> <span class="nf">__get_df_from_feast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        
+        <span class="n">entity_df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_df_from_iceberg</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;icebergDetails&#39;</span><span class="p">])</span>
+        <span class="n">entity_df</span> <span class="o">=</span> <span class="n">entity_df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;EntityFeatures&#39;</span><span class="p">])</span>
+        <span class="n">entity_df</span> <span class="o">=</span> <span class="n">entity_df</span><span class="o">.</span><span class="n">withColumnRenamed</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;timestamp&#39;</span><span class="p">],</span> <span class="s1">&#39;event_timestamp&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;feastYamlPath&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;feastYamlPath&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">store</span> <span class="o">=</span> <span class="n">FeatureStore</span><span class="p">(</span><span class="n">repo_path</span> <span class="o">=</span> <span class="n">SparkFiles</span><span class="o">.</span><span class="n">getRootDirectory</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">store</span> <span class="o">=</span> <span class="n">FeatureStore</span><span class="p">(</span><span class="n">repo_path</span><span class="o">=</span><span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;feastYamlPath&#39;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">source_information</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;feature_list&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;feature_view&#39;</span><span class="p">],</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;feature_list&#39;</span><span class="p">]]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">feature_view</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">get_feature_view</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;feature_view&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">feature_view</span><span class="o">.</span><span class="n">features</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;EntityFeatures&#39;</span><span class="p">]:</span>
+                    <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">:</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">source_information</span><span class="p">[</span><span class="s1">&#39;feature_view&#39;</span><span class="p">],</span> <span class="n">feature</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">get_historical_features</span><span class="p">(</span>
+                                                        <span class="n">entity_df</span><span class="o">=</span><span class="n">entity_df</span><span class="p">,</span>
+                                                        <span class="n">full_feature_names</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                        <span class="n">features</span><span class="o">=</span><span class="n">features</span>
+                                                    <span class="p">)</span><span class="o">.</span><span class="n">to_spark_df</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">df</span>
+        
+    
+    <span class="k">def</span> <span class="nf">__get_df_from_iceberg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function to get data-frame from iceberg table&quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">.</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;iceberg&quot;</span><span class="p">,</span><span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;database&quot;</span><span class="p">],</span><span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;tableName&quot;</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">__get_df_from_cassandra</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function to get data-frame from a cassandra table.&quot;&quot;&quot;</span>
+        <span class="n">table_name</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;tableName&quot;</span><span class="p">]</span>
+        <span class="n">keyspace_name</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;keyspace&quot;</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;org.apache.spark.sql.cassandra&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">table</span><span class="o">=</span><span class="n">table_name</span><span class="p">,</span> <span class="n">keyspace</span><span class="o">=</span><span class="n">keyspace_name</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">__get_df_from_s3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function to get data-frame from Amazon S3.&quot;&quot;&quot;</span>
+        <span class="n">file_format</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;fileFormat&quot;</span><span class="p">]</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;filePath&quot;</span><span class="p">]</span>
+        <span class="n">df_type</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;pandas&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;parquet&#39;</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File format </span><span class="si">{}</span><span class="s2"> currently not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;spark&#39;</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_format</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataframe type </span><span class="si">{</span><span class="n">df_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+    
+    <span class="k">def</span> <span class="nf">__get_df_from_gs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function to get data-frame from google storage or bucket.&quot;&quot;&quot;</span>
+        <span class="n">file_format</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;fileFormat&quot;</span><span class="p">]</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;filePath&quot;</span><span class="p">]</span>
+        <span class="n">df_type</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;pandas&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;parquet&#39;</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File format </span><span class="si">{}</span><span class="s2"> currently not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;spark&#39;</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_format</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataframe type </span><span class="si">{</span><span class="n">df_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">__get_df_from_adls</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function to get data-frame from Azure ADLS.&quot;&quot;&quot;</span>
+        <span class="n">file_format</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;fileFormat&quot;</span><span class="p">]</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;filePath&quot;</span><span class="p">]</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_format</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+    <span class="k">def</span> <span class="nf">__get_df_from_azure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">source_information</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The function to get data-frame from Amazon S3&quot;&quot;&quot;</span>
+        <span class="n">file_format</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;fileFormat&quot;</span><span class="p">]</span>
+        <span class="n">file_path</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;filePath&quot;</span><span class="p">]</span>
+        <span class="n">df_type</span> <span class="o">=</span> <span class="n">source_information</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;pandas&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;csv&#39;</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">file_format</span> <span class="o">==</span> <span class="s1">&#39;parquet&#39;</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;File format </span><span class="si">{}</span><span class="s2"> currently not supported&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">df_type</span> <span class="o">==</span> <span class="s1">&#39;spark&#39;</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">spark</span><span class="o">.</span><span class="n">read</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">file_format</span><span class="p">)</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">header</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">,</span> <span class="n">inferSchema</span><span class="o">=</span><span class="s2">&quot;true&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataframe type </span><span class="si">{</span><span class="n">df_type</span><span class="si">}</span><span class="s2"> not supported.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span>
+
+<div class="viewcode-block" id="DataFrame.get_data_for_a_port"><a class="viewcode-back" href="../../../maxairesources.utilities.html#maxairesources.utilities.data_connectors.DataFrame.get_data_for_a_port">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_data_for_a_port</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">port_number</span><span class="p">,</span> <span class="n">connection_type</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method helps to get the details for one particular port information&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">each_data</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">each_data</span><span class="p">[</span><span class="s2">&quot;port&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">port_number</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">each_data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span>  <span class="s1">&#39;spark_dataframe&#39;</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;spark_dataframe is depricated and will be removed in the upcoming versions. &quot;</span>
+                          <span class="s2">&quot;Please use spark instead in your confs&quot;</span><span class="p">)</span>
+                    <span class="n">each_data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;spark&#39;</span>
+                <span class="n">each_data</span><span class="p">[</span><span class="s2">&quot;sourceDetails&quot;</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">each_data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span>
+                <span class="k">return</span> <span class="n">each_data</span><span class="p">[</span><span class="s2">&quot;sourceDetails&quot;</span><span class="p">]</span>
+        <span class="k">raise</span> <span class="n">PortInformationNotFoundError</span><span class="p">(</span><span class="s2">&quot;Port details not found for port_number </span><span class="si">{}</span><span class="s2"> in the </span><span class="si">{}</span><span class="s2"> connection&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">port_number</span><span class="p">,</span> <span class="n">connection_type</span><span class="p">))</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">__get_port_information</span><span class="p">(</span><span class="n">source_information</span><span class="p">,</span><span class="n">key</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">source_information</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">source_information</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, Team Personalize.AI.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

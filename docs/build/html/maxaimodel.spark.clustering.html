@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxaimodel.spark.recommendation package" href="maxaimodel.spark.recommendation.html" />
+    <link rel="prev" title="maxaimodel.spark.classification package" href="maxaimodel.spark.classification.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,17 +39,40 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxaimodel.spark.clustering package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-clustering-spark-hvt-module">maxaimodel.spark.clustering.spark_hvt module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-clustering-spark-kmeans-module">maxaimodel.spark.clustering.spark_kmeans module</a></li>
-<li><a class="reference internal" href="#module-maxaimodel.spark.clustering">Module contents</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaimodel.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.H2O.html">maxaimodel.H2O package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.python.html">maxaimodel.python package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="maxaimodel.spark.html">maxaimodel.spark package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="maxaimodel.spark.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maxaimodel.spark.html#module-maxaimodel.spark">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="maxaimodel.html#module-maxaimodel">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaimodel.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.H2O.html">maxaimodel.H2O package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.python.html">maxaimodel.python package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="maxaimodel.spark.html">maxaimodel.spark package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="maxaimodel.spark.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maxaimodel.spark.html#module-maxaimodel.spark">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="maxaimodel.html#module-maxaimodel">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.html">maxairesources package</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -62,6 +87,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="maxaimodel.html">maxaimodel package</a></li>
+          <li class="breadcrumb-item"><a href="maxaimodel.spark.html">maxaimodel.spark package</a></li>
       <li class="breadcrumb-item active">maxaimodel.spark.clustering package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maxaimodel.spark.clustering.rst.txt" rel="nofollow"> View page source</a>
@@ -77,11 +104,98 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
-<section id="maxaimodel-spark-clustering-spark-hvt-module">
-<h2>maxaimodel.spark.clustering.spark_hvt module<a class="headerlink" href="#maxaimodel-spark-clustering-spark-hvt-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.clustering.spark_hvt">
+<span id="maxaimodel-spark-clustering-spark-hvt-module"></span><h2>maxaimodel.spark.clustering.spark_hvt module<a class="headerlink" href="#module-maxaimodel.spark.clustering.spark_hvt" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.clustering.spark_hvt.</span></span><span class="sig-name descname"><span class="pre">HVT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_pca</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">customer_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hierarchy_columnlist</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlay_column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">minimum_cluster_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">segment_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">depth</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kmeans'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.02</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Hierarchical Voronoi Tessellation
+Constructing Hierarchical Voronoi Tessellations
+Main function to construct hierarchical voronoi tessellations.</p>
+<p>This is the main class to construct hierarchical voronoi tessellations.
+The output of the hvt function is hierarchical clustered data which will be the input
+for constructing tessellations. The data is then represented in 2d
+coordinates and the tessellations are plotted using these coordinates as
+centroids. For subsequent levels, transformation is performed on the 2d
+coordinates to get all the points within its parent tile. Tessellations are
+plotted using these transformed points as centroids. The lines in the
+tessellations are chopped in places so that they do not protrude outside the
+parent polygon. This is done for all the subsequent levels.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT.depth_clustering_check">
+<span class="sig-name descname"><span class="pre">depth_clustering_check</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_cluster_parent</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">c_cluster</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT.depth_clustering_check"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT.depth_clustering_check" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT.fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT.kmeans_fit">
+<span class="sig-name descname"><span class="pre">kmeans_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_kmeans</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT.kmeans_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT.kmeans_fit" title="Permalink to this definition"></a></dt>
+<dd><p>k = 0 specifies auto detection</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT.kmeans_predict">
+<span class="sig-name descname"><span class="pre">kmeans_predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_kmeans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT.kmeans_predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT.kmeans_predict" title="Permalink to this definition"></a></dt>
+<dd><p>k = 0 specifies auto detection</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT.l_clustering_fit">
+<span class="sig-name descname"><span class="pre">l_clustering_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_cust</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT.l_clustering_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT.l_clustering_fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT.l_clustering_predict">
+<span class="sig-name descname"><span class="pre">l_clustering_predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_cust</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster_parent</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT.l_clustering_predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT.l_clustering_predict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT.lhier_clustering_fit">
+<span class="sig-name descname"><span class="pre">lhier_clustering_fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT.lhier_clustering_fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT.lhier_clustering_fit" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_hvt.HVT.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df_parameters</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_hvt.html#HVT.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_hvt.HVT.predict" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-clustering-spark-kmeans-module">
-<h2>maxaimodel.spark.clustering.spark_kmeans module<a class="headerlink" href="#maxaimodel-spark-clustering-spark-kmeans-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.clustering.spark_kmeans">
+<span id="maxaimodel-spark-clustering-spark-kmeans-module"></span><h2>maxaimodel.spark.clustering.spark_kmeans module<a class="headerlink" href="#module-maxaimodel.spark.clustering.spark_kmeans" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_kmeans.SparkKMeansClustering">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.clustering.spark_kmeans.</span></span><span class="sig-name descname"><span class="pre">SparkKMeansClustering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_kmeans.html#SparkKMeansClustering"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_kmeans.SparkKMeansClustering" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClusteringBaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_kmeans.SparkKMeansClustering.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_kmeans.html#SparkKMeansClustering.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_kmeans.SparkKMeansClustering.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_kmeans.SparkKMeansClustering.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_kmeans.html#SparkKMeansClustering.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_kmeans.SparkKMeansClustering.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the saved model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>string</em>) – the path where the model is saved</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.clustering.spark_kmeans.SparkKMeansClustering.optimise_k">
+<span class="sig-name descname"><span class="pre">optimise_k</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/clustering/spark_kmeans.html#SparkKMeansClustering.optimise_k"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.clustering.spark_kmeans.SparkKMeansClustering.optimise_k" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-maxaimodel.spark.clustering">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaimodel.spark.clustering" title="Permalink to this heading"></a></h2>
@@ -91,7 +205,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxaimodel.spark.classification.html" class="btn btn-neutral float-left" title="maxaimodel.spark.classification package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxaimodel.spark.recommendation.html" class="btn btn-neutral float-right" title="maxaimodel.spark.recommendation package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

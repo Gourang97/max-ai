@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxaimodel.spark.clustering package" href="maxaimodel.spark.clustering.html" />
+    <link rel="prev" title="maxaimodel.spark package" href="maxaimodel.spark.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,24 +39,40 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxaimodel.spark.classification package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-dt-module">maxaimodel.spark.classification.spark_dt module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-fmc-module">maxaimodel.spark.classification.spark_fmc module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-gbt-module">maxaimodel.spark.classification.spark_gbt module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-lr-module">maxaimodel.spark.classification.spark_lr module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-mlp-module">maxaimodel.spark.classification.spark_mlp module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-nb-module">maxaimodel.spark.classification.spark_nb module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-ovr-module">maxaimodel.spark.classification.spark_ovr module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-rf-module">maxaimodel.spark.classification.spark_rf module</a></li>
-<li><a class="reference internal" href="#maxaimodel-spark-classification-spark-svc-module">maxaimodel.spark.classification.spark_svc module</a></li>
-<li><a class="reference internal" href="#module-maxaimodel.spark.classification">Module contents</a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaimodel.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.H2O.html">maxaimodel.H2O package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.python.html">maxaimodel.python package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="maxaimodel.spark.html">maxaimodel.spark package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="maxaimodel.spark.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maxaimodel.spark.html#module-maxaimodel.spark">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="maxaimodel.html#module-maxaimodel">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaimodel.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.H2O.html">maxaimodel.H2O package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.python.html">maxaimodel.python package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="maxaimodel.spark.html">maxaimodel.spark package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="maxaimodel.spark.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maxaimodel.spark.html#module-maxaimodel.spark">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="maxaimodel.html#module-maxaimodel">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.html">maxairesources package</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -69,6 +87,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="maxaimodel.html">maxaimodel package</a></li>
+          <li class="breadcrumb-item"><a href="maxaimodel.spark.html">maxaimodel.spark package</a></li>
       <li class="breadcrumb-item active">maxaimodel.spark.classification package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maxaimodel.spark.classification.rst.txt" rel="nofollow"> View page source</a>
@@ -84,32 +104,891 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
 </section>
-<section id="maxaimodel-spark-classification-spark-dt-module">
-<h2>maxaimodel.spark.classification.spark_dt module<a class="headerlink" href="#maxaimodel-spark-classification-spark-dt-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_dt">
+<span id="maxaimodel-spark-classification-spark-dt-module"></span><h2>maxaimodel.spark.classification.spark_dt module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_dt" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_dt.SparkDecisionTreeClassifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_dt.</span></span><span class="sig-name descname"><span class="pre">SparkDecisionTreeClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_dt.html#SparkDecisionTreeClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_dt.SparkDecisionTreeClassifier" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>runs Decision Tree classifier on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.DecisionTreeClassifier.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.DecisionTreeClassifier.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.classification import spark_dt</p>
+<dl>
+<dt>dt = spark_dt.SparkDecisionTreeClassifier(</dt><dd><p>target_col = ‘Survived’,
+feature_col = ‘features’,
+param_grid =  {</p>
+<blockquote>
+<div><blockquote>
+<div><p>“impurity”: [‘gini’,’entropy’],
+“maxDepth”: [3,5]</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>)</p>
+</dd>
+</dl>
+<p>dt.fit(train)
+pred = dt.predict(test)
+pred.show(4)
+&gt;&gt;&gt; +——————–+——–+————-+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|Survived|rawPrediction|         probability|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 11%" />
+<col style="width: 18%" />
+<col style="width: 28%" />
+<col style="width: 14%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[3.0,1.0,39.0,0.0…
+[3.0,1.0,26.0,0.0…
+[3.0,0.0,21.0,1.0…
+[3.0,1.0,28.0,1.0…</p></td>
+<td><p>1
+0
+0
+0</p></td>
+<td><p>[197.0,31.0]
+[197.0,31.0]</p>
+<blockquote>
+<div><p>[24.0,21.0]</p>
+</div></blockquote>
+<p>[197.0,31.0]</p>
+</td>
+<td><p>[0.86403508771929…
+[0.86403508771929…
+[0.53333333333333…
+[0.86403508771929…</p></td>
+<td><p>0.0
+0.0
+0.0
+0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_dt.SparkDecisionTreeClassifier.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_dt.html#SparkDecisionTreeClassifier.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_dt.SparkDecisionTreeClassifier.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_dt.SparkDecisionTreeClassifier.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_dt.html#SparkDecisionTreeClassifier.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_dt.SparkDecisionTreeClassifier.load" title="Permalink to this definition"></a></dt>
+<dd><p>method to load the saved SparkDecisionTreeClassifier model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path of the saved model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SparkClassifierBaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-classification-spark-fmc-module">
-<h2>maxaimodel.spark.classification.spark_fmc module<a class="headerlink" href="#maxaimodel-spark-classification-spark-fmc-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_fmc">
+<span id="maxaimodel-spark-classification-spark-fmc-module"></span><h2>maxaimodel.spark.classification.spark_fmc module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_fmc" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_fmc.SparkFMClassifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_fmc.</span></span><span class="sig-name descname"><span class="pre">SparkFMClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_fmc.html#SparkFMClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_fmc.SparkFMClassifier" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>Factorization Machines learning algorithm for classification</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.FMClassifier.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.classification import spark_fmc</p>
+<dl class="simple">
+<dt>fmc = spark_fmc.SparkFMClassifier(</dt><dd><p>target_col = ‘Survived’,
+feature_col = ‘features’,
+)</p>
+</dd>
+</dl>
+<p>fmc.fit(train)
+pred = fmc.predict(test)
+pred.show(4)
+&gt;&gt;&gt; +——————–+——–+——————–+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|Survived|       rawPrediction|         probability|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 10%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 13%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[3.0,1.0,39.0,0.0…
+[3.0,1.0,26.0,0.0…
+[3.0,0.0,21.0,1.0…
+[3.0,1.0,28.0,1.0…</p></td>
+<td><p>1
+0
+0
+0</p></td>
+<td><p>[1.33457026278096…
+[0.94935179013616…
+[0.85640816425286…
+[0.85772827992116…</p></td>
+<td><p>[0.93518095165010…
+[0.86974472614122…
+[0.84720121826394…
+[0.84754268646046…</p></td>
+<td><p>0.0
+0.0
+0.0
+0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>fmc.save(path=”./models/gbt”)
+<a href="#id5"><span class="problematic" id="id6">``</span></a><a href="#id7"><span class="problematic" id="id8">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_fmc.SparkFMClassifier.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_fmc.html#SparkFMClassifier.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_fmc.SparkFMClassifier.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_fmc.SparkFMClassifier.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_fmc.html#SparkFMClassifier.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_fmc.SparkFMClassifier.load" title="Permalink to this definition"></a></dt>
+<dd><p>method to load the saved SparkFMClassifier model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path of the saved model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SparkClassifierBaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-classification-spark-gbt-module">
-<h2>maxaimodel.spark.classification.spark_gbt module<a class="headerlink" href="#maxaimodel-spark-classification-spark-gbt-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_gbt">
+<span id="maxaimodel-spark-classification-spark-gbt-module"></span><h2>maxaimodel.spark.classification.spark_gbt module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_gbt" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_gbt.SparkGBTClassifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_gbt.</span></span><span class="sig-name descname"><span class="pre">SparkGBTClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_gbt.html#SparkGBTClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_gbt.SparkGBTClassifier" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>runs gradient boosted classifier on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vectorised list of all the features used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.GBTClassifier.html</a>)</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – grid of parameter containing diffferent values, kind of parameter tuning</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.classification import spark_gbt</p>
+<dl class="simple">
+<dt>gbt = spark_gbt.SparkGBTClassifier(</dt><dd><p>target_col = ‘Survived’,
+feature_col = ‘features’,
+)</p>
+</dd>
+</dl>
+<p>gbt.fit(train)
+pred = gbt.predict(test)
+pred.show(4)
+&gt;&gt;&gt; +——————–+——–+——————–+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|Survived|       rawPrediction|         probability|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 10%" />
+<col style="width: 26%" />
+<col style="width: 26%" />
+<col style="width: 13%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[3.0,1.0,39.0,0.0…
+[3.0,1.0,26.0,0.0…
+[3.0,0.0,21.0,1.0…
+[3.0,1.0,28.0,1.0…</p></td>
+<td><p>1
+0
+0
+0</p></td>
+<td><p>[1.33457026278096…
+[0.94935179013616…
+[0.85640816425286…
+[0.85772827992116…</p></td>
+<td><p>[0.93518095165010…
+[0.86974472614122…
+[0.84720121826394…
+[0.84754268646046…</p></td>
+<td><p>0.0
+0.0
+0.0
+0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>gbt.save(path=”./models/gbt”)
+<a href="#id9"><span class="problematic" id="id10">``</span></a><a href="#id11"><span class="problematic" id="id12">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_gbt.SparkGBTClassifier.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_gbt.html#SparkGBTClassifier.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_gbt.SparkGBTClassifier.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_gbt.SparkGBTClassifier.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_gbt.html#SparkGBTClassifier.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_gbt.SparkGBTClassifier.load" title="Permalink to this definition"></a></dt>
+<dd><p>method to load the saved SparkGBTClassifier model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path of the saved model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SparkClassifierBaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-classification-spark-lr-module">
-<h2>maxaimodel.spark.classification.spark_lr module<a class="headerlink" href="#maxaimodel-spark-classification-spark-lr-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_lr">
+<span id="maxaimodel-spark-classification-spark-lr-module"></span><h2>maxaimodel.spark.classification.spark_lr module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_lr" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_lr.SparkLogisticRegression">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_lr.</span></span><span class="sig-name descname"><span class="pre">SparkLogisticRegression</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">family</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_lr.html#SparkLogisticRegression"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_lr.SparkLogisticRegression" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>runs logistic regression on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LogisticRegression.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.LogisticRegression.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.classification import spark_lr</p>
+<dl>
+<dt>lr = spark_lr.SparkLogisticRegression(</dt><dd><p>target_col = ‘Survived’,
+feature_col = ‘features’,
+param_grid =  {</p>
+<blockquote>
+<div><blockquote>
+<div><p>“regParam”: [0.1,1,1.5,2],
+“maxIter”: [3,5]</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>)</p>
+</dd>
+</dl>
+<p>lr.fit(train_rf)
+lr_pred = lr.predict(test_rf)
+lr_pred.show(5)
+&gt;&gt;&gt; +——————–+——–+————-+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|Survived|rawPrediction|         probability|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 11%" />
+<col style="width: 18%" />
+<col style="width: 28%" />
+<col style="width: 14%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[3.0,1.0,39.0,0.0…
+[3.0,1.0,26.0,0.0…
+[3.0,0.0,21.0,1.0…
+[3.0,1.0,28.0,1.0…</p></td>
+<td><p>1
+0
+0
+0</p></td>
+<td><p>[197.0,31.0]
+[197.0,31.0]</p>
+<blockquote>
+<div><p>[24.0,21.0]</p>
+</div></blockquote>
+<p>[197.0,31.0]</p>
+</td>
+<td><p>[0.86403508771929…
+[0.86403508771929…
+[0.53333333333333…
+[0.86403508771929…</p></td>
+<td><p>0.0
+0.0
+0.0
+0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>lr.save(path=”./models/lr”)
+<a href="#id13"><span class="problematic" id="id14">``</span></a><a href="#id15"><span class="problematic" id="id16">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_lr.SparkLogisticRegression.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_lr.html#SparkLogisticRegression.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_lr.SparkLogisticRegression.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_lr.SparkLogisticRegression.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_lr.html#SparkLogisticRegression.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_lr.SparkLogisticRegression.load" title="Permalink to this definition"></a></dt>
+<dd><p>method to load the saved SparkLogisticRegression model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path of the saved model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SparkClassifierBaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-classification-spark-mlp-module">
-<h2>maxaimodel.spark.classification.spark_mlp module<a class="headerlink" href="#maxaimodel-spark-classification-spark-mlp-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_mlp">
+<span id="maxaimodel-spark-classification-spark-mlp-module"></span><h2>maxaimodel.spark.classification.spark_mlp module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_mlp" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_mlp.SparkMultilayerPerceptronClassifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_mlp.</span></span><span class="sig-name descname"><span class="pre">SparkMultilayerPerceptronClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_mlp.html#SparkMultilayerPerceptronClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_mlp.SparkMultilayerPerceptronClassifier" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>Classifier trainer based on the Multilayer Perceptron</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.MultilayerPerceptronClassifier.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.MultilayerPerceptronClassifier.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>—
+.. rubric:: Examples</p>
+<p>from maxaimodel.spark.classification import spark_mlp</p>
+<dl>
+<dt>mlp = spark_mlp.MultilayerPerceptronClassifier(</dt><dd><p>target_col = ‘Survived’,
+feature_col = ‘features’,
+param_grid =  {</p>
+<blockquote>
+<div><blockquote>
+<div><p>“regParam”: [0.1,1,1.5,2],
+“maxIter”: [3,5]</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>)</p>
+</dd>
+</dl>
+<p>mlp.fit(train_mlp)
+mlp_pred = mlp.predict(test_mlp)
+mlp_pred.show(5)
+&gt;&gt;&gt; +——————–+——–+————-+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|Survived|rawPrediction|         probability|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 11%" />
+<col style="width: 18%" />
+<col style="width: 28%" />
+<col style="width: 14%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[3.0,1.0,39.0,0.0…
+[3.0,1.0,26.0,0.0…
+[3.0,0.0,21.0,1.0…
+[3.0,1.0,28.0,1.0…</p></td>
+<td><p>1
+0
+0
+0</p></td>
+<td><p>[197.0,31.0]
+[197.0,31.0]</p>
+<blockquote>
+<div><p>[24.0,21.0]</p>
+</div></blockquote>
+<p>[197.0,31.0]</p>
+</td>
+<td><p>[0.86403508771929…
+[0.86403508771929…
+[0.53333333333333…
+[0.86403508771929…</p></td>
+<td><p>0.0
+0.0
+0.0
+0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>mlp.save(path=”./models/mlp”)
+<a href="#id17"><span class="problematic" id="id18">``</span></a><a href="#id19"><span class="problematic" id="id20">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_mlp.SparkMultilayerPerceptronClassifier.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_mlp.html#SparkMultilayerPerceptronClassifier.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_mlp.SparkMultilayerPerceptronClassifier.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_mlp.SparkMultilayerPerceptronClassifier.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_mlp.html#SparkMultilayerPerceptronClassifier.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_mlp.SparkMultilayerPerceptronClassifier.load" title="Permalink to this definition"></a></dt>
+<dd><p>method to load the saved MultilayerPerceptronClassificationModel model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path of the saved model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SparkClassifierBaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-classification-spark-nb-module">
-<h2>maxaimodel.spark.classification.spark_nb module<a class="headerlink" href="#maxaimodel-spark-classification-spark-nb-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_nb">
+<span id="maxaimodel-spark-classification-spark-nb-module"></span><h2>maxaimodel.spark.classification.spark_nb module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_nb" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_nb.SparkNaiveBayes">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_nb.</span></span><span class="sig-name descname"><span class="pre">SparkNaiveBayes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_nb.html#SparkNaiveBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_nb.SparkNaiveBayes" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>runs naive bayes on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.NaiveBayes.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.NaiveBayes.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.classification import spark_nb</p>
+<dl>
+<dt>nb = spark_nbb.SparkNaiveBayes(</dt><dd><p>target_col = ‘Survived’,
+feature_col = ‘features’,
+param_grid =  {</p>
+<blockquote>
+<div><blockquote>
+<div><p>“regParam”: [0.1,1,1.5,2],
+“maxIter”: [3,5]</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>)</p>
+</dd>
+</dl>
+<p>nb.fit(train_nb)
+nb_pred = nb.predict(test_nb)
+nb_pred.show(5)
+&gt;&gt;&gt; +——————–+—+——–+——————–+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features| id|Survived|       rawPrediction|         probability|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 4%" />
+<col style="width: 10%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 12%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[3.0,1.0,39.0,0.0…
+[3.0,1.0,26.0,0.0…
+[3.0,0.0,21.0,1.0…
+[3.0,1.0,28.0,1.0…
+[3.0,0.0,20.0,0.0…</p></td>
+<td><p>0
+1
+2
+3
+4</p></td>
+<td><p>1
+0
+0
+0
+0</p></td>
+<td><p>[17.9406697808162…
+[17.2398604023384…
+[9.40831384051017…
+[16.4519116562601…
+[10.7277582849546…</p></td>
+<td><p>[0.89703348904081…
+[0.86199302011692…
+[0.47041569202550…
+[0.82259558281300…
+[0.53638791424773…</p></td>
+<td><p>0.0
+0.0
+1.0
+0.0
+0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>nb.save(path = “./models/nb”)
+<a href="#id21"><span class="problematic" id="id22">``</span></a><a href="#id23"><span class="problematic" id="id24">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_nb.SparkNaiveBayes.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_nb.html#SparkNaiveBayes.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_nb.SparkNaiveBayes.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_nb.SparkNaiveBayes.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_nb.html#SparkNaiveBayes.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_nb.SparkNaiveBayes.load" title="Permalink to this definition"></a></dt>
+<dd><p>method to load the saved SparkNaiveBayes model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path of the saved model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SparkClassifierBaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-classification-spark-ovr-module">
-<h2>maxaimodel.spark.classification.spark_ovr module<a class="headerlink" href="#maxaimodel-spark-classification-spark-ovr-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_ovr">
+<span id="maxaimodel-spark-classification-spark-ovr-module"></span><h2>maxaimodel.spark.classification.spark_ovr module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_ovr" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_ovr.SparkOneVsRest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_ovr.</span></span><span class="sig-name descname"><span class="pre">SparkOneVsRest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">classifier</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_ovr.html#SparkOneVsRest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_ovr.SparkOneVsRest" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>Reduction of Multiclass Classification to Binary Classification. Performs reduction using one against all strategy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>classifier</strong> (<em>maxaibase.model.spark.spark_classifier.SparkClassifierBaseModel</em>) – base model on which OneVsRest is to be run</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.OneVsRest.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.OneVsRest.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.classification import spark_ovr, spark_lr</p>
+<p># declare the classifier that would act as base classifier for OneVsRest
+lr = spark_lr.SparkLogisticRegression(target_col=”Species”, feature_col=”label”)</p>
+<dl class="simple">
+<dt>ovr = spark_ovr.SparkOneVsRest(</dt><dd><p>target_col = ‘label’,
+feature_col = ‘features’,
+param_grid =  {},
+classifier = lr
+)</p>
+</dd>
+</dl>
+<p>ovr.fit(train_vecovr)
+prd_ovr = ovr.predict(test_vecovr)
+prd_ovr.show(5)
+&gt;&gt;&gt; +—————–+——-+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|Species|       rawPrediction|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 13%" />
+<col style="width: 37%" />
+<col style="width: 19%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[6.5,3.0,5.8,2.2]
+[5.5,2.3,4.0,1.3]
+[6.4,2.9,4.3,1.3]
+[4.8,3.4,1.9,0.2]
+[5.7,2.8,4.5,1.3]</p></td>
+<td><p>2
+1
+1
+0
+1</p></td>
+<td><p>[-51.235730144288…
+[-35.771347249773…
+[-29.856819249743…
+[30.8709864367496…
+[-27.387459642795…</p></td>
+<td><p>2.0
+1.0
+1.0
+0.0
+1.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p><a href="#id25"><span class="problematic" id="id26">``</span></a><a href="#id27"><span class="problematic" id="id28">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_ovr.SparkOneVsRest.best_params">
+<span class="sig-name descname"><span class="pre">best_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_ovr.html#SparkOneVsRest.best_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_ovr.SparkOneVsRest.best_params" title="Permalink to this definition"></a></dt>
+<dd><p>used to find best parameters for model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>dict of best hyperparameter</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>best_params</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_ovr.SparkOneVsRest.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_ovr.html#SparkOneVsRest.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_ovr.SparkOneVsRest.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_ovr.SparkOneVsRest.load">
+<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_ovr.html#SparkOneVsRest.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_ovr.SparkOneVsRest.load" title="Permalink to this definition"></a></dt>
+<dd><p>loads the best model</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-classification-spark-rf-module">
-<h2>maxaimodel.spark.classification.spark_rf module<a class="headerlink" href="#maxaimodel-spark-classification-spark-rf-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_rf">
+<span id="maxaimodel-spark-classification-spark-rf-module"></span><h2>maxaimodel.spark.classification.spark_rf module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_rf" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_rf.SparkRFClassifier">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_rf.</span></span><span class="sig-name descname"><span class="pre">SparkRFClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">id_col</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_rf.html#SparkRFClassifier"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_rf.SparkRFClassifier" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>runs random forest on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.classification import spark_rf</p>
+<dl>
+<dt>rf = spark_rf.SparkRFClassifier(</dt><dd><p>id_col = ‘id’,
+target_col = ‘Survived’,
+feature_col = ‘features’,
+param_grid =  {</p>
+<blockquote>
+<div><blockquote>
+<div><p>“impurity”: [‘gini’,’entropy’],
+“maxDepth”: [3,5]</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>)</p>
+</dd>
+</dl>
+<p>rf.fit(train_rf)
+rf_pred = rf.predict(test_rf)
+rf_pred.show(5)
+&gt;&gt;&gt; +——————–+——–+————-+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|Survived|rawPrediction|         probability|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 11%" />
+<col style="width: 18%" />
+<col style="width: 28%" />
+<col style="width: 14%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[3.0,1.0,39.0,0.0…
+[3.0,1.0,26.0,0.0…
+[3.0,0.0,21.0,1.0…
+[3.0,1.0,28.0,1.0…</p></td>
+<td><p>1
+0
+0
+0</p></td>
+<td><p>[197.0,31.0]
+[197.0,31.0]</p>
+<blockquote>
+<div><p>[24.0,21.0]</p>
+</div></blockquote>
+<p>[197.0,31.0]</p>
+</td>
+<td><p>[0.86403508771929…
+[0.86403508771929…
+[0.53333333333333…
+[0.86403508771929…</p></td>
+<td><p>0.0
+0.0
+0.0
+0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>rf.save(path = “./models/rf”)
+<a href="#id29"><span class="problematic" id="id30">``</span></a><a href="#id31"><span class="problematic" id="id32">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_rf.SparkRFClassifier.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_rf.html#SparkRFClassifier.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_rf.SparkRFClassifier.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_rf.SparkRFClassifier.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_rf.html#SparkRFClassifier.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_rf.SparkRFClassifier.load" title="Permalink to this definition"></a></dt>
+<dd><p>method to load the saved SparkRFClassifier model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path of the saved model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SparkClassifierBaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
-<section id="maxaimodel-spark-classification-spark-svc-module">
-<h2>maxaimodel.spark.classification.spark_svc module<a class="headerlink" href="#maxaimodel-spark-classification-spark-svc-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimodel.spark.classification.spark_svc">
+<span id="maxaimodel-spark-classification-spark-svc-module"></span><h2>maxaimodel.spark.classification.spark_svc module<a class="headerlink" href="#module-maxaimodel.spark.classification.spark_svc" title="Permalink to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_svc.SparkLinearSVC">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.classification.spark_svc.</span></span><span class="sig-name descname"><span class="pre">SparkLinearSVC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_col</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param_grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_svc.html#SparkLinearSVC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_svc.SparkLinearSVC" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">SparkClassifierBaseModel</span></code></p>
+<p>runs support vectors on data and gives predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_col</strong> (<em>str</em>) – column to be predicted</p></li>
+<li><p><strong>feature_col</strong> (<em>str</em>) – vector of all the features to be used for prediction</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters described [here](<a class="reference external" href="https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html">https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.classification.RandomForestClassifier.html</a>). Defaults to None.</p></li>
+<li><p><strong>param_grid</strong> (<em>dict</em><em>, </em><em>optional</em>) – dictionary of parameters of type <cite>{“param”: []}</cite>. If <cite>param_grid</cite> is mentioned, it will over-write <cite>params</cite>. Defaults to None.</p></li>
+</ul>
+</dd>
+</dl>
+<p>from maxaimodel.spark.classification import spark_svc</p>
+<dl>
+<dt>svc = spark_lr.SparkLinearSVC(</dt><dd><p>target_col = ‘Survived’,
+feature_col = ‘features’,
+param_grid =  {</p>
+<blockquote>
+<div><blockquote>
+<div><p>“regParam”: [0.1,1,1.5,2],
+“maxIter”: [3,5]</p>
+</div></blockquote>
+<p>}</p>
+</div></blockquote>
+<p>)</p>
+</dd>
+</dl>
+<p>svc.fit(train_rf)
+svc_pred = rf.predict(test_rf)
+svc_pred.show(5)
+&gt;&gt;&gt; +——————–+——–+————-+——————–+———-+</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">features|Survived|rawPrediction|         probability|prediction|</div>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 11%" />
+<col style="width: 18%" />
+<col style="width: 28%" />
+<col style="width: 14%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>[3.0,1.0,39.0,0.0…
+[3.0,1.0,26.0,0.0…
+[3.0,0.0,21.0,1.0…
+[3.0,1.0,28.0,1.0…</p></td>
+<td><p>1
+0
+0
+0</p></td>
+<td><p>[197.0,31.0]
+[197.0,31.0]</p>
+<blockquote>
+<div><p>[24.0,21.0]</p>
+</div></blockquote>
+<p>[197.0,31.0]</p>
+</td>
+<td><p>[0.86403508771929…
+[0.86403508771929…
+[0.53333333333333…
+[0.86403508771929…</p></td>
+<td><p>0.0
+0.0
+0.0
+0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>svc.save(path = “./models/svc”)
+<a href="#id33"><span class="problematic" id="id34">``</span></a><a href="#id35"><span class="problematic" id="id36">`</span></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_svc.SparkLinearSVC.build">
+<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">params</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_svc.html#SparkLinearSVC.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_svc.SparkLinearSVC.build" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.classification.spark_svc.SparkLinearSVC.load">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/classification/spark_svc.html#SparkLinearSVC.load"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.classification.spark_svc.SparkLinearSVC.load" title="Permalink to this definition"></a></dt>
+<dd><p>method to load the saved SparkLinearSVC model</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – path of the saved model</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>SparkClassifierBaseModel</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-maxaimodel.spark.classification">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaimodel.spark.classification" title="Permalink to this heading"></a></h2>
@@ -119,7 +998,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxaimodel.spark.html" class="btn btn-neutral float-left" title="maxaimodel.spark package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxaimodel.spark.clustering.html" class="btn btn-neutral float-right" title="maxaimodel.spark.clustering package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

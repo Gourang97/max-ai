@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxaimodel package" href="maxaimodel.html" />
+    <link rel="prev" title="maxaifeaturization.transformation package" href="maxaifeaturization.transformation.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,48 +39,54 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxaimetadata package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-maxaimetadata.maxflow">maxaimetadata.maxflow module</a><ul>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow"><code class="docutils literal notranslate"><span class="pre">MaxFlow</span></code></a><ul>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.auto_log"><code class="docutils literal notranslate"><span class="pre">MaxFlow.auto_log()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.get_active_flow"><code class="docutils literal notranslate"><span class="pre">MaxFlow.get_active_flow()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.get_active_run"><code class="docutils literal notranslate"><span class="pre">MaxFlow.get_active_run()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.get_registered_model"><code class="docutils literal notranslate"><span class="pre">MaxFlow.get_registered_model()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.register_model"><code class="docutils literal notranslate"><span class="pre">MaxFlow.register_model()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.set_experiment"><code class="docutils literal notranslate"><span class="pre">MaxFlow.set_experiment()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.start_run"><code class="docutils literal notranslate"><span class="pre">MaxFlow.start_run()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.stop"><code class="docutils literal notranslate"><span class="pre">MaxFlow.stop()</span></code></a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">maxaimetadata package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-maxaimetadata.maxflow">maxaimetadata.maxflow module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow"><code class="docutils literal notranslate"><span class="pre">MaxFlow</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.auto_log"><code class="docutils literal notranslate"><span class="pre">MaxFlow.auto_log()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.get_active_flow"><code class="docutils literal notranslate"><span class="pre">MaxFlow.get_active_flow()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.get_active_run"><code class="docutils literal notranslate"><span class="pre">MaxFlow.get_active_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.get_registered_model"><code class="docutils literal notranslate"><span class="pre">MaxFlow.get_registered_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.register_model"><code class="docutils literal notranslate"><span class="pre">MaxFlow.register_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.set_experiment"><code class="docutils literal notranslate"><span class="pre">MaxFlow.set_experiment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.start_run"><code class="docutils literal notranslate"><span class="pre">MaxFlow.start_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxFlow.stop"><code class="docutils literal notranslate"><span class="pre">MaxFlow.stop()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun"><code class="docutils literal notranslate"><span class="pre">MaxRun</span></code></a><ul>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.end_run"><code class="docutils literal notranslate"><span class="pre">MaxRun.end_run()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_artifact"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_artifact()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_artifacts"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_artifacts()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_data"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_data()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_dict"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_dict()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_figure"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_figure()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_metric"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_metric()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_metrics"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_metrics()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_model"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_model()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_param"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_param()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_params"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_params()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.set_active"><code class="docutils literal notranslate"><span class="pre">MaxRun.set_active()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.set_tag"><code class="docutils literal notranslate"><span class="pre">MaxRun.set_tag()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.set_tags"><code class="docutils literal notranslate"><span class="pre">MaxRun.set_tags()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.start_child_run"><code class="docutils literal notranslate"><span class="pre">MaxRun.start_child_run()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a class="reference internal" href="#maxaimetadata-test-maxflow-module">maxaimetadata.test_maxflow module</a></li>
-<li><a class="reference internal" href="#module-maxaimetadata">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun"><code class="docutils literal notranslate"><span class="pre">MaxRun</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.end_run"><code class="docutils literal notranslate"><span class="pre">MaxRun.end_run()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_artifact"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_artifact()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_artifacts"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_artifacts()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_data"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_dict"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_dict()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_figure"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_figure()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_metric"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_metrics"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_metrics()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_model"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_model()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_param"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_param()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.log_params"><code class="docutils literal notranslate"><span class="pre">MaxRun.log_params()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.set_active"><code class="docutils literal notranslate"><span class="pre">MaxRun.set_active()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.set_tag"><code class="docutils literal notranslate"><span class="pre">MaxRun.set_tag()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.set_tags"><code class="docutils literal notranslate"><span class="pre">MaxRun.set_tags()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#maxaimetadata.maxflow.MaxRun.start_child_run"><code class="docutils literal notranslate"><span class="pre">MaxRun.start_child_run()</span></code></a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-maxaimetadata.test_maxflow">maxaimetadata.test_maxflow module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#maxaimetadata.test_maxflow.test_maxflow"><code class="docutils literal notranslate"><span class="pre">test_maxflow()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-maxaimetadata">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.html">maxairesources package</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -240,8 +248,13 @@
 </dd></dl>
 
 </section>
-<section id="maxaimetadata-test-maxflow-module">
-<h2>maxaimetadata.test_maxflow module<a class="headerlink" href="#maxaimetadata-test-maxflow-module" title="Permalink to this heading"></a></h2>
+<section id="module-maxaimetadata.test_maxflow">
+<span id="maxaimetadata-test-maxflow-module"></span><h2>maxaimetadata.test_maxflow module<a class="headerlink" href="#module-maxaimetadata.test_maxflow" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="maxaimetadata.test_maxflow.test_maxflow">
+<span class="sig-prename descclassname"><span class="pre">maxaimetadata.test_maxflow.</span></span><span class="sig-name descname"><span class="pre">test_maxflow</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimetadata/test_maxflow.html#test_maxflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimetadata.test_maxflow.test_maxflow" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
 </section>
 <section id="module-maxaimetadata">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-maxaimetadata" title="Permalink to this heading"></a></h2>
@@ -251,7 +264,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxaifeaturization.transformation.html" class="btn btn-neutral float-left" title="maxaifeaturization.transformation package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxaimodel.html" class="btn btn-neutral float-right" title="maxaimodel package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

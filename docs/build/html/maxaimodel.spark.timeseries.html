@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxairesources package" href="maxairesources.html" />
+    <link rel="prev" title="maxaimodel.spark.regression package" href="maxaimodel.spark.regression.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,47 +39,40 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxaimodel.spark.timeseries package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-maxaimodel.spark.timeseries.spark_ts">maxaimodel.spark.timeseries.spark_ts module</a><ul>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster"><code class="docutils literal notranslate"><span class="pre">SparkTSForecaster</span></code></a><ul>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.build"><code class="docutils literal notranslate"><span class="pre">SparkTSForecaster.build()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.fit"><code class="docutils literal notranslate"><span class="pre">SparkTSForecaster.fit()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.get_model_diagnostics"><code class="docutils literal notranslate"><span class="pre">SparkTSForecaster.get_model_diagnostics()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.get_params"><code class="docutils literal notranslate"><span class="pre">SparkTSForecaster.get_params()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.load"><code class="docutils literal notranslate"><span class="pre">SparkTSForecaster.load()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.predict"><code class="docutils literal notranslate"><span class="pre">SparkTSForecaster.predict()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.save"><code class="docutils literal notranslate"><span class="pre">SparkTSForecaster.save()</span></code></a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaimodel.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.H2O.html">maxaimodel.H2O package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.python.html">maxaimodel.python package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="maxaimodel.spark.html">maxaimodel.spark package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="maxaimodel.spark.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maxaimodel.spark.html#module-maxaimodel.spark">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-maxaimodel.spark.timeseries.xgb_ts">maxaimodel.spark.timeseries.xgb_ts module</a><ul>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.DataPrep"><code class="docutils literal notranslate"><span class="pre">DataPrep</span></code></a><ul>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.DataPrep.increment_datetime"><code class="docutils literal notranslate"><span class="pre">DataPrep.increment_datetime()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.DataPrep.infer_frequency"><code class="docutils literal notranslate"><span class="pre">DataPrep.infer_frequency()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.DataPrep.prepare_data"><code class="docutils literal notranslate"><span class="pre">DataPrep.prepare_data()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxaimodel.html#module-maxaimodel">Module contents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.XGBForecaster"><code class="docutils literal notranslate"><span class="pre">XGBForecaster</span></code></a><ul>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.XGBForecaster.build"><code class="docutils literal notranslate"><span class="pre">XGBForecaster.build()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.XGBForecaster.fit"><code class="docutils literal notranslate"><span class="pre">XGBForecaster.fit()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.XGBForecaster.get_model_diagnostics"><code class="docutils literal notranslate"><span class="pre">XGBForecaster.get_model_diagnostics()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.XGBForecaster.get_params"><code class="docutils literal notranslate"><span class="pre">XGBForecaster.get_params()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.XGBForecaster.load"><code class="docutils literal notranslate"><span class="pre">XGBForecaster.load()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.XGBForecaster.predict"><code class="docutils literal notranslate"><span class="pre">XGBForecaster.predict()</span></code></a></li>
-<li><a class="reference internal" href="#maxaimodel.spark.timeseries.xgb_ts.XGBForecaster.save"><code class="docutils literal notranslate"><span class="pre">XGBForecaster.save()</span></code></a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaimodel.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.H2O.html">maxaimodel.H2O package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaimodel.python.html">maxaimodel.python package</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="maxaimodel.spark.html">maxaimodel.spark package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="maxaimodel.spark.html#subpackages">Subpackages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maxaimodel.spark.html#module-maxaimodel.spark">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-maxaimodel.spark.timeseries">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxaimodel.html#module-maxaimodel">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.html">maxairesources package</a></li>
 </ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -92,6 +87,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="maxaimodel.html">maxaimodel package</a></li>
+          <li class="breadcrumb-item"><a href="maxaimodel.spark.html">maxaimodel.spark package</a></li>
       <li class="breadcrumb-item active">maxaimodel.spark.timeseries package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maxaimodel.spark.timeseries.rst.txt" rel="nofollow"> View page source</a>
@@ -114,21 +111,26 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaimodel.spark.timeseries.spark_ts.</span></span><span class="sig-name descname"><span class="pre">SparkTSForecaster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grp_by_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_col</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
 <p>A PySpark Wrapper to run Python models in the workers</p>
-<dl>
-<dt>Args:</dt><dd><p>grp_by_col (str): column name to distribute training for
-target_col (string): time-series column
-base_model (string): base model to be used. For instance, ARIMA, GARCH, Prophet and NeuralProphet
-model_params (dict): inputs to Python Base Model. For reference, see base_model definition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grp_by_col</strong> (<em>str</em>) – column name to distribute training for</p></li>
+<li><p><strong>target_col</strong> (<em>string</em>) – time-series column</p></li>
+<li><p><strong>base_model</strong> (<em>string</em>) – base model to be used. For instance, ARIMA, GARCH, Prophet and NeuralProphet</p></li>
+<li><p><strong>model_params</strong> (<em>dict</em>) – inputs to Python Base Model. For reference, see base_model definition</p></li>
+</ul>
 </dd>
-<dt>Example:</dt><dd><p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
+</dl>
+<p class="rubric">Example</p>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
 from maxaimodel.spark.timeseries import spark_ts</p>
 <dl>
-<dt>ts = spark_ts.SparkTSForecaster(</dt><dd><p>grp_by_col=’Dept’, 
-target_col=’Weekly_Sales’, 
-base_model=’NProphet’, 
+<dt>ts = spark_ts.SparkTSForecaster(</dt><dd><p>grp_by_col=’Dept’,
+target_col=’Weekly_Sales’,
+base_model=’NProphet’,
 model_params={</p>
 <blockquote>
-<div><p>“time_col”: “Date”, 
+<div><p>“time_col”: “Date”,
 “target_col”: “Weekly_Sales”,
 “param_grid”: {</p>
 <blockquote>
@@ -147,20 +149,32 @@ model_params={</p>
 ts.fit(sales_df)
 resultant_df = ts.predict(24, ‘W’, sales_df.select(‘Date’, ‘Dept’))
 <a href="#id3"><span class="problematic" id="id4">``</span></a><a href="#id5"><span class="problematic" id="id6">`</span></a></p>
-</dd>
-<dt>Methods:</dt><dd><p>fit: Fit (estimate and tunes) the parameters of the model
-get_params: get model params
-predict: After a model has been fit predict returns the fitted values</p>
-</dd>
-</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.fit">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.fit" title="Permalink to this definition"></a></dt>
+<dd><p>Fit (estimate and tunes) the parameters of the model</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.get_params">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.get_params" title="Permalink to this definition"></a></dt>
+<dd><p>get model params</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.predict" title="Permalink to this definition"></a></dt>
+<dd><p>After a model has been fit predict returns the fitted values</p>
+</dd></dl>
+
 <dl class="py method">
 <dt class="sig sig-object py" id="maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.build">
 <span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.build"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.build" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.fit" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.fit"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -169,8 +183,8 @@ predict: After a model has been fit predict returns the fitted values</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.get_params">
-<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.get_params" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">get_params</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.get_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id7" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -179,8 +193,8 @@ predict: After a model has been fit predict returns the fitted values</p>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaimodel.spark.timeseries.spark_ts.SparkTSForecaster.predict" title="Permalink to this definition"></a></dt>
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">periods</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">freq</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaimodel/spark/timeseries/spark_ts.html#SparkTSForecaster.predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#id8" title="Permalink to this definition"></a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -264,7 +278,10 @@ predict: After a model has been fit predict returns the fitted values</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxaimodel.spark.regression.html" class="btn btn-neutral float-left" title="maxaimodel.spark.regression package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxairesources.html" class="btn btn-neutral float-right" title="maxairesources package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

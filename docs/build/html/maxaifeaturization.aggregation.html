@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxaifeaturization.featuretools package" href="maxaifeaturization.featuretools.html" />
+    <link rel="prev" title="maxaifeaturization package" href="maxaifeaturization.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,26 +39,30 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxaifeaturization.aggregation package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-maxaifeaturization.aggregation.aggregation">maxaifeaturization.aggregation.aggregation module</a><ul>
-<li><a class="reference internal" href="#maxaifeaturization.aggregation.aggregation.Aggregation"><code class="docutils literal notranslate"><span class="pre">Aggregation</span></code></a><ul>
-<li><a class="reference internal" href="#maxaifeaturization.aggregation.aggregation.Aggregation.execute"><code class="docutils literal notranslate"><span class="pre">Aggregation.execute()</span></code></a></li>
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxaifeaturization.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">maxaifeaturization.aggregation package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxaifeaturization.aggregation.aggregation">maxaifeaturization.aggregation.aggregation module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxaifeaturization.aggregation">Module contents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#maxaifeaturization.aggregation.aggregation.Constants"><code class="docutils literal notranslate"><span class="pre">Constants</span></code></a><ul>
-<li><a class="reference internal" href="#maxaifeaturization.aggregation.aggregation.Constants.operation_dict"><code class="docutils literal notranslate"><span class="pre">Constants.operation_dict</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaifeaturization.featuretools.html">maxaifeaturization.featuretools package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaifeaturization.selection.html">maxaifeaturization.selection package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaifeaturization.timeseries.html">maxaifeaturization.timeseries package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxaifeaturization.transformation.html">maxaifeaturization.transformation package</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="maxaifeaturization.html#module-maxaifeaturization">Module contents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-maxaifeaturization.aggregation">Module contents</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxairesources.html">maxairesources package</a></li>
 </ul>
-</li>
-</ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -71,6 +77,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="maxaifeaturization.html">maxaifeaturization package</a></li>
       <li class="breadcrumb-item active">maxaifeaturization.aggregation package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maxaifeaturization.aggregation.rst.txt" rel="nofollow"> View page source</a>
@@ -93,14 +100,13 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">maxaifeaturization.aggregation.aggregation.</span></span><span class="sig-name descname"><span class="pre">Aggregation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arguments</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/aggregation/aggregation.html#Aggregation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.aggregation.aggregation.Aggregation" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Performs aggregation operations on the passed DataFrame</p>
-<dl>
-<dt>Args:</dt><dd><p>df (spark.DataFrame): DataFrame on which operations are to be performed
-arguments (dict): list of dictionaries containing <cite>aggregation</cite>, <cite>feature_name</cite>, <cite>output_column_name</cite> keys.</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>aggregation (int): aggregation operation (sum, average, etc) to be performed. List of operations available:</p></li>
-</ul>
-<p><a href="#id1"><span class="problematic" id="id2">``</span></a>`
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>spark.DataFrame</em>) – DataFrame on which operations are to be performed</p></li>
+<li><p><strong>arguments</strong> (<em>dict</em>) – <p>list of dictionaries containing <cite>aggregation</cite>, <cite>feature_name</cite>, <cite>output_column_name</cite> keys.
+- aggregation (int): aggregation operation (sum, average, etc) to be performed. List of operations available:
+<a href="#id1"><span class="problematic" id="id2">``</span></a>`
 {</p>
 <blockquote>
 <div><p>1: “sum”,
@@ -116,11 +122,12 @@ arguments (dict): list of dictionaries containing <cite>aggregation</cite>, <cit
 11: “median”,
 12: “most_frequent”</p>
 </div></blockquote>
-<ul class="simple">
+<ul>
 <li><p>feature (list): Name of feature on which aggregation is to performed. Accepts only one input</p></li>
 <li><p>output_column_name (list): Name of the output column generated post aggregation</p></li>
 </ul>
-</div></blockquote>
+</p></li>
+</ul>
 </dd>
 </dl>
 <p>—
@@ -158,8 +165,9 @@ agg_df = agg_obj.execute()
 <dt class="sig sig-object py" id="maxaifeaturization.aggregation.aggregation.Aggregation.execute">
 <span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxaifeaturization/aggregation/aggregation.html#Aggregation.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxaifeaturization.aggregation.aggregation.Aggregation.execute" title="Permalink to this definition"></a></dt>
 <dd><p>driver method</p>
-<dl class="simple">
-<dt>Returns:</dt><dd><p>spark.DataFrame</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>spark.DataFrame</p>
 </dd>
 </dl>
 </dd></dl>
@@ -186,7 +194,10 @@ agg_df = agg_obj.execute()
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxaifeaturization.html" class="btn btn-neutral float-left" title="maxaifeaturization package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxaifeaturization.featuretools.html" class="btn btn-neutral float-right" title="maxaifeaturization.featuretools package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

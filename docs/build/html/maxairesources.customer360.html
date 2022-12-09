@@ -19,7 +19,9 @@
         <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="maxairesources.datachecks package" href="maxairesources.datachecks.html" />
+    <link rel="prev" title="maxairesources.cleaning package" href="maxairesources.cleaning.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -37,23 +39,39 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#">maxairesources.customer360 package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-maxairesources.customer360.utility">maxairesources.customer360.utility module</a><ul>
-<li><a class="reference internal" href="#maxairesources.customer360.utility.column_rename"><code class="docutils literal notranslate"><span class="pre">column_rename()</span></code></a></li>
-<li><a class="reference internal" href="#maxairesources.customer360.utility.create_features"><code class="docutils literal notranslate"><span class="pre">create_features()</span></code></a></li>
-<li><a class="reference internal" href="#maxairesources.customer360.utility.parse_arguments"><code class="docutils literal notranslate"><span class="pre">parse_arguments()</span></code></a></li>
-<li><a class="reference internal" href="#maxairesources.customer360.utility.prepare_agg_arguments"><code class="docutils literal notranslate"><span class="pre">prepare_agg_arguments()</span></code></a></li>
-<li><a class="reference internal" href="#maxairesources.customer360.utility.toDateType"><code class="docutils literal notranslate"><span class="pre">toDateType()</span></code></a></li>
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="maxaifeaturization.html">maxaifeaturization package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimetadata.html">maxaimetadata package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="maxaimodel.html">maxaimodel package</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="maxairesources.html">maxairesources package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="maxairesources.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.cleaning.html">maxairesources.cleaning package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">maxairesources.customer360 package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxairesources.customer360.utility">maxairesources.customer360.utility module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-maxairesources.customer360">Module contents</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#module-maxairesources.customer360">Module contents</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.datachecks.html">maxairesources.datachecks package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.ensemble.html">maxairesources.ensemble package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.eval.html">maxairesources.eval package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.exception.html">maxairesources.exception package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.factory.html">maxairesources.factory package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.logging.html">maxairesources.logging package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.model_approval.html">maxairesources.model_approval package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.optimizer.html">maxairesources.optimizer package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.pipeline.html">maxairesources.pipeline package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maxairesources.utilities.html">maxairesources.utilities package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.html#module-maxairesources.conftest">maxairesources.conftest module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maxairesources.html#module-maxairesources">Module contents</a></li>
 </ul>
 </li>
 </ul>
-</div>
+
         </div>
       </div>
     </nav>
@@ -68,6 +86,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home"></a></li>
+          <li class="breadcrumb-item"><a href="maxairesources.html">maxairesources package</a></li>
       <li class="breadcrumb-item active">maxairesources.customer360 package</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/maxairesources.customer360.rst.txt" rel="nofollow"> View page source</a>
@@ -105,11 +124,18 @@
 <dt class="sig sig-object py" id="maxairesources.customer360.utility.prepare_agg_arguments">
 <span class="sig-prename descclassname"><span class="pre">maxairesources.customer360.utility.</span></span><span class="sig-name descname"><span class="pre">prepare_agg_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/maxairesources/customer360/utility.html#prepare_agg_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#maxairesources.customer360.utility.prepare_agg_arguments" title="Permalink to this definition"></a></dt>
 <dd><p>Function to perpare the arguments for aggregations using signals provided in the json</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>config</strong> (<em>dict</em>) – dictionary which holds information singnals defination</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>arguments_without_events, list: arguments_with_events</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
 <dl>
-<dt>Parameters:</dt><dd><p>config (dict) : dictionary which holds information singnals defination</p>
-</dd>
-<dt>Returns:</dt><dd><p>list: arguments_without_events, list: arguments_with_events</p>
-</dd>
 <dt>Sample Input:</dt><dd><dl>
 <dt>{</dt><dd><dl>
 <dt>“signals”: [</dt><dd><dl class="simple">
@@ -251,7 +277,10 @@
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maxairesources.cleaning.html" class="btn btn-neutral float-left" title="maxairesources.cleaning package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="maxairesources.datachecks.html" class="btn btn-neutral float-right" title="maxairesources.datachecks package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
