@@ -9,12 +9,6 @@ Max.ai provides a ready list of utilities to create end to end ML pipelines and 
 
 Max.ai comes equipped with utilities to store, process and transform data, automated feature engineeriing and a host of ML models - Classification, Clustering, Regression, Time-series and much more.
 
-You can refer to how to :ref:`quickstart` to install max.ai on your project.
-
-.. automodule:: max
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 .. toctree::
    :maxdepth: 4
