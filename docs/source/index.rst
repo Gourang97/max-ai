@@ -13,6 +13,7 @@ Max.ai comes equipped with utilities to store, process and transform data, autom
 .. toctree::
    :maxdepth: 4
 
+   getting_started
    maxaifeaturization
    maxaimetadata
    maxaimodel
