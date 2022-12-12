@@ -5,13 +5,12 @@
 
 Welcome to Max.AI's documentation!
 ==================================
-Max.ai provides a ready list of utilities to create end to end ML pipelines and solve complex business problems using state of the art ML modules.
+Max.AI provides a ready list of utilities to create end-to-end Machine Learning pipelines and solve complex business problems using state-of-the-art modules. Built entirely on PySpark, Max.AI comes with modules that can help in processing and transformation of data, performing feature engineering and selection and a host of Machine Learning Models like Classification, Clustering, Regression and Time-Series. All these modules have built-in logging enabled, which can be viewed on the MLFlow Dashboard (if experiment and runs are initialized). 
 
-Max.ai comes equipped with utilities to store, process and transform data, automated feature engineeriing and a host of ML models - Classification, Clustering, Regression, Time-series and much more.
 
 
 .. toctree::
-   :maxdepth: 4
+   :maxdepth: 2
 
    getting_started
    maxaifeaturization
