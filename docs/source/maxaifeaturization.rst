@@ -7,7 +7,7 @@ The Featurization Module is used for feature engineering workloads. This module 
 - Time Series
 - Transformation
 
-aggregation
+Aggregation
 ***********
 
 The aggregation submodule performs the ``.groupBy().agg()`` operation on the dataframe. It supports various PySpark in-built transformations and custom transformations.
