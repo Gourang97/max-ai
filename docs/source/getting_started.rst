@@ -8,23 +8,9 @@ As of now, Max.AI is not available as a pip installable module. So, to get start
 
 
 >>> python setup.py sdist
-
 >>> python setup.py bdist_egg
 
 
 Once the ``.egg`` file created, install it using pip:
 
 >>> pip install ./dist/maxai_artifacts-<some_extension>.egg
-
-
-
-Quickstart Notebooks
-********************
-As Max.AI can be used for variety of use-cases, the following list of notebooks provides a quick glance over how to use these modules:
-
-
-+--------+----------------------+
-| Module | Accompanying Notebook|     
-+========+======================+
-| 1      | one                  |
-+--------+----------------------|
