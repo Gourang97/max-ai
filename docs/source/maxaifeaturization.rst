@@ -58,7 +58,7 @@ The time-series transformations are the set of transformations that are to be pe
 
 This module is built with the belief that majority of time-series datasets are combinations of small (often independent) time-series. These time-series are distinguishable from each other by some identifier. For instance, a large warehouse will store thousand of items that have a unique identifier. This column is defined as ``groupby_col``. This feature will have a univariate time-series defined against it, i.e., no duplicates exist on the datetime column. 
 
-For end-to-end functioning of time-series module, please refer to this [example notebook](https://dev.azure.com/personalize-ai/max.ai/_git/max.ai.ds.core?path=/documents/Time-Series-E2E.ipynb&_a=preview).
+For end-to-end functioning of time-series module, please refer to this `example notebook <https://dev.azure.com/personalize-ai/max.ai/_git/max.ai.ds.core?path=/documents/Time-Series-E2E.ipynb&_a=preview>`_.
 
 autocorrelation
 ^^^^^^^^^^^^^^^
