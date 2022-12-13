@@ -1,4 +1,4 @@
-maxairesources.utilities.
+maxairesources
 ==============
 
 Utilities
