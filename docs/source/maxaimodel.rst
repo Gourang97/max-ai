@@ -370,7 +370,7 @@ A PySpark Wrapper to run Python models in the workers.
 Args:
     - ``grp_by_col (str)``: column name to distribute training for
     - ``target_col (string)``: time-series column
-    - ``base_model (string)``: base model to be used. For instance, ``ARIMA``, ``GARCH``, ``Prophet`` and ``NeuralProphet``
+    - ``base_model (string)``: base model to be used. For instance, ``ARIMA``, ``GARCH``, ``Prophet`` and ``NProphet`` (for Neural Prophet).
     - ``model_params (dict)``: inputs to Python Base Model. For reference, see base_model definition
     
 
