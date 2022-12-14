@@ -10,7 +10,7 @@ Args:
     - ``usr (str, optional)``: user name for authenticating mlflow tracking server
     - ``pwd (str, optional)``: password for authenticating mlflow tracking server
     
->>> from maxaimetadata import MaxFlow
+>>> from maxaimetadata.maxflow import MaxFlow
 >>> mf = MaxFlow(uri="", usr="", pwd="")        # create a maxflow instance
 >>> mf.set_experiment(
 ...    experiment="experiment_name", 
@@ -84,6 +84,21 @@ Args:
     
 Returns:
     - ``MaxRun``
+
+resume_run
+^^^^^^^^^^
+loads already existing (or previously created) ``MaxFlow`` run. To run this, MaxFlow experiment should be set first and the run should exist under that experiment.
+
+Args:
+    - ``run_id (str)``: Run ID of the already existing run
+
+Returns:
+    - ``MaxRun``
+    
+>>> from maxaimetadata.maxflow import MaxFlow
+>>> mf = MaxFlow(uri="", usr="", pwd="")
+>>> mf.set_experiment(experiment="existing_experiment_name", project="", repo_path=".")
+>>> run = mf.resume_run(run_id='existing_run12345')
     
 auto_log
 ^^^^^^^^
