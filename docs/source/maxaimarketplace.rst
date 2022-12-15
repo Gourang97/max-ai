@@ -79,7 +79,7 @@ Hence, ``spark_config.json`` should have following args:
     - ``tasks`` - a **list** of dicts, with three mandatory keys, ``name``, ``task_id`` and ``spark_submit_conf``.
         - ``name`` - a string with task name, same as defined in DAGFactory task definition.
         - ``task_id`` - integer that defines the order of task in the DAG.
-        - ``spark_submit_conf`` - the keys here should be in accordance with `spark_submit_operator <https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_.
+        - ``spark_submit_conf`` - the key-value pairs, in accordance with `spark_submit_operator <https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_.
         
 .. code-block:: json
 
@@ -98,7 +98,71 @@ Hence, ``spark_config.json`` should have following args:
             }
         ]
     }
-        
+    
+If, for some reason, a particular task requires a different set of SparkConf, then in the ``spark_submit_conf``, the revised configurations can be defined against a ``conf`` argument. For instance, in the spark_config defined below, the first and third tasks will be executed by ``image_01:latest`` and second will be executed by ``image_02:latest``.
 
+.. code-block:: json
+    
+    {
+        "conf": {
+            "spark.kubernetes.container.image": "image_01:latest",
+            "spark.kubernetes.container.image.pullSecrets": "some_secret",
+            "spark.kubernetes.container.image.pullPolicy": "Always"
+            },
+        "tasks": [
+            {
+                "task_id": 1,
+                "name": "first_task",
+                "spark_submit_conf": {
+                    "application": "first_main.py",
+                    "spark_binary": "spark-submit"
+                }
+            },
+            {
+                "task_id": 2,
+                "name": "second_task",
+                "spark_submit_conf": {
+                    "conf": {
+                        "spark.kubernetes.container.image": "image_02:latest"     # a different will be used to execute this task
+                    },
+                    "application": "second_main.py",
+                    "spark_binary": "spark-submit"
+                }
+            },
+            {
+                "task_id": 3,
+                "name": "third_task",
+                "spark_submit_conf": {
+                    "py_files": "",
+                    "application": "third_main.py",
+                    "spark_binary": "spark-submit"
+                }
+            }
+        ]
+    }
+    
 
+    
 
+kubepod_config
+^^^^^^^^^^^^^^
+The ``kubepod_config.json`` is similar to the ``spark_config.json``, with difference being, former is for specifically for KubernetesPodOperator. The structure is also similar, with mandatory arguments as follow:
+    - ``task_id`` - integer that defines the order of task in the DAG.
+    - ``name`` - a string with task name, same as defined in DAGFactory task definition.
+    - ``conf`` - key-value pairs, in accordance with `KubernetedPodOperator <https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/kubernetes_pod/index.html#airflow.providers.cncf.kubernetes.operators.kubernetes_pod.KubernetesPodOperator>`_.
+
+.. code-block:: json
+    {
+        "tasks": [
+            {
+                "task_id": 1,
+                 "name": "",
+                 "conf": {...}
+            },
+            {
+                "task_id": 2,
+                 "name": "",
+                 "conf": {...}
+            },
+        ]
+    }
