@@ -13,31 +13,43 @@ Every client deployment (dev and prod) should have three directories, one for *c
 
    maxaimarketplace
        ├──maxaiconfigs
-       ├──domain_01
-         │  └──usecase_01
-         |       ├──spark_config.json
-         |       └──obj0
-         |            └──py_config.json
-         └──domain_02
-              └──usecase_02
-                   ├──spark_config.json
-                   └──obj0
-                        └──py_config.json
-
-
-
-
-
-| simpleble-master
-| ├── docs
-| │   ├── build
-| │   ├── make.bat
-| │   ├── Makefile
-| │   └── source
-| ├── LICENSE
-| ├── README.md
-| ├── requirements.txt
-| └── simpleble
-|     └── simpleble.py
-| 
-|
+       |     ├──domain_01
+       |     │    └──usecase_01
+       |     |       ├──spark_config.json
+       |     |       └──obj0
+       |     |            └──py_config.json
+       |     └──domain_02
+       |          └──usecase_02
+       |               ├──spark_config.json
+       |               └──obj0
+       |                    └──py_config.json
+       ├──maxaidags
+       |     ├──domain_01
+       |     │    └──usecase_01
+       |     |       └──obj0
+       |     |            └──dag.py
+       |     └──domain_02
+       |          └──usecase_02
+       |               └──obj0
+       |                    └──dag.py
+       └──maxaiusecases
+             ├──domain_01
+             │    ├──usecase_01
+             |    |    └──handlers
+             |    |         ├──__init__.py
+             |    |         ├──handler_01.py
+             |    |         └──handler_02.py
+             |    ├──Dockerfile
+             |    ├──README.md
+             |    ├──requirements.txt
+             |    └──setup.py
+             └──domain_02
+                  ├──usecase_02
+                  |    └──handlers
+                  |         ├──__init__.py
+                  |         ├──handler_01.py
+                  |         └──handler_02.py
+                  ├──Dockerfile
+                  ├──README.md
+                  ├──requirements.txt
+                  └──setup.py
