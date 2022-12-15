@@ -20,12 +20,4 @@ Built entirely on PySpark, Max.AI comes with modules that can help in processing
    maxaimodel
    maxaimonitoring
    maxairesources
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   maxaimarketplace
