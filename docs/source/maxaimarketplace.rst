@@ -146,7 +146,7 @@ If, for some reason, a particular task requires a different set of SparkConf, th
 
 kubepod_config
 ^^^^^^^^^^^^^^
-The ``kubepod_config.json`` is similar to the ``spark_config.json``, with difference being, former is for specifically for KubernetesPodOperator. The structure is also similar, with mandatory arguments as follow:
+The ``kubepod_config.json`` is used to provide the configuration for KubernetesPodOperator. The structure is similar to spark_config:
     - ``id`` - integer that defines the order of task in the DAG.
     - ``name`` - a string with task name, same as defined in DAGFactory task definition.
     - ``conf`` - key-value pairs, in accordance with `KubernetedPodOperator <https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/kubernetes_pod/index.html#airflow.providers.cncf.kubernetes.operators.kubernetes_pod.KubernetesPodOperator>`_.
@@ -239,3 +239,60 @@ The ConfigStore can be accessed in the Python scripts using the ``maxairesources
     
 DAGFactory
 **********
+The DAGFactory is an abstraction layer built on top of Airflow, specifically for Max.AI. The motivation behind development of DAGFactory is to provide a platform to build DAG quickly by abstracting out all the unnecessary details like connections, reading configs etc. It also strives to standardize the DAGs.
+
+.. code-block:: python
+    from maxairesources import dagfactory as DG
+
+
+    # initalize DAGFactory instance
+    dgf = DG.DAGFactory(
+        dag_id="obj0_customer360",
+        domain_name="qsr",
+        usecase="customer360",
+        obj="obj0",
+        schedule_interval=None,
+        default_args={
+            "depends_on_past": True,
+            "retries": 0,
+            "start_date": datetime(2022, 7, 14)
+        }
+    )
+
+    dgf.add(
+        task_id="start_task",
+        operator="DummyOperator",
+        parent=["root"]
+    )
+
+    dgf.add(
+        task_id="process_data_with_spark",
+        operator="SparkSubmitOperator",
+        parent=["create_destination_tables_in_DB"]
+    )
+
+    dgf.add(
+        task_id="end_task",
+        operator="DummyOperator", 
+        parent=["process_data_with_spark"]
+    )
+
+    dag = dgf.create_dag()
+    
+    
+.. warning::
+    it is essesntial to assign returned object to a variable. This is because, if assignment is not done, the DAG won't be appear in ``global()`` scope. For further details, please check this `link <https://airflow.apache.org/docs/apache-airflow/1.10.3/concepts.html?highlight=variable#scope>`_.
+    
+
+The task dependencies in the DAGFactory are captured by `parent` argument in the `add` method. `parent` accepts a list of tasks on which the current task is dependent on. If a task has no dependency, i.e. it is the first task, one should mention `parent=["root"]`, signifying it is the root or first task and has no dependencies.
+
+
+The DAGFactory currently supports following operators:
+    1. `BashOperator <https://airflow.apache.org/docs/apache-airflow/1.10.13/_api/airflow/operators/bash_operator/index.html)>`_
+    2. `BranchPythonOperator <https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.BranchPythonOperator>`_
+    3. `DummyOperator <https://airflow.apache.org/docs/apache-airflow/1.10.12/_api/airflow/operators/dummy_operator/index.html>`_
+    4. `KubernetedPodOperator <https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/kubernetes_pod/index.html#airflow.providers.cncf.kubernetes.operators.kubernetes_pod.KubernetesPodOperator>`_
+    5. `PostgresOperator <https://airflow.apache.org/docs/apache-airflow-providers-postgres/stable/_api/airflow/providers/postgres/operators/postgres/index.html>`_
+    6. `PythonOperator <https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.PythonOperator>`_
+    7. `ShortCircuitOperator <https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.ShortCircuitOperator>`_
+    8. `SparkSubmitOperator <https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_
