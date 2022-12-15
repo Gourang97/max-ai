@@ -269,7 +269,7 @@ The DAGFactory is an abstraction layer built on top of Airflow, specifically for
     dgf.add(
         task_id="process_data_with_spark",
         operator="SparkSubmitOperator",
-        parent=["create_destination_tables_in_DB"]
+        parent=["start_task"]
     )
 
     dgf.add(
@@ -297,3 +297,7 @@ The DAGFactory currently supports following operators:
     6. `PythonOperator <https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.PythonOperator>`_
     7. `ShortCircuitOperator <https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.ShortCircuitOperator>`_
     8. `SparkSubmitOperator <https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_
+    
+    
+Use-Case
+********
