@@ -242,6 +242,7 @@ DAGFactory
 The DAGFactory is an abstraction layer built on top of Airflow, specifically for Max.AI. The motivation behind development of DAGFactory is to provide a platform to build DAG quickly by abstracting out all the unnecessary details like connections, reading configs etc. It also strives to standardize the DAGs.
 
 .. code-block:: python
+
     from maxairesources import dagfactory as DG
 
 
