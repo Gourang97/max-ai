@@ -75,13 +75,13 @@ The ``spark_config.json`` contains two type of arguments:
     2. Task-specific arguments - which are applicable only for a specific task, like `name`, `num-executors`, `driver-memory` etc
     
 Hence, ``spark_config.json`` should have following args:
-    - ``conf`` - key-values pairs of SparkConf arguments, with keys being spelled exactly as defined in `official Spark configurations document<https://spark.apache.org/docs/latest/configuration.html>`_ followed by their respective values.
+    - ``conf`` - key-values pairs of SparkConf arguments, with keys being spelled exactly as defined in `official Spark configurations document <https://spark.apache.org/docs/latest/configuration.html>`_ followed by their respective values.
     - ``tasks`` - a **list** of dicts, with three mandatory keys, ``name``, ``task_id`` and ``spark_submit_conf``.
         - ``name`` - a string with task name, same as defined in DAGFactory task definition.
         - ``task_id`` - integer that defines the order of task in the DAG.
-        - ``spark_submit_conf`` - the keys here should be in accordance with `spark_submit_operator<https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_.
+        - ``spark_submit_conf`` - the keys here should be in accordance with `spark_submit_operator <https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_.
         
-.. code_block:: json
+.. code-block:: json
 
     {
         "conf": {...},
