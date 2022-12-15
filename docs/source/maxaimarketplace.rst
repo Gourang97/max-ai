@@ -9,26 +9,23 @@ Directory Structure
 *******************
 Every client deployment (dev and prod) should have three directories, one for *configs*, one for *DAGs* and one for *use-case*. These directories should be further divided into sub-directories based on *domain*, which further are divided into *usecase*. The *usecase* is further divided into *objectives*, which captures execution files and configs. For illustration:
 
+.. code-block:: text
 
-| maxaimarketplace
-|    ├──maxaiconfigs
-│    └──domain_01
+   maxaimarketplace
+       ├──maxaiconfigs
+       ├──domain_01
+         │  └──usecase_01
+         |       ├──spark_config.json
+         |       └──obj0
+         |            └──py_config.json
+         └──domain_02
+              └──usecase_02
+                   ├──spark_config.json
+                   └──obj0
+                        └──py_config.json
 
 
-|
 
-|      │    └──usecase_01
-|      |         ├──spark_config.json
-|      |         └──obj0
-|      |              └──py_config.json
-|      └──domain_02
-|        └──usecase_02
-|        ├──spark_config.json
-|          └──obj0
-|            └──py_config.json
-|
-|
-|
 
 
 | simpleble-master
