@@ -76,9 +76,9 @@ The ``spark_config.json`` contains two type of arguments:
     
 Hence, ``spark_config.json`` should have following args:
     - ``conf`` - key-values pairs of SparkConf arguments, with keys being spelled exactly as defined in `official Spark configurations document <https://spark.apache.org/docs/latest/configuration.html>`_ followed by their respective values.
-    - ``tasks`` - a **list** of dicts, with three mandatory keys, ``name``, ``task_id`` and ``spark_submit_conf``.
+    - ``tasks`` - a **list** of dicts, with three mandatory keys, ``name``, ``id`` and ``spark_submit_conf``.
         - ``name`` - a string with task name, same as defined in DAGFactory task definition.
-        - ``task_id`` - integer that defines the order of task in the DAG.
+        - ``id`` - integer that defines the order of task in the DAG.
         - ``spark_submit_conf`` - the key-value pairs, in accordance with `spark_submit_operator <https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_.
         
 .. code-block:: json
@@ -88,12 +88,12 @@ Hence, ``spark_config.json`` should have following args:
         "tasks": [
             {
                 "name": "task_1",
-                "task_id": 1,
+                "id": 1,
                 "spark_submit_conf": {...}
             },
             {
                 "name": "task_2",
-                "task_id": 2,
+                "id": 2,
                 "spark_submit_conf": {...}
             }
         ]
@@ -111,7 +111,7 @@ If, for some reason, a particular task requires a different set of SparkConf, th
             },
         "tasks": [
             {
-                "task_id": 1,
+                "id": 1,
                 "name": "first_task",
                 "spark_submit_conf": {
                     "application": "first_main.py",
@@ -119,7 +119,7 @@ If, for some reason, a particular task requires a different set of SparkConf, th
                 }
             },
             {
-                "task_id": 2,
+                "id": 2,
                 "name": "second_task",
                 "spark_submit_conf": {
                     "conf": {
@@ -130,7 +130,7 @@ If, for some reason, a particular task requires a different set of SparkConf, th
                 }
             },
             {
-                "task_id": 3,
+                "id": 3,
                 "name": "third_task",
                 "spark_submit_conf": {
                     "py_files": "",
@@ -147,22 +147,95 @@ If, for some reason, a particular task requires a different set of SparkConf, th
 kubepod_config
 ^^^^^^^^^^^^^^
 The ``kubepod_config.json`` is similar to the ``spark_config.json``, with difference being, former is for specifically for KubernetesPodOperator. The structure is also similar, with mandatory arguments as follow:
-    - ``task_id`` - integer that defines the order of task in the DAG.
+    - ``id`` - integer that defines the order of task in the DAG.
     - ``name`` - a string with task name, same as defined in DAGFactory task definition.
     - ``conf`` - key-value pairs, in accordance with `KubernetedPodOperator <https://airflow.apache.org/docs/apache-airflow-providers-cncf-kubernetes/stable/_api/airflow/providers/cncf/kubernetes/operators/kubernetes_pod/index.html#airflow.providers.cncf.kubernetes.operators.kubernetes_pod.KubernetesPodOperator>`_.
 
+
 .. code-block:: json
+
     {
         "tasks": [
             {
-                "task_id": 1,
-                 "name": "",
+                "id": 1,
+                 "name": "task_1",
                  "conf": {...}
             },
             {
-                "task_id": 2,
-                 "name": "",
+                "id": 2,
+                 "name": "task_02",
                  "conf": {...}
             },
         ]
     }
+    
+    
+py_config
+^^^^^^^^^
+The PyConfig should contain a **task name** as a key and task specific configs as its value. The following example illustrates that:
+
+.. code-block:: json
+
+    {
+        "task_01": {
+            ...
+        },
+        "task_02": {
+            ...
+        }
+    }
+
+
+.. note::
+    The "name" of task in all the configs should be same as the task_id in the DAGFactory's DAG definition.
+    
+How to access py_config.json in Python Driver file?
++++++++++++++++++++++++++++++++++++++++++++++++++++
+The ConfigStore can be accessed in the Python scripts using the ``maxairesources.config_store.config`` module. One can decorate their ``execute`` function by ``config.pyconfig``. The code snippet looks somewhat like this:-
+
+.. code-block:: python
+
+    import sys
+    from maxairesources.config_store import config
+    from maxairesources.logging.logger import get_logger
+
+
+    logger = get_logger(__name__)
+
+
+    class ComponentHandler(object):
+        def __init__(self):
+            pass
+
+        def execute_component(self, request_data):
+            input_data = request_data["input"]
+            output_data = request_data["output"]
+            arguments = request_data["function"]["args"]
+
+            logger.info("Execute component....")
+
+
+    @config.main()
+    def execute(**kwargs):
+        access_credentials = kwargs["access_credentials"]
+        py_config = kwargs["config"]        # imports the whole py_config
+        task_config = py_config["task_id"]  # define which task this pyconfig belongs to
+
+        ComponentHandler().execute_component(request_data=task_config)
+
+
+    try:
+        logger.info("Task Started")
+        exit_code = 0
+        execute(argument=input_argument)
+        logger.info("Task Ended")
+    except Exception as e:
+        exit_code = 1
+        raise Exception(e)
+    finally:
+        spark.stop()
+        sys.exit(exit_code)
+    
+    
+DAGFactory
+**********
