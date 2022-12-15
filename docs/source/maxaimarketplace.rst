@@ -20,7 +20,7 @@ Every client deployment (dev and prod) should have three directories, one for *c
        |     |            └──py_config.json
        |     └──domain_02
        |          └──usecase_02
-       |               ├──spark_config.json
+       |               ├──kubepod_config.json
        |               └──obj0
        |                    └──py_config.json
        ├──maxaidags
@@ -53,3 +53,52 @@ Every client deployment (dev and prod) should have three directories, one for *c
                   ├──README.md
                   ├──requirements.txt
                   └──setup.py
+
+
+The structure of configs, DAGs and usecases is covered in the following sections.
+
+Configs
+*******
+As **Max.AI** deployments are config-driven, this section talks about the structure of the configs, specifically if DagFactory is being used for purpose of DAG creation.
+
+Currently, three types of configs are supported:
+    1. ``spark_config.json`` - used by Airflow's *SparkSubmitOperator*.
+    2. ``kubepod_config.json`` - used by Airflow's *KubernetesPodOperator*.
+    3. ``py_config.json`` - used by Python handlers, which execute the driver code.
+    
+The structure of these configuration files is described in detail in the following sections:
+
+spark_config
+^^^^^^^^^^^^
+The ``spark_config.json`` contains two type of arguments:
+    1. SparkConf arguments - which are applicable across all the tasks, like `container.image`, `namespace` etc.
+    2. Task-specific arguments - which are applicable only for a specific task, like `name`, `num-executors`, `driver-memory` etc
+    
+Hence, ``spark_config.json`` should have following args:
+    - ``conf`` - key-values pairs of SparkConf arguments, with keys being spelled exactly as defined in `official Spark configurations document<https://spark.apache.org/docs/latest/configuration.html>`_ followed by their respective values.
+    - ``tasks`` - a **list** of dicts, with three mandatory keys, ``name``, ``task_id`` and ``spark_submit_conf``.
+        - ``name`` - a string with task name, same as defined in DAGFactory task definition.
+        - ``task_id`` - integer that defines the order of task in the DAG.
+        - ``spark_submit_conf`` - the keys here should be in accordance with `spark_submit_operator<https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_.
+        
+.. code_block:: json
+
+    {
+        "conf": {...},
+        "tasks": [
+            {
+                "name": "task_1",
+                "task_id": 1,
+                "spark_submit_conf": {...}
+            },
+            {
+                "name": "task_2",
+                "task_id": 2,
+                "spark_submit_conf": {...}
+            }
+        ]
+    }
+        
+
+
+
