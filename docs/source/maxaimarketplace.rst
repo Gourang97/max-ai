@@ -285,7 +285,7 @@ The DAGFactory is an abstraction layer built on top of Airflow, specifically for
     it is essesntial to assign returned object to a variable. This is because, if assignment is not done, the DAG won't be appear in ``global()`` scope. For further details, please check this `link <https://airflow.apache.org/docs/apache-airflow/1.10.3/concepts.html?highlight=variable#scope>`_.
     
 
-The task dependencies in the DAGFactory are captured by `parent` argument in the `add` method. `parent` accepts a list of tasks on which the current task is dependent on. If a task has no dependency, i.e. it is the first task, one should mention `parent=["root"]`, signifying it is the root or first task and has no dependencies.
+The task dependencies in the DAGFactory are captured by ``parent`` argument in the ``add`` method. The ``parent`` accepts a list of tasks on which the current task is dependent on. If a task has no dependency, i.e. it is the first task, one should mention ``parent=["root"]``, signifying it is the root or first task and has no dependencies.
 
 
 The DAGFactory currently supports following operators:
@@ -299,5 +299,9 @@ The DAGFactory currently supports following operators:
     8. `SparkSubmitOperator <https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_
     
     
-Use-Case
-********
+Pull Request Policy
+*******************
+Whenever the files the for a particular use-case are updated, the name of **use-case folder** should be added in front of the pull request message. For instance, if one has updated requirement.txt in qsr's *usecase/folder* commit message can be: ``qsr-updated requirement.txt``. 
+
+.. info::
+    As a standard just pass ``usecase/folder-<your commit message here>``.
