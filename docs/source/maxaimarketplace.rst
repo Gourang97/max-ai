@@ -303,5 +303,5 @@ Pull Request Policy
 *******************
 Whenever the files the for a particular use-case are updated, the name of **use-case folder** should be added in front of the pull request message. For instance, if one has updated requirement.txt in qsr's *usecase/folder* commit message can be: ``qsr-updated requirement.txt``. 
 
-.. info::
+.. note::
     As a standard just pass ``usecase/folder-<your commit message here>``.
