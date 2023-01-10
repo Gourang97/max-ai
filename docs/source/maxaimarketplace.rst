@@ -297,11 +297,4 @@ The DAGFactory currently supports following operators:
     6. `PythonOperator <https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.PythonOperator>`_
     7. `ShortCircuitOperator <https://airflow.apache.org/docs/apache-airflow/stable/_api/airflow/operators/python/index.html#airflow.operators.python.ShortCircuitOperator>`_
     8. `SparkSubmitOperator <https://airflow.apache.org/docs/apache-airflow-providers-apache-spark/stable/_api/airflow/providers/apache/spark/operators/spark_submit/index.html>`_
-    
-    
-Pull Request Policy
-*******************
-Whenever the files the for a particular use-case are updated, the name of **use-case folder** should be added in front of the pull request message. For instance, if one has updated requirement.txt in qsr's *usecase/folder* commit message can be: ``qsr-updated requirement.txt``. 
 
-.. note::
-    As a standard just pass ``usecase/folder-<your commit message here>``.
