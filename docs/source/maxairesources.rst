@@ -59,6 +59,65 @@ Returns:
 >>> df = df_obj.get(config_data, port_number=1)
 >>> df.head()
 
+get_data_for_a_port
+$$$$$$$$$$$$$$$$$$$
+returns the port details
+
+Args:
+    - ``data (dict)``: config dictionary
+    - ``port_number(int)``: port number for which details have to be fetched
+    - ``connection_type(Optional[str])`` : *Deprecated*. Will be ignored if passed.
+
+Returns:
+    - ``port_details (dict)``: port details in dictionary format
+
+>>> from maxairesources.utilities.data_connectors import DataFrame
+>>> input_data = [{
+...     "port": 1,
+...     "type": "pandas",
+...     "sourceDetails": {
+...         "source": "s3",
+...         "fileFormat": "csv",
+...         "filePath": "s3://zs-sample-datasets-ds/temp/examples/test.csv"
+...     }
+... }]
+>>> df_obj = DataFrame()
+>>> port_details = df_obj.get_data_for_a_port(input_data,port_number=1)
+>>> print(port_details)
+    
+get_default_mandatory_arguments
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Function to get the default arguments and mandatory arguments for particular DataFrame ``type``, ``format`` and operation (``get`` or ``write``). 
+
+Args:
+    - ``df_type (str)`` - Type of DataFrame. It can be either ``'Pandas'`` or ``'Spark'``
+    - ``df_format (str)`` - format of all the data. One can use ``get_supported_formats()`` to get the list of available data formats supported by the ``DataFrame``.
+    - ``operation (str)`` - either ``'get'`` or ``'write'``
+    
+>>> from maxairesources.utilities.data_connectors import DataFrame
+>>> df_type = 'spark'
+>>> operation = 'write'
+>>> df_obj = DataFrame()
+>>> df_obj.get_default_mandatory_arguments(
+...     df_type,
+...     df_format,
+...     operation
+... )
+
+get_supported_formats
+$$$$$$$$$$$$$$$$$$$$$
+Returns the dictionary of the supported formats.
+
+Args:
+    - ``None``
+    
+Returns:
+    - ``dict`` - Dictionary of all the supported formats with their keys
+    
+>>> from maxairesources.utilities.data_connectors import DataFrame
+>>> df_obj = DataFrame()
+>>> df_obj.get_supported_formats()
+
 write
 $$$$$$
 Function to write the data in the declared file-format.
@@ -90,24 +149,3 @@ Returns:
 >>> df_obj = DataFrame()
 >>> status = df_obj.write(df,config_data,port_number=1)
 >>> print(status)
-    
-get_default_mandatory_arguments
-$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-Function to get the default arguments and mandatory arguments for particular DataFrame ``type``, ``format`` and operation (``get`` or ``write``). 
-
-Args:
-    - ``df_type (str)`` - Type of DataFrame. It can be either ``'Pandas'`` or ``'Spark'``
-    - ``df_format (str)`` - format of all the data. One can use ``get_supported_formats()`` to get the list of available data formats supported by the ``DataFrame``.
-    - ``operation (str)`` - either ``'get'`` or ``'write'``
-    
->>> from maxairesources.utilities.data_connectors import DataFrame
->>> df_type = 'spark'
->>> operation = 'write'
->>> df_obj = DataFrame()
->>> df_obj.get_default_mandatory_arguments(
-...     df_type,
-...     df_format,
-...     operation
-... )
-
-
