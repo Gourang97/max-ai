@@ -1,29 +1,40 @@
 maxairesources
 ==============
 
-Utilities
-*********
+Eval
+****
 
-SparkDistributor
-^^^^^^^^^^^^^^^^
-
-A PySpark wrapper module to distribute Python functions which are mainly written using Pandas. SparkDistributor converts the Python functions to PandasUDF and runs them at scale.
+ModelEvaluator
+^^^^^^^^^^^^^^
+runs multiple checks for diagnosis of a model.
 
 Args:
-    - ``python_function (Callable)`` - A user defined function that should take Pandas Dataframe as input and return Pandas Dataframe as output.
-    - ``spark_dataframe (pyspark.sql.DataFrame)`` - The Dataframe which needs to be processed using the ``python_function``.
-    - ``sample_size (int, optional)`` - The number of sample records to be used to call the ``python_function`` directly. The call to ``python_function`` using sample of a ``Pandas.DataFrame`` is used to infer the schema for the final dataframe. *Increase the sample size if the python function is not able to execute with the given sample size*. Defaults to ``100``.
-    - ``output_schema (optional)`` - schema of the output dataframe. If None the function tries to infer the schema by using sample of data. The size of the sample is specified by sample size. Defaults to ``None``.
-    - ``group_key`` - Name of the column to do grouby on. If None then spark partition id is used as a ``group_key``. Defaults to ``None``.
-    - ``parallelism`` - Specifies the number of partitions. If none then no repartition is performed. Defaults to ``None``.
-    - ``args`` - Arguments to ``python_function``.
-    - ``kwargs`` - Keyword Arguments to ``python_function``.
+    - ``train_data (pandas.core.frame.DataFrame or pyspark.sql.dataframe.DataFrame)`` - Reference Dataset
+    - ``test_data (pandas.core.frame.DataFrame or pyspark.sql.dataframe.DataFrame)`` - Current Dataset, the data to be compared with Reference dataset.
+    - ``model (maxaibase.model.model_base.BaseModel)`` - Spark model
+    - ``label_col (str)`` - save the report to a html file in the given location
+    - ``features (list)`` - list of features required in the training
+    - ``cat_features (list)`` - list of categorical features
+    - ``sample_ratio (int)`` - Sample size to convert the Spark-DataFrame to Pandas-DataFrame for reference dataset
+    - ``pre_process_spark_function (callable)`` - A function which processes the given spark_dataframe. If this argument is passed then the above samples won't be applied anymore.
     
->>> from maxairesources.utilities import SparkDistributor
->>> spark_wrapper = SparkDistributor(python_function=python_function, spark_dataframe=spark_df)
->>> result = spark_wrapper.pandas_to_spark_wrapper()
->>> result.show(5)
+Returns:
+    - ``model_evaluation_results (dict)`` - ``True`` if dataset is drifted else ``False``
+    - ``train_test_validations (dict)`` - List of columns for which drift has been detected
+    
+>>> from maxairesources.eval.model_evaluator import ModelEvaluator
+>>> evaluator = ModelEvaluator(
+...     train_data,
+...     test_data,
+...     model
+...     sample_ratio = 0.2
+... )
+>>> model_val, train_test_val = evaluator.evaluate()
 
+
+
+Utilities
+*********
 
 DataFrame
 ^^^^^^^^^
@@ -149,3 +160,24 @@ Returns:
 >>> df_obj = DataFrame()
 >>> status = df_obj.write(df,config_data,port_number=1)
 >>> print(status)
+
+
+SparkDistributor
+^^^^^^^^^^^^^^^^
+
+A PySpark wrapper module to distribute Python functions which are mainly written using Pandas. SparkDistributor converts the Python functions to PandasUDF and runs them at scale.
+
+Args:
+    - ``python_function (Callable)`` - A user defined function that should take Pandas Dataframe as input and return Pandas Dataframe as output.
+    - ``spark_dataframe (pyspark.sql.DataFrame)`` - The Dataframe which needs to be processed using the ``python_function``.
+    - ``sample_size (int, optional)`` - The number of sample records to be used to call the ``python_function`` directly. The call to ``python_function`` using sample of a ``Pandas.DataFrame`` is used to infer the schema for the final dataframe. *Increase the sample size if the python function is not able to execute with the given sample size*. Defaults to ``100``.
+    - ``output_schema (optional)`` - schema of the output dataframe. If None the function tries to infer the schema by using sample of data. The size of the sample is specified by sample size. Defaults to ``None``.
+    - ``group_key`` - Name of the column to do grouby on. If None then spark partition id is used as a ``group_key``. Defaults to ``None``.
+    - ``parallelism`` - Specifies the number of partitions. If none then no repartition is performed. Defaults to ``None``.
+    - ``args`` - Arguments to ``python_function``.
+    - ``kwargs`` - Keyword Arguments to ``python_function``.
+    
+>>> from maxairesources.utilities import SparkDistributor
+>>> spark_wrapper = SparkDistributor(python_function=python_function, spark_dataframe=spark_df)
+>>> result = spark_wrapper.pandas_to_spark_wrapper()
+>>> result.show(5)

@@ -4,7 +4,7 @@ Wrappers to handle data in pipelines.
 
 DataEvaluator
 ^^^^^^^^^^^^^
-runs multiple checks for validating the models.
+runs multiple checks for validating a dataset.
 
 Args:
     - ``data (pandas.core.frame.DataFrame or pyspark.sql.dataframe.DataFrame)`` - reference dataset
@@ -83,7 +83,10 @@ Args:
 **Write Mode usage**
 
 .. code-block:: python
+    from maxaidatahandling.dataset import MaxDataset
 
+    
+    # output data_config
     op_data_config = {
         "port": 1,
         "dataType": "dataframe",
