@@ -15,6 +15,7 @@ Built entirely on PySpark, Max.AI comes with modules that can help in processing
    :maxdepth: 2
 
    getting_started
+   maxaidatahandling
    maxaifeaturization
    maxaimetadata
    maxaimodel
