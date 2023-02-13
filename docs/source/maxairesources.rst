@@ -23,3 +23,91 @@ Args:
 >>> spark_wrapper = SparkDistributor(python_function=python_function, spark_dataframe=spark_df)
 >>> result = spark_wrapper.pandas_to_spark_wrapper()
 >>> result.show(5)
+
+
+DataFrame
+^^^^^^^^^
+``DataFrame`` is the data connector utility of Max.AI. It contains two primary methods, ``get()`` for reading the data and ``write()`` for writing the data. The ``DataFrame`` class is designed keeping in mind the config-driven nature of Max.AI modules. One can further refer to its method (listed below) for detailed overview.
+
+get
+$$$$
+Function to read the data as a Spark or Pandas DataFrame.
+
+Args:
+    - ``input_data (dict)`` - Config dictionary container ``port``, ``type`` and ``sourceDetails`` information (or keys)
+        - ``port (int)`` - identifier key in the ``input_data``
+        - ``type (str)`` - Type of DataFrame. Accepts only two values, ``Pandas`` or ``Spark``
+        - ``sourceDetails (dict)`` - a dictionary that captures datasource information. It should have following keys:
+            - ``source (str)`` - identifier of the cloud provider. Accepted values: ``s3``, ``adls``.
+            - ``fileFormat (str)`` - this parameter depends upon the ``type``. If the ``type=="Spark"``, then supported values are ``iceberg``, ``feast``, ``csv``, ``parquet`` and ``cassandra``. Where as if ``type=="Pandas"``, then supported values are ``csv``, ``parquet`` ``excel`` and ``json``.
+            - ``filePath (str)`` - path of the file.
+ 
+Returns:
+    - ``output_dataframe (Union[pandas.core.frame.DataFrame, pyspark.sql.dataframe.DataFrame])`` - returns either ``pandas.core.frame.DataFrame`` or ``pyspark.sql.dataframe.DataFrame`` based on ``type`` defined in ``input_data``.
+    
+>>> from maxairesources.utilities.data_connectors import DataFrame
+>>> config_data = [{
+...     "port": 1,
+...     "type": "pandas",
+...     "sourceDetails": {
+...          "source": "s3",
+...          "fileFormat": "csv",
+...          "filePath": "s3://zs-sample-datasets-ds/temp/examples/test.csv"
+...     }
+... }]
+>>> df_obj = DataFrame()
+>>> df = df_obj.get(config_data, port_number=1)
+>>> df.head()
+
+write
+$$$$$$
+Function to write the data in the declared file-format.
+
+Args:
+    - ``df (Union[pandas.core.frame.DataFrame, pyspark.sql.dataframe.DataFrame])`` - DataFrame to be written
+    - ``output_data (dict)`` - Config dictionary container ``port``, ``type`` and ``sourceDetails`` information (or keys)
+        - ``port (int)`` - identifier key in the ``input_data``
+        - ``type (str)`` - Type of DataFrame. Accepts only two values, ``Pandas`` or ``Spark``
+        - ``sourceDetails (dict)`` - a dictionary that captures datasource information. It should have following keys:
+            - ``source (str)`` - identifier of the cloud provider. Accepted values: ``s3``, ``adls``.
+            - ``fileFormat (str)`` - this parameter depends upon the ``type``. If the ``type=="Spark"``, then supported values are ``iceberg``, ``feast``, ``csv``, ``parquet`` and ``cassandra``. Where as if ``type=="Pandas"``, then supported values are ``csv``, ``parquet`` ``excel`` and ``json``.
+            - ``filePath (str)`` - path of the file.
+ 
+Returns:
+    - ``status (boolean)`` - returns ``True`` if the data is written.
+    
+>>> from maxairesources.utilities.data_connectors import DataFrame
+>>> config_data = [{
+...     "port": 1,
+...     "type": "pandas",
+...     "sourceDetails": {
+...          "source": "s3",
+...          "fileFormat": "csv",
+...          "filePath": "s3://zs-sample-datasets-ds/temp/examples/test/"
+...     }
+... }]
+>>> df = pd.DataFrame(data={'col1': [1, 2], 'col2': [3, 4]})
+>>> df_obj = DataFrame()
+>>> status = df_obj.write(df,config_data,port_number=1)
+>>> print(status)
+    
+get_default_mandatory_arguments
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Function to get the default arguments and mandatory arguments for particular DataFrame ``type``, ``format`` and operation (``get`` or ``write``). 
+
+Args:
+    - ``df_type (str)`` - Type of DataFrame. It can be either ``'Pandas'`` or ``'Spark'``
+    - ``df_format (str)`` - format of all the data. One can use ``get_supported_formats()`` to get the list of available data formats supported by the ``DataFrame``.
+    - ``operation (str)`` - either ``'get'`` or ``'write'``
+    
+>>> from maxairesources.utilities.data_connectors import DataFrame
+>>> df_type = 'spark'
+>>> operation = 'write'
+>>> df_obj = DataFrame()
+>>> df_obj.get_default_mandatory_arguments(
+...     df_type,
+...     df_format,
+...     operation
+... )
+
+
