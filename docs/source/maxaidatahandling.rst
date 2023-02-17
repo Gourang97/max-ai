@@ -34,7 +34,7 @@ Args:
 
 **Read and preprocess example**
 
-.. code-block:: python
+..  code-block:: python
     from maxaidatahandling.dataset import MaxDataset
     
     
@@ -82,7 +82,7 @@ Args:
     
 **Write Mode usage**
 
-.. code-block:: python
+..  code-block:: python
     from maxaidatahandling.dataset import MaxDataset
 
     
