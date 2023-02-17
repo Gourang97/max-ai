@@ -157,7 +157,8 @@ To send with an e-mail notification, along with artifacts
 ...    email_subject="Subject Line"
 ... )
 
-.. info::
+.. note::
+
     The aggregate size of all the artifacts should not exceed 10 MB. If it does, than first *N* attachments with size less than the limit will be sent. For instance, if we have three files, ``file1.json``, ``file2.html`` and ``file3.txt``, weighing in at 1 MB, 8 MB and 3 MB respectively, then first two files will attached with the email, but third one will be ommitted as first two will have size of 9 MB and attaching third file will exceed the pre-defined limit. Hence, it is best to mention the **important** files in the ``artifact_list`` on smaller indices.
 
 
