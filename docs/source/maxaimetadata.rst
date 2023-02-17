@@ -135,15 +135,30 @@ Returns:
     
 stop
 ^^^^
-method to stop the MaxFlow instance. Ends all the active runs.
+method to stop the MaxFlow instance. Ends all the active runs. This method also have provides a functionality to send e-mail along with the artifacts logged in the current active run (along with all corresponding parent and child runs).
 
 Args:
-    - ``None``
-    
+    - ``artifact_list (list, optional)`` - a list of the artifacts that are to be attached with the email. Filename should be with extension (e.g. ``param_grid.json``)
+    - ``to_email (Union[str, list], optional)`` - email-id(s) to whom mail is to be sent.
+    - ``email_subject (str, optional)`` - subject line of email
+
 Returns:
     - ``None``
-    
+
+To send without any e-mail notification:
+
 >>> mf.stop()
+
+To send with an e-mail notification, along with artifacts
+
+>>> mf.stop(
+...    artifact_list=["model_evaluation.html", "param_grid.json"],
+...    to_email=["user1@company.com", "user2@company.com"],
+...    email_subject="Subject Line"
+... )
+
+.. info::
+    The aggregate size of all the artifacts should not exceed 10 MB. If it does, than first *N* attachments with size less than the limit will be sent. For instance, if we have three files, ``file1.json``, ``file2.html`` and ``file3.txt``, weighing in at 1 MB, 8 MB and 3 MB respectively, then first two files will attached with the email, but third one will be ommitted as first two will have size of 9 MB and attaching third file will exceed the pre-defined limit. Hence, it is best to mention the **important** files in the ``artifact_list`` on smaller indices.
 
 
 MaxRun
@@ -155,7 +170,7 @@ Args:
     - ``exp (mlflow.entities.Experiment)``: MLflow experiment name
     - ``run (mlflow.entities.Run)``: MLflow run object
     
->>> from maxaimetadata import MaxFlow
+>>> from maxaimetadata.maxflow import MaxFlow
 >>> mf = MaxFlow(uri="", usr="", pwd="")        # create a maxflow instance
 >>> mf.set_experiment(
 ...    experiment="experiment_name", 
