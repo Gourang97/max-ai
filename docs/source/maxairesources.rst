@@ -10,11 +10,16 @@ SparkDataFrameAnalyser
 performs profiling a PySpark DataFrame. The aim of this class is to show all red flags in data for a given column(s). 
 
 Args:
-    - ``df (pyspark.sql.DataFrame)`` - DataFrame to profile.
-    - ``in_scope_columns (list)`` - Defaults to ``None``
-    - ``summary_only (bool)`` - Defaults to ``False``
-    - ``save_report (bool)`` - Defaults to ``True``
-    - ``column_types (dict)`` - Defaults to ``None``
+    - ``df (pyspark.sql.DataFrame)`` - DataFrame to be profiled.
+    - ``in_scope_columns (list)`` - If passed, only considers the mentioned columns. If ``None``, all columns are considered in scope. Defaults to ``None``.
+    - ``summary_only (bool)`` - (Not Implemented). If set to ``True``, save graphs to a given folder. Defaults to ``False``
+    - ``save_report (bool)`` - If set to ``True``, saves the report. Defaults to ``True``
+    - ``column_types (dict)`` - A ``dict`` that contains columns by their segregated by their type. Defaults to ``None``. The keys in dictionary are as follow:
+        - ``numerical_cols (list)`` - list of numerical columns
+        - ``bool_cols (list)`` - list of boolean columns with ``True`` or ``False`` values. ``0``s and ``1``s are not accepted.
+        - ``categorical_cols (list)`` - list of categorical columns only. No text columns are allowed
+        - ``free_text_cols (list)`` - (Not Implemented). list of text columns.
+        - ``unique_identifier_cols (list)`` - unique ID columns (primary key etc.)
     - ``thresholds (dict)`` - Defaults to ``None``
     - ``behaviours (dict)`` - Defaults to None
     - ``sample_ratio (float)`` - Defaults to ``None``
