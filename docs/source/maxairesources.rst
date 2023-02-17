@@ -16,7 +16,7 @@ Args:
     - ``save_report (bool)`` - If set to ``True``, saves the report. Defaults to ``True``
     - ``column_types (dict)`` - A ``dict`` that contains columns by their segregated by their type. Defaults to ``None``. The keys in dictionary are as follow:
         - ``numerical_cols (list)`` - list of numerical columns
-        - ``bool_cols (list)`` - list of boolean columns with ``True`` or ``False`` values. ``0``s and ``1``s are not accepted.
+        - ``bool_cols (list)`` - list of boolean columns with ``True`` or ``False`` values. 0s and 1s are not accepted.
         - ``categorical_cols (list)`` - list of categorical columns only. No text columns are allowed
         - ``free_text_cols (list)`` - (Not Implemented). list of text columns.
         - ``unique_identifier_cols (list)`` - unique ID columns (primary key etc.)
