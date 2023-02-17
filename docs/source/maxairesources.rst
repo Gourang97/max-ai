@@ -1,6 +1,62 @@
 maxairesources
 ==============
 
+DataChecks
+**********
+The datachecks module is dedicated to perform quick checks on the data. 
+
+SparkDataFrameAnalyser
+^^^^^^^^^^^^^^^^^^^^^^
+performs profiling a PySpark DataFrame. The aim of this class is to show all red flags in data for a given column(s). 
+
+Args:
+    - ``df (pyspark.sql.DataFrame)`` - DataFrame to profile.
+    - ``in_scope_columns (list)`` - Defaults to ``None``
+    - ``summary_only (bool)`` - Defaults to ``False``
+    - ``save_report (bool)`` - Defaults to ``True``
+    - ``column_types (dict)`` - Defaults to ``None``
+    - ``thresholds (dict)`` - Defaults to ``None``
+    - ``behaviours (dict)`` - Defaults to None
+    - ``sample_ratio (float)`` - Defaults to ``None``
+    
+>>> from maxairesources.datachecks.dataframe_analysis_spark import SparkDataFrameAnalyser
+>>> col_types = {
+...     "numerical_cols": [],
+...     "bool_cols": [],
+...     "categorical_cols": [],
+...     "free_text_cols": [],
+...     "unique_identifier_cols": []
+... }
+>>> df = spark.read.csv("path")
+>>> analyser = SparkDataFrameAnalyser(df=df, column_types=col_types)   # create instance of analyser
+>>> report = analyser.generate_data_health_report()
+>>> analyser.save_analysis_report(report)
+
+
+compare_reports
+$$$$$$$$$$$$$$$
+compare two report dictionaries coming from same class, key by key. If value increases or decreases by certain basis points then a warning raised.
+
+Args:
+    - ``old_report (dict)`` -  reference report to be compared with
+    - ``new_report (dict)`` - newly generated report
+    - ``threshold_change (int)`` - Deviation metric. If above this threshold, the metric is said to be deviated. Defaults to ``3``.
+
+Returns
+    - ``score (int)`` - change or deviation score based on number of places where change is observed.
+
+
+generate_data_health_report
+$$$$$$$$$$$$$$$$$$$$$$$$$$$
+method to generate SparkDataFrameAnalyser report.
+
+Args:
+    - ``None``
+
+Returns:
+    - ``analysis_report (dict)``
+
+
 Eval
 ****
 
