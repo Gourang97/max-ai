@@ -93,6 +93,77 @@ Returns:
 >>> model_val, train_test_val = evaluator.evaluate()
 
 
+Logger
+*******
+
+get_logger
+^^^^^^^^^^
+returns logger as per filename or module name
+
+Args:
+    - ``name`` - filename or module name
+    - ``level`` - logging level. The ``maxairesources.logging.logger`` supports following logging levels
+        - ``DEBUG`` - Detailed information, typically of interest only when diagnosing problems.
+        - ``INFO`` - Confirmation information, that things are working as expected.
+        - ``WARNING`` - An indication that something unexpected happened, or indicative of some problem in the near future (e.g. "disk space low"). 
+        The software is still working as expected.
+        - ``ERROR`` - Due to a more serious problem, the software has not been able to perform some function.
+        - ``CRITICAL`` - A serious error, indicating that the program itself may be unable to continue running.
+
+>>> from maxairesources.logging.logger import get_logger
+>>> logger = get_logger(__name__)
+>>> logger.debug(f"log this debug message")
+
+
+
+Pipeline
+********
+
+SparkPipeline
+^^^^^^^^^^^^^
+Creates a Spark Pipeline consisting of Transformers and Estimators, calling ``fit`` on pipeline will execute the stages in order.
+
+Args:
+    - ``stages (dict)`` - a dictionary of transformers and/or estimators as keys and their respective arguments as values
+
+build
+$$$$$
+method to create the spark pipeline for multiple columns with the same transformers
+
+Args:
+    - ``None``
+    
+Returns:
+    - ``pipeline (maxairesources.pipeline.spark_pipeline.SparkPipeline)``
+
+fit
+$$$$$
+fits the pipeline on a ``pyspark.sql.dataframe``
+
+Args:
+    - ``data (pyspark.sql.dataframe)`` - dataframe on which the pipeline object is to be fitted
+
+Returns:
+    - ``None``
+    
+transform
+$$$$$$$$$
+transforms ``pyspark.sql.dataframe`` using the defined pipeline
+
+Args:
+    - ``data (pyspark.sql.dataframe)`` - dataframe on which is to be transformed
+
+Returns:
+    - ``pyspark.sql.dataframe``
+    
+save
+$$$$$
+saves the pipeline
+
+Args:
+    - ``path (str)`` - path where pipeline object is to be saved
+
+
 
 Utilities
 *********
@@ -238,7 +309,34 @@ Args:
     - ``args`` - Arguments to ``python_function``.
     - ``kwargs`` - Keyword Arguments to ``python_function``.
     
->>> from maxairesources.utilities import SparkDistributor
+>>> from maxairesources.utilities.spark_distributor import SparkDistributor
 >>> spark_wrapper = SparkDistributor(python_function=python_function, spark_dataframe=spark_df)
 >>> result = spark_wrapper.pandas_to_spark_wrapper()
 >>> result.show(5)
+
+
+TrainTestSplit
+^^^^^^^^^^^^^^
+splits a ``pyspark.sql.DataFrame`` into random train and test subsets.
+
+Args:
+    - ``data (pyspark.sql.DataFrame)`` - dataframe on which split is required
+    - ``train_size (float)`` - should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split
+    - ``params (dict)`` - a dictionary which intakes ANY ONE of the following values:
+        - ``random_state (bool)`` -  to do a random split
+        - ``stratify (bool)`` - to do a stratified split
+        - ``ts (bool)`` - to do a time series split
+    - ``seed (int)`` - pass an int for reproducible output across multiple function calls
+
+Returns:
+    - ``train (pyspark.sql.DataFrame)``
+    - ``test (pyspark.sql.DataFrame)``
+    
+>>> from maxairesources.utilities.train_test_split import TrainTestSplit
+>>> split = TrainTestSplit(
+...     data=spark_df,
+...     train_size=0.8,
+...     params={"random_state": True},
+...     seed=19
+... )
+>>> train_df, test_df = split.train_test_split()
