@@ -194,6 +194,103 @@ Args:
 >>> svc.save(path="./models/svc")
 
 
+Clustering
+**********
+
+SparkBisectKmeansClustering
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+This class provide implementation to run Spark Bisecting Kmeans Clustering on the data.
+
+Args:
+    - ``k (int)`` - no of clusters required. Default to 0. If 0 model will try to find the optimal k value for the data.
+    - ``k_min (int)`` - min k value to consider for running optimization. Required only if k is 0
+    - ``k_max (int)`` - max k value to consider for running optimization. Required only if k is 0
+    - ``feature_col (string)`` - Column name which has the vectorized features. Default to features
+    - ``params (dict, optional)`` - dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.clustering.BisectingKMeans.html>`_
+
+>>> from maxaimodel.spark.clustering.spark_bisecting_kmeans import SparkBisectKmeansClustering
+>>> model = SparkBisectKmeansClustering(k=10)
+>>> model.fit(data)
+>>> predicition = model.predict(data)
+
+SparkGMMClustering
+^^^^^^^^^^^^^^^^^^
+This class provide implementation to run Spark GaussianMixture Clustering on the data.
+
+Args:
+    - ``k (int)`` - no of clusters required. Default to 0. If 0 model will try to find the optimal k value for the data.
+    - ``k_min (int)`` - min k value to consider for running optimization. Required only if k is 0
+    - ``k_max (int)`` - max k value to consider for running optimization. Required only if k is 0
+    - ``feature_col (string)`` - Column name which has the vectorized features. Default to features
+    - ``params (dict, optional)`` - dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.clustering.GaussianMixture.html>`_
+
+Raises:
+    - ````
+
+>>> from maxaimodel.spark.clustering.spark_gmm import SparkGMMClustering
+>>> model = SparkGMMClustering(k=10)
+>>> model.fit(data)
+>>> predicition = model.predict(data)
+
+
+SparkKMeansClustering
+^^^^^^^^^^^^^^^^^^^^^
+This class provide implementation to run Spark GaussianMixture Clustering on the data.
+
+Args:
+    - ``k (int)`` - no of clusters required. Default to 0. If 0 model will try to find the optimal k value for the data.
+    - ``k_min (int)`` - min k value to consider for running optimization. Required only if k is 0
+    - ``k_max (int)`` - max k value to consider for running optimization. Required only if k is 0
+    - ``feature_col (string)`` - Column name which has the vectorized features. Default to features
+    - ``params (dict, optional)`` - dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.clustering.KMeans.html>`_
+
+Raises:
+    - ````
+
+>>> from maxaimodel.spark.clustering.spark_kmeans import SparkKMeansClustering
+>>> model = SparkKMeansClustering(k=10)
+>>> model.fit(data)
+>>> predicition = model.predict(data)
+
+
+SparkLDAClustering
+^^^^^^^^^^^^^^^^^^
+This class provide implementation to run Spark GaussianMixture Clustering on the data.
+
+Args:
+    - ``k (int)`` - no of clusters required. Default to 0. If 0 model will try to find the optimal k value for the data.
+    - ``feature_col (string)`` - Column name which has the vectorized features. Default to features
+    - ``params (dict, optional)`` - dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.clustering.LDA.html>`_
+
+Raises:
+    - ````
+
+>>> from maxaimodel.spark.clustering.spark_lda import SparkLDAClustering
+>>> model = SparkLDAClustering(k=10)
+>>> model.fit(data)
+>>> predicition = model.predict(data)
+
+SparkPICClustering
+^^^^^^^^^^^^^^^^^^
+This class provide implementation to run Spark PowerIterationClustering Clustering on the data.
+
+Args:
+    - ``k (int)`` - no of clusters required. Default to 0. If 0 model will try to find the optimal k value for the data.
+    - ``k_min (int)`` - min k value to consider for running optimization. Required only if k is 0
+    - ``k_max (int)`` - max k value to consider for running optimization. Required only if k is 0
+    - ``src_col (str)`` - source column name. Default to 'src'
+    - ``dst_col (str)`` - destination column name. Default to 'dst'
+    - ``params (dict, optional)`` - dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.clustering.PowerIterationClustering.html>`_
+
+Raises:
+    - ````
+
+>>> from maxaimodel.spark.clustering.spark_pic import SparkPICClustering
+>>> model = SparkPICClustering(k=10)
+>>> model.fit(data)
+>>> predicition = model.predict(data)
+
+
 Regression
 **********
 
