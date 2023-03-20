@@ -1,6 +1,480 @@
 maxaimodel
 ==========
 
+
+H2O
+########
+
+.. note::
+    
+    Implementaion comes with MaxFlow Autologging Capabilities. Models considers all the columns except ``target`` columns as Features. 
+    
+
+Classification
+**************
+
+
+H2ODLClassifier
+^^^^^^^^^^^^^^^
+This class provide Max.AI wrapper for H2O PySparkling Deeplearning Classifier. Provides functionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here<https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to None.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to None. If ``param_grid`` is not passed, optimizations will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+        
+Raises:
+    - ``ModelBuildException``
+    
+>>> from maxaimodel.H2O.classification.h2o_dl import H2ODLClassifier
+>>> model = H2ODLClassifier(
+...     target_col='Survived',
+...     params={'param': value}
+...     param_grid={
+...         "param": ['value1','value2'],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2ODRFClassifier
+^^^^^^^^^^^^^^^^
+
+This class provide Max.ai Wrapper for H2O Pysparkling H2ODRF Classifier. Provides fucntionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to None. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.classification.h2o_drf import H2ODRFClassifier
+>>> model = H2ODRFClassifier(
+...     target_col='Survived',
+...     params={'param': value}
+...     param_grid={
+...         "param": ['value1','value2'],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2OGAMClassifier
+^^^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OGAM Classifier. Provides fucntionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `<here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to None.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type `{"param": []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None. If ``param_grid`` is not passed, optimizations will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.classification.h2o_gam import H2OGAMClassifier
+>>> model = H2OGAMClassifier(
+...     target_col='Survived',
+...     params={'param': value}
+...     param_grid={
+...         "param": ['value1','value2'],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2OGBMClassifier
+^^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OGBM Classifier. Provides functionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here` <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type `{"param": []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None. If ``param_grid`` is not passed, optimizations will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.classification.h2o_gbm import H2OGBMClassifier
+>>> model = H2OGBMClassifier(
+...     target_col='Survived',
+...     params={'param': value}
+...     param_grid={
+...         "param": ['value1','value2'],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+H2OGLMClassifier
+^^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling Deeplearning Classifier. Provides functionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described [here](https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html). Defaults to None.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type `{"param": []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None. If ``param_grid`` is not passed, optimizations will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.classification.h2o_glm import H2OGLMClassifier
+>>> model = H2OGLMClassifier(
+...     target_col='Survived',
+...     params={'param': value}
+...     param_grid={
+...         "param": ['value1','value2'],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+H2ORFClassifier
+^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2ORuleFit Classifier. Provides fucntionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to None.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimizations will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.classification.h2o_rf import H2ORFClassifier
+>>> model = H2ORFClassifier(
+...     target_col='Survived',
+...     params={'param': value}
+...     param_grid={
+...         "param": ['value1','value2'],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2OXGBClassifier
+^^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OXGBoost Classifier. Provides fucntionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type `{"param": []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None. If ``param_grid`` is not passed, optimizations will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> # Code Example Block
+>>> from maxaimodel.H2O.classification.h2o_xgb import H2OXGBClassifier
+>>> model = H2OXGBClassifier(
+...     target_col='Survived',
+...     params={'param': value}
+...     param_grid={
+...         "param": ['value1','value2'],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+Clustering
+**********
+
+KMeans
+^^^^^^^^
+This class provide implementation to run Spark GaussianMixture Clustering on the data.
+
+Args:
+    - ``k (int)`` - no of clusters required. Default to ``0``. If ``0`` model will try to find the optimal k value for the data.
+    - ``k_max (int)`` - max k value to consider for running optimization. Required only if ``k`` is ``0``
+    - ``params (dict, optional)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/3.0/latest-stable/doc/parameters/parameters_H2OKMeans.html>`_
+
+>>> from maxaimodel.H2O.clustering.h2o_kmeans import H2OKmeansClustering
+>>> model = H2OKmeansClustering(k=10)
+>>> model.fit(data)
+>>> predicition = model.predict(data)
+
+
+Regression
+**********
+
+H2ODLRegressor
+^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling Deeplearning Regressor. Provides fucntionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described [here](https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html). Defaults to None.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.regression.h2o_dl import H2ODLRegressor
+>>> model = H2ODLRegressor(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2ODRFRegressor
+^^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2ODRF Regressor. Provides functionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> # Code Example Block
+>>> from maxaimodel.H2O.regression.h2o_drf import H2ODRFRegressor
+>>> model = H2ODRFRegressor(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2OGAMRegressor
+^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OGAM Regressor. Provides functionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.regression.h2o_gam import H2OGAMRegressor
+>>> model = H2OGAMRegressor(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2OGBMRegressor
+^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OGBM Regressor. Provides fucntionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.regression.h2o_gbm import H2OGBMRegressor
+>>> model = H2OGBMRegressor(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+H2OGLMRegressor
+^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OGLM Regressor. Provides fucntionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to None.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.regression.h2o_glm import H2OGLMRegressor
+>>> model = H2OGLMRegressor(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2ORULEFITRegressor
+^^^^^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2ORuleFit Regressor. Provides functionalities to train model on data and make prediction.
+
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described [here](https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html). Defaults to None.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.regression.h2o_rulefit import H2ORULEFITRegressor
+>>> model = H2ORULEFITRegressor(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2OXGBRegressor
+^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OXGBoost Regressor. Provides functionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.regression.h2o_xgb import H2OXGBRegressor
+>>> model = H2OXGBRegressor(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+Unsupervised
+************
+
+H2OIsolationForest
+^^^^^^^^^^^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OIsolationForest for Anomaly Detection. Provides fucntionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.unsupervised.h2o_isolation_forest import H2OIsolationForest
+>>> model = H2OIsolationForest(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+H2OPCA
+^^^^^^^^
+This class provide Max.ai Wrapper for H2O Pysparkling H2OPCA for Dimensionality Reduction. Provides functionalities to train model on data and make prediction.
+
+Args:
+    - ``target_col (str)`` - model which needs to be optimized
+    - ``params (list)`` - dictionary of parameters described [here](https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html). Defaults to None.
+    - ``param_grid (dict, optional)`` -dictionary of parameters of type `{"param": []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None. If param_grid is not passed, optimization will be desabled.
+
+Returns (or Yields):
+    - ``model`` - Trained Model
+
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.H2O.unsupervised.h2o_pca import H2OPCA
+>>> model = H2OPCA(
+...     target_col="SalePrice",
+...     params={"param": "value"},
+...     param_grid={
+...          "param": ["value1", "value2"],
+...     }
+... )
+>>> model.fit(train)
+>>> model.predict(test)
+
+
+Spark
+########
+
 Classification
 **************
 
@@ -490,3 +964,105 @@ Args:
 ... )
 >>> ts.fit(sales_df)
 >>> resultant_df = ts.predict(periods=24, freq='W', data=sales_df.select('Date', 'Dept'))
+
+
+Model Optimization
+##################
+
+.. note::
+
+    Currently supports only spark based models
+
+MaxHyperOpt
+^^^^^^^^^^^
+This class provides the Max.AI Wrapper for HyperOpt optmization engine. Supports the below algoithms for optmization:
+- TreeParsenOptimizer
+- Adaptive TreeParsenOptimizer
+- Random Search
+- Mixed Search
+- Annealing
+
+For more details on the engine please refer ``HyperOpt <http://hyperopt.github.io/hyperopt/>`_
+
+Args:
+    - ``model (BaseModel)`` - model which needs to be optimized
+    - ``train (SparkDataFrame)`` - training data frame
+    - ``test (SparkDataFrame)`` - test data frame
+    - ``params (list)`` - list of params to construct search space
+    - ``evals (int)`` - no of iteration to run for optimizing the model
+    - ``metric (str)`` - metric which needs to be optimized
+    - ``algo (str)`` - meta algorithm to use for optimization
+    - ``direction (str)`` - whether to maximise/minimise the given metric
+    - ``parallelism (str)`` - no of trials to be run in parallel
+
+Returns (or Yields):
+    - ``best`` - Dictionary of best parameters
+    - ``error`` - best value for the metric
+
+Raises:
+    - ``AlgoNotSupported``
+
+>>> from maxairesources.optimization.engines.hyperopt import MaxHyperOpt
+>>> from maxairesources.optimization.optimizer import (MaxOptimizer, DiscreteParam,
+... IntegerParam, ContinousParam, logParams)
+>>> params = [DiscreteParam('maxDepth', [1,2,3]), IntegerParam('numTrees', 1, 3, 1),
+...     ContinousParam('minInfoGain', 0, 1, 0.1), logParams('minWeightFractionPerNode', 0, 1, 0.1)]
+>>> opt = MaxHyperOpt(model,
+...            train
+...            test
+...            params,
+...            evals=10,
+...            algo='tpe',
+...            metric='accuracy',
+...            direction='maximize',
+...            engine='optuna',
+...            parallelism=3
+... )
+>>> opt.optimize()
+
+
+MaxOptuna
+^^^^^^^^^
+This class provides the Max.AI Wrapper for Optuna optmization engine. Supports the below algoithms for optmization:
+    1. TreeParsenOptimizer
+    2. Grid Search
+    3. Random Search
+    4. Genetic Algorithm
+    5. CMA-ES
+
+For more details on the engine please refer `Optuna <https://optuna.org/>`_.
+
+Args:
+    - ``model (BaseModel)`` - model which needs to be optimized
+    - ``train (SparkDataFrame)`` - training data frame
+    - ``test (SparkDataFrame)`` - test data frame
+    - ``params (list)`` - list of params to construct search space
+    - ``evals (int)`` - no of iteration to run for optimizing the model
+    - ``metric (str)`` - metric which needs to be optimized
+    - ``algo (str)`` - meta algorithm to use for optimization
+    - ``direction (str)`` - whether to maximise/minimise the given metric
+    - ``parallelism (str)`` - no of trials to be run in parallel
+
+Returns (or Yields):
+    - ``best`` - Dictionary of best parameters
+    - ``error`` - best value for the metric
+
+Raises:
+    - ``AlgoNotSupported``
+
+>>> from maxairesources.optimization.engines.optuna import MaxOptuna
+>>> from maxairesources.optimization.optimizer import (MaxOptimizer, DiscreteParam,
+... IntegerParam, ContinousParam, logParams)
+>>> params = [DiscreteParam('maxDepth', [1,2,3]), IntegerParam('numTrees', 1, 3, 1),
+...     ContinousParam('minInfoGain', 0, 1, 0.1), logParams('minWeightFractionPerNode', 0, 1, 0.1)]
+>>> opt = MaxOptuna(model,
+...            train
+...            test
+...            params,
+...            evals=10,
+...            algo='tpe',
+...            metric='accuracy',
+...            direction='maximize',
+...            engine='optuna',
+...            parallelism=3)
+>>> opt.optimize()
