@@ -20,7 +20,7 @@ This class provide Max.AI wrapper for H2O PySparkling Deeplearning Classifier. P
 
 Args:
     - ``target_col (str)`` - model which needs to be optimized
-    - ``params (list)`` - dictionary of parameters described `here<https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to None.
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to None.
     - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to None. If ``param_grid`` is not passed, optimizations will be disabled.
 
 Returns (or Yields):
@@ -103,7 +103,7 @@ This class provide Max.ai Wrapper for H2O Pysparkling H2OGBM Classifier. Provide
 
 Args:
     - ``target_col (str)`` - model which needs to be optimized
-    - ``params (list)`` - dictionary of parameters described `here` <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
     - ``param_grid (dict, optional)`` - dictionary of parameters of type `{"param": []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None. If ``param_grid`` is not passed, optimizations will be disabled.
 
 Returns (or Yields):
@@ -129,7 +129,7 @@ This class provide Max.ai Wrapper for H2O Pysparkling Deeplearning Classifier. P
 
 Args:
     - ``target_col (str)`` - model which needs to be optimized
-    - ``params (list)`` - dictionary of parameters described [here](https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html). Defaults to None.
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to None.
     - ``param_grid (dict, optional)`` - dictionary of parameters of type `{"param": []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None. If ``param_grid`` is not passed, optimizations will be disabled.
 
 Returns (or Yields):
@@ -231,7 +231,7 @@ This class provide Max.ai Wrapper for H2O Pysparkling Deeplearning Regressor. Pr
 
 Args:
     - ``target_col (str)`` - model which needs to be optimized
-    - ``params (list)`` - dictionary of parameters described [here](https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html). Defaults to None.
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to None.
     - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
 
 Returns (or Yields):
@@ -367,7 +367,7 @@ This class provide Max.ai Wrapper for H2O Pysparkling H2ORuleFit Regressor. Prov
 
 Args:
     - ``target_col (str)`` - model which needs to be optimized
-    - ``params (list)`` - dictionary of parameters described [here](https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html). Defaults to None.
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
     - ``param_grid (dict, optional)`` - dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``. If ``param_grid`` is not passed, optimization will be disabled.
 
 Returns (or Yields):
@@ -451,7 +451,7 @@ This class provide Max.ai Wrapper for H2O Pysparkling H2OPCA for Dimensionality 
 
 Args:
     - ``target_col (str)`` - model which needs to be optimized
-    - ``params (list)`` - dictionary of parameters described [here](https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html). Defaults to None.
+    - ``params (list)`` - dictionary of parameters described `here <https://docs.h2o.ai/sparkling-water/2.3/latest-stable/doc/parameters/parameters.html>`_. Defaults to ``None``.
     - ``param_grid (dict, optional)`` -dictionary of parameters of type `{"param": []}`. If `param_grid` is mentioned, it will over-write `params`. Defaults to None. If param_grid is not passed, optimization will be desabled.
 
 Returns (or Yields):
@@ -974,7 +974,7 @@ Model Optimization
     Currently supports only spark based models
 
 MaxHyperOpt
-^^^^^^^^^^^
+***********
 This class provides the Max.AI Wrapper for HyperOpt optmization engine. Supports the below algoithms for optmization:
 - TreeParsenOptimizer
 - Adaptive TreeParsenOptimizer
@@ -982,7 +982,7 @@ This class provides the Max.AI Wrapper for HyperOpt optmization engine. Supports
 - Mixed Search
 - Annealing
 
-For more details on the engine please refer ``HyperOpt <http://hyperopt.github.io/hyperopt/>`_
+For more details on the engine please refer `HyperOpt <http://hyperopt.github.io/hyperopt/>`_
 
 Args:
     - ``model (BaseModel)`` - model which needs to be optimized
@@ -1022,7 +1022,7 @@ Raises:
 
 
 MaxOptuna
-^^^^^^^^^
+***********
 This class provides the Max.AI Wrapper for Optuna optmization engine. Supports the below algoithms for optmization:
     1. TreeParsenOptimizer
     2. Grid Search
