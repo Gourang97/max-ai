@@ -1017,7 +1017,7 @@ Raises:
 ...            engine='optuna',
 ...            parallelism=3
 ... )
->>> opt.optimize()
+>>> opt.optimize(spark_df)
 
 
 MaxOptuna
@@ -1064,4 +1064,4 @@ Raises:
 ...            direction='maximize',
 ...            engine='optuna',
 ...            parallelism=3)
->>> opt.optimize()
+>>> opt.optimize(spark_df)
