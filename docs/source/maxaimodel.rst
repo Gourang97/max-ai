@@ -970,16 +970,16 @@ Model Optimization
 
 .. note::
 
-    Currently supports only spark based models
+    Currently supports only Spark's native and H2O PySparkling models
 
 MaxHyperOpt
 ***********
 This class provides the Max.AI Wrapper for HyperOpt optmization engine. Supports the below algoithms for optmization:
-- TreeParsenOptimizer
-- Adaptive TreeParsenOptimizer
-- Random Search
-- Mixed Search
-- Annealing
+    1. TreeParsenOptimizer
+    2. Adaptive TreeParsenOptimizer
+    3. Random Search
+    4. Mixed Search
+    5. Annealing
 
 For more details on the engine please refer `HyperOpt <http://hyperopt.github.io/hyperopt/>`_
 
@@ -1052,16 +1052,76 @@ Raises:
 >>> from maxairesources.optimization.engines.optuna import MaxOptuna
 >>> from maxairesources.optimization.optimizer import (MaxOptimizer, DiscreteParam,
 ... IntegerParam, ContinousParam, logParams)
->>> params = [DiscreteParam('maxDepth', [1,2,3]), IntegerParam('numTrees', 1, 3, 1),
-...     ContinousParam('minInfoGain', 0, 1, 0.1), logParams('minWeightFractionPerNode', 0, 1, 0.1)]
->>> opt = MaxOptuna(model,
-...            train
-...            test
-...            params,
-...            evals=10,
-...            algo='tpe',
-...            metric='accuracy',
-...            direction='maximize',
-...            engine='optuna',
-...            parallelism=3)
->>> opt.optimize(spark_df)
+>>> model = H2ODLClassifier(target_col="class")
+>>> params = [ContinousParam("elasticAveragingMovingRate", 0.7, 1, 0.1)]
+>>> opt = MaxOptimizer(
+...    model,
+...    params,
+...    evals=10,
+...    algo="tpe",
+...    metric="accuracy",
+...    direction="maximize",
+...    engine='optuna',
+...    parallelism=3,
+... )
+>>> best, error = opt.optimize(train_df)
+>>> print("Best Params = {}".format(best))
+Best Params = {'elasticAveragingMovingRate': 0.9}
+>>> type(opt.model)    # the best model can be accessed by this method
+maxaimodel.H2O.classification.h2o_dl.H2ODLClassifier
+
+
+Hyperparameter Types
+********************
+
+ContinousParam
+^^^^^^^^^^^^^^
+This class provide implementaion for defining search space for continous parameters
+
+Args:
+    - ``name (str)`` - name of the parameter
+    - ``min (float)`` - min value of the parameter
+    - ``max (float)`` - max value of the parameter
+    - ``step (float)`` - a step of discretization
+
+>>> from maxairesources.optimization.optimizer ContinousParam
+>>> params = ContinousParam('minInfoGain', 0, 1, 0.1)
+
+
+DiscreteParam
+^^^^^^^^^^^^^
+This class provide implementaion for defining search space for Discrete parameters
+
+Args:
+    - ``name (str)`` - name of the parameter
+    - ``value (list)`` - list of values to define search space
+
+>>> from maxairesources.optimization.optimizer DiscreteParam
+>>> params = DiscreteParam('maxDepth', [1,2,3])
+
+IntegerParam
+^^^^^^^^^^^^
+This class provide implementaion for defining search space for Integer parameters
+
+Args:
+    - ``name (str)`` - name of the parameter
+    - ``min (int)`` - min value of the parameter
+    - ``max (int)`` - max value of the parameter
+    - ``step (float)`` - a step of discretization
+
+>>> from maxairesources.optimization.optimizer IntegerParam
+>>> params = IntegerParam('numTrees', 1, 3, 1)
+
+
+LogParams
+^^^^^^^^^
+This class provide implementaion for defining search space for log parameters
+
+Args:
+    - ``name (str)`` - name of the parameter
+    - ``min (int)`` - min value of the parameter
+    - ``max (int)`` - max value of the parameter
+    - ``step (float)`` - a step of discretization
+
+>>> from maxairesources.optimization.optimizer logParams
+>>> params = logParams('minWeightFractionPerNode', 0, 1, 0.1)
