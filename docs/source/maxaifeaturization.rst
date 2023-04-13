@@ -83,44 +83,59 @@ Defines simple transforms that don't change the shape of the dataframe (as oppos
 
 transform
 ^^^^^^^^^
-This module performs simple transformations on the dataframe. 
+performs columnar transformation on the PySpark DataFrame.
 
->>> from maxaifeaturization.transformation.transform import Transformation
+Args:
+    - ``df (pyspark.sql.DataFrame)``: Dataframe on which transformation operations are to be performed
+    - ``arguments (dict)``: a dictionary that captures all the transformation operations to be performed
+        - ``transform_ops (list(dict))`` - a list of dictionaries capturing transform operations. The dictionary will have following 
+            - ``feature (list)`` - column on which transformation is to be performed
+            - ``transformation (int)`` - identifier for a transformation. Reference list is provided below.
+            - ``rules (dict)`` - *will be removed in future*.
+            - ``rule_expression (str)`` - *will be removed in future*.
+            - ``output_column_name (str)`` - name for the transformed column
+            - ``retain_original (bool)`` - if ``True``, original column will be retained, otherwise dropped.
+
+Transformation available are defined as below. 
+The indentifier number added against ``transformation`` will execute that particular transformation.
+    - 2: ``z-score``
+    - 3: ``exp``
+    - 4: ``log``
+    - 5: ``reciprocal``
+    - 6: ``box-cox``
+    - 7: ``binning``
+    - 8: ``string-indexer``
+    - 9: ``one-hot-encoding``
+    - 10: ``concat-with-delimiter``
+    - 11: ``split``
+    - 12: ``uppercase``
+    - 13: ``lowercase``
+    - 14: ``trim``
+    - 15: ``timestring-to-iso8601``
+    - 16: ``epoch-to-iso8601``
+
+Methods:
+    - ``execute`` - execute the transformations defined
+        - Args:
+            - ``None``
+        - Returns
+            - ``pyspark.sql.DataFrame``
+
+>>> from maxaifeaturization.transformation import Transformation
 >>> transform_dict = {
-... "transform_ops": [
-...     {
-...         "feature": [
-...             "Weekly_Sales"
-...         ],
-...         "transformation": 2,
-...         "rules": {},
-...         "rule_expression": "",
-...         "output_column_name": "Weekly_Sales_Z",
-...         "retain_original": True
-...     }
-... ]
-...}
->>> trans_ops = Transformation(spark_df, transform_dict)
+...     "transform_ops": [
+...         {
+...             "feature": ["Weekly_Sales"],
+...             "transformation": 2,
+...             "rules": {},
+...             "rule_expression": "",
+...             "output_column_name": "Weekly_Sales_Z",
+...             "retain_original": True
+...         }
+...    ]
+... }
+>>> trans_ops = Transformation(df, transform_dict)
 >>> output_df = trans_ops.execute()
-
-Like ``aggregation`` module, here too transformations are encoded. Please refer to the following list for transformation-to-encoder mapping:
-
-- 1: ``filter``
-- 2: ``z-score``
-- 3: ``exp``
-- 4: ``log``
-- 5: ``reciprocal``
-- 6: ``box-cox``
-- 7: ``binning``
-- 8: ``string-indexer``
-- 9: ``one-hot-encoding``
-- 10: ``concat-with-delimiter``
-- 11: ``split``
-- 12: ``uppercase``
-- 13: ``lowercase``
-- 14: ``trim``
-- 15: ``timestring-to-iso8601``
-- 16: ``epoch-to-iso8601``
 
 window
 ^^^^^^

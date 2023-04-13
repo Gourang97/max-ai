@@ -1004,20 +1004,24 @@ Raises:
 >>> from maxairesources.optimization.engines.hyperopt import MaxHyperOpt
 >>> from maxairesources.optimization.optimizer import (MaxOptimizer, DiscreteParam,
 ... IntegerParam, ContinousParam, logParams)
->>> params = [DiscreteParam('maxDepth', [1,2,3]), IntegerParam('numTrees', 1, 3, 1),
-...     ContinousParam('minInfoGain', 0, 1, 0.1), logParams('minWeightFractionPerNode', 0, 1, 0.1)]
->>> opt = MaxHyperOpt(model,
-...            train
-...            test
-...            params,
-...            evals=10,
-...            algo='tpe',
-...            metric='accuracy',
-...            direction='maximize',
-...            engine='optuna',
-...            parallelism=3
+>>> model = spark_dt.SparkDecisionTreeClassifier(target_col="class", feature_col="features")
+>>> params = [
+...    DiscreteParam('maxDepth', [1,2,3]),
+...    IntegerParam("maxBins", 64, 128, 32),
+...    ContinousParam('minInfoGain', 0, 1, 0.1),
+...    logParams('minWeightFractionPerNode', 0, 1, 0.1)
+... ]
+>>> opt = MaxOptimizer(
+...    model,
+...    params,
+...    evals=10,
+...    algo="tpe",
+...    metric="accuracy",
+...    direction="maximize",
+...    engine='hyperopt',
+...    parallelism=3,
 ... )
->>> opt.optimize(spark_df)
+>>> best, error = opt.optimize(train_df)
 
 
 MaxOptuna
