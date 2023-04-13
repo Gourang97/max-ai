@@ -9,8 +9,31 @@ The Featurization Module is used for feature engineering workloads. This module 
 
 Aggregation
 ***********
+The aggregation submodule performs the ``.groupBy().agg()`` operation on the dataframe.
+It supports various PySpark in-built transformations and custom transformations.
 
-The aggregation submodule performs the ``.groupBy().agg()`` operation on the dataframe. It supports various PySpark in-built transformations and custom transformations.
+Args:
+    - ``df (pyspark.sql.DataFrame)`` - dataframe on which operations are to be performed
+    - ``arguments (dict)`` - a dictionary that captures all the aggregation operations to be performed
+        - ``entity_column (str)`` - column on which ``groupBy`` operation is to be performed
+        - ``aggregation_ops (list(dict))`` - a a list of dictionaries capturing aggregation operations. The dictionary will have following elements:
+            - ``aggregation (int)`` - identifier of the operation to be performed, as defined below
+            - ``feature (list)`` - column on which operation is to be performed
+            - ``output_column_name (list)`` - name for the output column
+
+Please refer to the following list for aggregation-to-encoder mapping:
+    - 1: ``sum``
+    - 2: ``mean``
+    - 3: ``stddev``
+    - 4: ``max``
+    - 5: ``min``
+    - 6: ``count``
+    - 7: ``count_distinct``
+    - 8: ``variance``
+    - 9: ``percentile``
+    - 10: ``quantile``
+    - 11: ``median``
+    - 12: ``most_frequent``
 
 >>> from maxaifeaturization.aggregation import Aggregation
 >>> df = spark.read.csv(filepath)    # file on which aggregations are to performed
@@ -32,21 +55,6 @@ The aggregation submodule performs the ``.groupBy().agg()`` operation on the dat
 >>> agg_obj = Aggregation(df=df, arguments=agg_dict)
 >>> agg_df = agg_obj.execute()
 
-As shown in the example snippet above, each aggregations are encoded. Please refer to the following list for aggregation-to-encoder mapping:
-
-- 1: ``sum``
-- 2: ``mean``
-- 3: ``stddev``
-- 4: ``max``
-- 5: ``min``
-- 6: ``count``
-- 7: ``count_distinct``
-- 8: ``variance``
-- 9: ``percentile``
-- 10: ``quantile``
-- 11: ``median``
-- 12: ``most_frequent``
-
 ----------
 
 Time-Series
@@ -65,7 +73,14 @@ autocorrelation
 Computes the Pearson correlation between the Series and its shifted self. 
 
 >>> from maxaifeaturization.timeseries.univariate import autocorrelation
->>> abdf = autocorrelation(spark_df, groupby_col="machine_id", datetime_col="date", value_col="sensor_reading", nlags=2, partial=True)
+>>> abdf = autocorrelation(
+...    spark_df, 
+...    groupby_col="machine_id", 
+...    datetime_col="date", 
+...    value_col="sensor_reading", 
+...    nlags=2, 
+...    partial=True
+... )
 
 
 time_series_decomposition
@@ -73,7 +88,13 @@ time_series_decomposition
 performs ``statsmodels`` style decomposition on all the time-series in a dataframe. In this method, ``moving_average`` and ``loess`` are supported and can be passed in the function call with the ``method`` argument.
 
 >>> from maxaifeaturization.timeseries.univariate import time_series_decomposition
->>> ddf = time_series_decomposition(spark_df, groupby_col="machine_id", datetime_col="date", value_col="sensor_reading", method="loess")
+>>> ddf = time_series_decomposition(
+...    spark_df, 
+...    groupby_col="machine_id", 
+...    datetime_col="date", 
+...    value_col="sensor_reading", 
+...    method="loess"
+... )
 
 ----------
 
@@ -115,10 +136,10 @@ The indentifier number added against ``transformation`` will execute that partic
     - 16: ``epoch-to-iso8601``
 
 Methods
-^^^^^^^
+@@@@@@@
 
 execute
-@@@@@@@
+$$$$$$$
 driver method of the transform
 
 Args
@@ -143,11 +164,45 @@ Returns
 >>> trans_ops = Transformation(df, transform_dict)
 >>> output_df = trans_ops.execute()
 
-window
-^^^^^^
-This module creates the rolling-window features. 
+WindowOperations
+^^^^^^^^^^^^^^^^
+creates the rolling window features on a PySpark DataFrame.
 
->>> from maxaifeaturization.transformation import window
+Args:
+    - ``df (pyspark.DataFrame)``: dataframe on which operations are to be performed
+    - ``arguments (dict)``: a dictionary capturing the details of the operations to be performed
+        - ``window_spec (dict)`` - a dictionary containing window-defining features
+            - ``partition_cols (list(str))`` - a list of string defining columns on which to partition the datasets
+            - ``order_col (str)`` - column by which to order the data
+            - ``asc (bool)`` - if True, the data will be ordered in ascending order. Otherwise, in descending order.
+            - ``window_size (int)`` - size of window
+        - ``window_ops (list(dict))`` - a list of dictionary. Each dictionary instance should capture one window operation to be performed
+            - ``feature (str)`` - name of the column on which operation is to be performed
+            - ``operation (int)`` - identifier of the operation to be performed, as defined below
+            - ``output_column_name (str)`` - name of the output column
+
+Returns:
+    - ``df (pyspark.DataFrame)``: dataframe with additional features columns
+
+Please refer to the following list for rolling_window_transformation-to-encoder mapping:
+    - 1: ``differencing``
+    - 2: ``avg``
+    - 3: ``median``
+    - 4: ``sum``
+    - 5: ``max``
+    - 6: ``min``
+    - 7: ``stddev``
+    - 8: ``variance``
+    - 9: ``lead``
+    - 10: ``lag``
+    - 11: ``cumulative_distribution``
+    - 12: ``row_number``
+    - 13: ``rank``
+    - 14: ``dense_rank``
+    - 15: ``percent_rank``
+
+>>> from maxaifeaturization.transformation import WindowOperations   
+>>> # define the arguments dictionary
 >>> window_dict = {
 ...     "window_spec": {
 ...         "partition_cols": ["Dept"],
@@ -163,23 +218,6 @@ This module creates the rolling-window features.
 ...         }
 ...     ]
 ... }
->>> w_obj = window.WindowOperations(spark_df, window_dict)
->>> output_df = w_obj.execute()
-
-Please refer to the following list for rolling_window_transformation-to-encoder mapping:
-
-- 1: ``differencing``
-- 2: ``avg``
-- 3: ``median``
-- 4: ``sum``
-- 5: ``max``
-- 6: ``min``
-- 7: ``stddev``
-- 8: ``variance``
-- 9: ``lead``
-- 10: ``lag``
-- 11: ``cumulative_distribution``
-- 12: ``row_number``
-- 13: ``rank``
-- 14: ``dense_rank``
-- 15: ``percent_rank``
+>>> # initialize the WindowOperations class
+>>> w_obj = window.WindowOperations(sales_df, window_dict)
+>>> sales_df_updated = w_obj.execute()
