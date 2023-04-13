@@ -81,8 +81,8 @@ Transformation
 **************
 Defines simple transforms that don't change the shape of the dataframe (as opposed to ``Aggregation`` defined above).
 
-transform
-^^^^^^^^^
+Transformation
+^^^^^^^^^^^^^^
 performs columnar transformation on the PySpark DataFrame.
 
 Args:
@@ -114,12 +114,18 @@ The indentifier number added against ``transformation`` will execute that partic
     - 15: ``timestring-to-iso8601``
     - 16: ``epoch-to-iso8601``
 
-Methods:
-    - ``execute`` - execute the transformations defined
-        - Args:
-            - ``None``
-        - Returns
-            - ``pyspark.sql.DataFrame``
+Methods
+^^^^^^^
+
+execute
+@@@@@@@
+driver method of the transform
+
+Args
+    - ``None``
+
+Returns
+    - ``pyspark.sql.DataFrame``
 
 >>> from maxaifeaturization.transformation import Transformation
 >>> transform_dict = {
