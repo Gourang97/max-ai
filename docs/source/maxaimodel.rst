@@ -764,6 +764,43 @@ Raises:
 >>> predicition = model.predict(data)
 
 
+FPM
+******
+
+SparkFPGrowth
+^^^^^^^^^^^^^
+This class provide the implementation to run Spark FP growth algorithm on a PySpark DataFrame.
+
+Args:
+    - ``item_col (int)`` - column name which contains the items (in form of an array). Defaults to ``items``
+    - ``params (dict, optional)`` - dictionary of parameters described `here <(https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.fpm.FPGrowth.html>`_. 
+    
+Raises:
+    - ``ModelBuildException``
+
+>>> from maxaimodel.spark.fpm.spark_fp_growth import SparkFPGrowth
+>>> model = SparkFPGrowth(item_col='items', params={})
+>>> model.fit(data)
+>>> predicition = model.predict(data)
+
+
+SparkPrefixSpan
+^^^^^^^^^^^^^^^^
+This class provide implementation to run Spark PrefixSpan algorithm on a PySpark DataFrame.
+
+Args:
+    - ``seq_col (int)`` - column name which contains the sequence of items (in form of an array). Defaults to ``sequence``.
+    - ``params (dict, optional)`` - dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.fpm.PrefixSpan.html>`_.
+    
+Raises:
+    - ``ModelBuildException``
+    
+>>> from maxaimodel.spark.fpm.spark_prefix_span import SparkPrefixSpan
+>>> model = SparkPrefixSpan(seq_col='sequence', params={})
+>>> model.fit(data)
+>>> predicition = model.predict(data)
+
+
 Regression
 **********
 
