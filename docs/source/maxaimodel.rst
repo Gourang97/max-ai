@@ -812,7 +812,7 @@ Args:
     - ``user_col (str)``: the name of the user ID column
     - ``item_col (str)``: the name of the item ID column
     - ``rating_col (str)``: the name of the rating column
-    - ``params (dict, optional)``: dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.recommendation.ALS.html`_. Defaults to ``None``.
+    - ``params (dict, optional)``: dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.recommendation.ALS.html>`_. Defaults to ``None``.
     - ``param_grid (dict, optional)``: dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``.
 
 
