@@ -55,6 +55,45 @@ Please refer to the following list for aggregation-to-encoder mapping:
 >>> agg_obj = Aggregation(df=df, arguments=agg_dict)
 >>> agg_df = agg_obj.execute()
 
+
+FeatureTools
+*************
+
+FeatureGenerator
+^^^^^^^^^^^^^^^^
+performs feature engineering (primarily, generation) on a PySpark DataFrame using FeatureTools.
+
+Args:
+    - ``df (pyspark.sql.DataFrame)`` - dataframe on which the feature generation is to be performed
+    - ``entity_column (Union[str, list])`` - the grain on which aggregation is to be performed.
+    Could be list (combination of columns) or str (single column)
+    - ``datetime_column (str)`` - column that captures temporal component
+    - ``num_partitions (int)`` - number of partition of ``pyspark.sql.DataFrame``. Defaults to 300. Raises ``ValueError`` if ``num_partitions`` provided is larger than the unique values in the ``entity_column``. 
+    - ``feature_interaction_depth (int)`` - number of columns combination to be used to create interaction features.
+    Defaults to 1 (which is no interaction).
+
+Methods
+@@@@@@@
+
+execute
+$$$$$$$
+executes the FeatureGenerator with the input arguments provided.
+
+Args:
+    - ``None``
+
+Returns:
+    - ``pyspark.sql.DataFrame`` - resultant DataFrame with the generated features. 
+
+>>> from maxaifeaturization.featuretools import FeatureGenerator
+>>> fg_obj = FeatureGenerator(
+...    spark_df,
+...    entity_column="customer_id",
+...    datetime_column="calendar_week_end_date"
+... )
+>>> resultant_df = fg_obj.execute()
+
+
 ----------
 
 Time-Series
