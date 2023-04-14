@@ -801,6 +801,36 @@ Raises:
 >>> predicition = model.predict(data)
 
 
+Recommendation
+**************
+
+SparkALSRecommender
+^^^^^^^^^^^^^^^^^^^
+Recommender system trainer based on the Alternating Least Squares (ALS) algorithm.
+
+Args:
+    - ``user_col (str)``: the name of the user ID column
+    - ``item_col (str)``: the name of the item ID column
+    - ``rating_col (str)``: the name of the rating column
+    - ``params (dict, optional)``: dictionary of parameters described `here <https://spark.apache.org/docs/latest/api/python/reference/api/pyspark.ml.recommendation.ALS.html`_. Defaults to ``None``.
+    - ``param_grid (dict, optional)``: dictionary of parameters of type ``{"param": []}``. If ``param_grid`` is mentioned, it will over-write ``params``. Defaults to ``None``.
+
+
+>>> from maxaimodel.spark.recommendation import spark_als
+>>> als = spark_als.SparkALSRecommender(
+...     user_col='userId',
+...     item_col='movieId',
+...     rating_col='rating',
+...     params={
+...         "rank": 10,
+...         "maxIter": 10,
+...         "regParam": 0.01,
+...     }
+... )
+>>> als.fit(train)
+>>> als_pred = als.predict(test)
+
+
 Regression
 **********
 
