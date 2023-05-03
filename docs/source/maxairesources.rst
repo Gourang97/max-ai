@@ -87,10 +87,44 @@ Returns:
 >>> evaluator = ModelEvaluator(
 ...     train_data,
 ...     test_data,
-...     model
-...     sample_ratio = 0.2
+...     model,
+...     features=[],
+...     label_col="",
+...     sample_ratio=0.2,
 ... )
 >>> model_val, train_test_val = evaluator.evaluate()
+
+
+ModelExplainer
+^^^^^^^^^^^^^^
+implements the `Explainer Dashboard <https://explainerdashboard.readthedocs.io/en/latest/index.html>`_ on a Spark ML model. This module creates reports (in HTML) for analyzing and explaining the predictions and workings of ML models. As this module is native to Pandas/Scikit-Learn, the Spark DataFrame is converted to Pandas DataFrame (because Pandas DataFrame are in-memory, ``sample_ratio`` argument is used to define the proportion of Spark DataFrame to be converted to Pandas DataFrame).
+
+Args:
+    - ``valid_df (pyspark.sql.DataFrame)`` - Validation data
+    - ``model (maxaibase.model.model_base)`` - trained model, should be an instance of ``maxaibase.model.model_base``
+    - ``feature_col (Union[str, list])`` - column(s) which captures the features (vector column in case of Spark-Models or
+    list of individual columns that forms input features otherwise).
+    - ``target_col (str)`` - Dependent variable of your mode
+    - ``explainer_params (dict), optional)`` - A dictionary of input parameters.
+    Refer `ClassifierExplainer <https://explainerdashboard.readthedocs.io/en/latest/explainers.html#classifierexplainer>`_
+    if the model is classification one or
+    `RegressionExplainer <https://explainerdashboard.readthedocs.io/en/latest/explainers.html#regressionexplainer>`_
+    if the model is regression one. Defaults to empty dict (`{}`).
+    - ``sample_ratio (float, optional)`` - proportion of valid_df to be converted to Pandas Dataframe.
+    It should be between ``0`` and ``1``. Defaults to 0.2.
+    - ``html_file_name (str, optional)`` - name of the HTML file that captures the report.
+    In case of classification, separate-reports are generated iteratively, assuming each label as **Postive Label**.
+    If this behaviour is not expected, explicitly mention ``pos_label`` in ``explainer_params``.
+
+>>> from maxairesources.eval.model_explainer import ModelExplainer
+>>> explainer = ModelExplainer(
+...     valid_df=test_df,
+...     model=model,
+...     feature_col="features",
+...     target_col="class",
+...     html_file_name="classification.html"
+... )
+>>> explainer.explain()
 
 
 Logger

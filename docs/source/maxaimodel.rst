@@ -667,6 +667,25 @@ Args:
 >>> svc.save(path="./models/svc")
 
 
+SparkXGBClassifier
+^^^^^^^^^^^^^^^^^^
+runs XGBoost classifier on data and gives predictions
+
+Args:
+    - ``target_col (str)``: column to be predicted
+    - ``feature_col (str)``: vectorised list of all the features used for prediction
+    - ``params (dict, optional)``: dictionary of parameters described `here <https://xgboost.readthedocs.io/en/stable/python/python_api.html#xgboost.spark.SparkXGBClassifier>`_
+    - ``param_grid (dict, optional)``: grid of parameter containing diffferent values, kind of parameter tuning
+
+>>> from maxaimodel.spark.classification import spark_xgb
+>>> xgb = spark_xgb.SparkXGBClassifier(
+...    target_col='Survived',
+...    feature_col='features',
+... )
+>>> xgb.fit(train)
+>>> pred = xgb.predict(test)
+>>> xgb.save(path="./models/gbt")
+
 Clustering
 **********
 

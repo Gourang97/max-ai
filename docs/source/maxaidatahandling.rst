@@ -21,6 +21,86 @@ Args:
 >>> integrity_results = evaluator.evaluate()
     
 
+Expectations_by_GE
+^^^^^^^^^^^^^^^^^^
+a class that executes built in expectations of Great Expectations on data
+
+Args:
+    - ``df (pyspark.sql.Dataframe)``: dataframe on which we have to execute the expectations
+    - ``expeconfig (dict[str, list])``: configuration containing parameter values for all the expectations
+        - ``expectations (List[Dict[str, Union[Dict, list, str, int]]])`` - a list of dictionaries specifiying
+        expectations to be ran.
+            - ``expectations_id (int)`` - identifier of which expectation is to be ran. The list of all the
+            available expectations is defined after this section.
+            - ``kwargs (dict)`` - identifier specific parameters. Specified in the section below.
+
+Returns:
+    - ``dict``: returns a dictionary updated with result value given by every expectation executed
+
+..  code-block:: python
+
+    from maxaidatahandling.data_expectations import Expectations_by_GE
+
+    # define config for data_expectations
+    expeconfig = {
+        "expectations": [
+            {
+                "expectations_id": 19,
+                "function_name": expect_column_min_to_be_more_than,    # callable (custom expectation)
+                "meta_attribute": "column_aggregate",
+                "function_args": {
+                    "column": "deadline",
+                    "value": "2016-07-01",
+                    "parse_strings_as_datetimes": True
+                },
+                "expectation_name": "",
+                "result": {}
+            },
+            {
+                "expectations_id": 1,
+                "column_name": [
+                    "id"
+                ],
+                "kwargs": {},
+                "expectation_name": "",
+                "result": {}
+            },
+            {
+                "expectations_id": 2,
+                "column_name": [
+                    "goal_usd"
+                ],
+                "kwargs": {},
+                "expectation_name": "",
+                "result": {}
+            }
+        ]
+    }
+    expectations_ops = Expectations_by_GE(data, expeconfig)
+    expeconfig = expectations_ops.execute()
+    print(expeconfig)    # result
+    
+The expectations available currently are as follow:
+    1. ``expect_column_values_to_be_unique``
+    2. ``expect_column_values_to_not_be_null``
+    3. ``expect_column_values_to_be_of_type``
+    4. ``expect_column_values_to_be_between``
+    5. ``expect_column_values_to_match_strftime_format``
+    6. ``expect_column_values_to_be_json_parseable``
+    7. ``expect_column_values_to_match_json_schema``
+    8. ``expect_column_distinct_values_to_be_in_set``
+    9. ``expect_column_distinct_values_to_contain_set``
+    10. ``expect_column_mean_to_be_between``
+    11. ``expect_column_median_to_be_between``
+    12. ``expect_column_stdev_to_be_between``
+    13. ``expect_column_pair_values_A_to_be_greater_than_B``
+    14. ``expect_column_pair_values_to_be_in_set``
+    15. ``expect_select_column_values_to_be_unique_within_record``
+    16. ``expect_compound_columns_to_be_unique``
+    17. ``expect_column_values_to_match_regex_list``
+    18. ``expect_column_values_to_not_match_regex_list``
+    19. ``custom_expectations``
+
 
 MaxDataset
 ^^^^^^^^^^
