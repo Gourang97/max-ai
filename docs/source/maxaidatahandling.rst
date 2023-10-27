@@ -21,9 +21,9 @@ Args:
 >>> integrity_results = evaluator.evaluate()
     
 
-Expectations_by_GE
-^^^^^^^^^^^^^^^^^^
-a wrapper class on `Great Expectations <https://docs.greatexpectations.io/docs/>`_.  With ``Expectations_by_GE``, one can assert what you expect from the data you load and transform, and catch data issues quickly.
+MaxExpectations
+^^^^^^^^^^^^^^^
+a class that executes built in expectations of Great Expectations on data
 
 Args:
     - ``df (pyspark.sql.Dataframe)``: dataframe on which we have to execute the expectations
@@ -39,7 +39,7 @@ Returns:
 
 ..  code-block:: python
 
-    from maxaidatahandling.data_expectations import Expectations_by_GE
+    from maxaidatahandling.data_expectations import MaxExpectations
 
     # define config for data_expectations
     expeconfig = {
@@ -76,7 +76,7 @@ Returns:
             }
         ]
     }
-    expectations_ops = Expectations_by_GE(data, expeconfig)
+    expectations_ops = MaxExpectations(data, expeconfig)
     expeconfig = expectations_ops.execute()
     print(expeconfig)    # result
     
