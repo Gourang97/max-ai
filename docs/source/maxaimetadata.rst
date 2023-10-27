@@ -335,12 +335,59 @@ Args:
 Returns:
     - ``None``
     
-log_model
-^^^^^^^^^
-method to log :ref:`Max.AI Models <maxaimodel>` as MLflow artifacts.
+log_prompts
+^^^^^^^^^^^
+logs the prompts and respective output to MLFlow
 
 Args:
-    - ``model (maxaibase.model.model_base.BaseModel)``: Max.AI model object to log.
+    - ``context (Union[list, str])``: input string or list of strings or dictionary
+    - ``output (Union[list, str])``: output string or list of strings
+    - ``prompts (Union[list, str])``: prompt string or list of prompt strings or prompt dictionary
 
 Returns:
     - ``None``
+
+>>> context = "some context"
+>>> prompt = "input prompt"
+>>> output = "output by the LLM"
+>>> mlflow.llm.log_predictions(context, output, prompt)
+
+
+log_huggingface_hosted_model
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+downloads the pretrained Huggingface pipeline and logs it to MLFlow
+
+Args:
+    - ``architecture (str)``: name of the architecture as defined in Huggingface Model Hub
+    - ``task (str)``: model task type (for instance, "text-generation")
+    - ``model_type (str, optional)``: Defaults to ``HF-Pipeline``
+
+Returns:
+    - ``None``
+
+>>> mf = MaxFlow('mlflow.url:5000', 'user', 'password')
+>>> mf.set_experiment('MaxDemo')
+>>> run = mf.start_run("MaxFlow-E2E", 'maxai_e2e', 'MaxAI E2E Run')
+>>> architecture="edbeeching/gpt-neo-125M-imdb"
+>>> task="text-generation"
+>>> run.log_huggingface_hosted_model(architecture, task)
+
+log_model
+^^^^^^^^^
+method to log Max.ai Models as mlflow artifacts.
+
+Args:
+    - ``model (Union[maxaibase.model.model_base.BaseModel, transformers.Pipeline])``: Model object to log.
+    Must be one of ``maxaibase.model.model_base.BaseModel`` or ``transformers.Pipeline``.
+    - ``model_kwargs (dict[str, str])``: Keyword arguments. If ``model`` passed is an instance of ``transformers.Pipeline``,
+    the following arguments must be passed:
+        - ``architecture (str)``: name of the architecture to be logged
+        - ``task (str)``: task of the pipeline to be logged. For instance, ``text-generation``
+
+Returns:
+    - ``None``
+
+>>> mf = MaxFlow('http://mlflow.url:5000', 'user', 'password')
+>>> mf.set_experiment('MaxDemo')
+>>> run = mf.start_run("MaxFlow-E2E", 'maxai_e2e', 'MaxAI E2E Run')
+>>> run.log_model(model_pipeline, architecture="fine-tuned-opt-125m", task="text-generation")

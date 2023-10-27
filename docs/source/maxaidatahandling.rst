@@ -23,7 +23,7 @@ Args:
 
 Expectations_by_GE
 ^^^^^^^^^^^^^^^^^^
-a class that executes built in expectations of Great Expectations on data
+a wrapper class on `Great Expectations <https://docs.greatexpectations.io/docs/>`_.  With ``Expectations_by_GE``, one can assert what you expect from the data you load and transform, and catch data issues quickly.
 
 Args:
     - ``df (pyspark.sql.Dataframe)``: dataframe on which we have to execute the expectations
