@@ -11,9 +11,9 @@ import sys
 sys.path.append(os.path.abspath("../../../max.ai.ds.core"))
 
 project = 'Max.AI'
-copyright = '2022, Team Personalize.AI'
+copyright = '2023, Team Personalize.AI'
 author = 'Team Personalize.AI'
-release = 'v1.0'
+release = 'v1.2.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
