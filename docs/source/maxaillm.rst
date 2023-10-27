@@ -73,8 +73,8 @@ save the fine-tuned model to a specified path with provider export method implem
 
 ----------
 
-finetune
-########
+tune_method
+###########
 
 LoraPeft
 ^^^^^^^^
