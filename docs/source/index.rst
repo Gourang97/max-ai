@@ -12,14 +12,44 @@ Built entirely on PySpark, Max.AI comes with modules that can help in processing
 
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    getting_started
-   maxaidatahandling
-   maxaifeaturization
-   maxaillm
-   maxaimetadata
-   maxaimodel
-   maxaimonitoring
-   maxairesources
-   maxaimarketplace
+
+|
+
+.. toctree::
+   :maxdepth: 2
+   :caption: 🧮 Max.AI DS Core
+   
+   ds_core/maxaidatahandling
+   ds_core/maxaifeaturization
+   ds_core/maxaillm
+   ds_core/maxaimetadata
+   ds_core/maxaimodel
+   ds_core/maxaimonitoring
+   ds_core/maxairesources
+   ds_core/maxaimarketplace
+   
+|
+
+.. toctree::
+   :maxdepth: 2
+   :caption: 🧠 Max.AI LLM
+   
+   llm/getting_started 
+   llm/agents
+   llm/app
+   llm/data
+   llm/documents
+   llm/model
+   llm/tuning
+   
+|
+
+.. toctree::
+   :maxdepth: 2
+   :caption: 🔗 Data Integration
+
+   data_integration/architecture
+   data_integration/connectors
