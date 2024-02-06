@@ -30,7 +30,7 @@ Built entirely on PySpark, Max.AI comes with modules that can help in processing
 
 .. toctree::
    :maxdepth: 2
-   :caption: 🧮 Max.AI DS Core
+   :caption: 🧪 Max.AI DS Core
    
    ds_core/maxaidatahandling
    ds_core/maxaifeaturization
@@ -58,4 +58,4 @@ Built entirely on PySpark, Max.AI comes with modules that can help in processing
 
 .. toctree::
    :maxdepth: 2
-   :caption: 🧠 Max.AI DevOps
+   :caption: ⚙️ Max.AI DevOps
