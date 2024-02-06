@@ -11,6 +11,7 @@ Max.AI
    :align: center
    :alt: Max.AI
 
+|
 
 ⏩️ :doc:`Max.AI Data Integration </data_integration/architecture>`
     develop and provide accelerators for seamless integration
