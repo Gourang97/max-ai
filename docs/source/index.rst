@@ -3,8 +3,13 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Max.AI's documentation!
-==================================
+Max.AI
+======
+
+.. image:: ../static/images/Max-AI.png
+   :width: 600px
+   :align: center
+   :alt: Max.AI
 
 
 ⏩️ :doc:`Max.AI Data Integration </data_integration/architecture>`
@@ -55,11 +60,11 @@ Welcome to Max.AI's documentation!
    :caption: 🧠 Max.AI LLM
    
    llm/about
-   llm/agents
-   llm/app
    llm/data
-   llm/documents
    llm/model
+   llm/app
+   llm/agents
+   llm/documents
    llm/tuning
    
 |

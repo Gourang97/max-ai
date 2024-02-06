@@ -12,6 +12,7 @@ Max LLM Development layer comes equipped with pre-built custom classes, designed
 |
 
 As illustrated in the above image, below is the detailed technical elaboration of Max LLM Development Layer:
+
     - Abstracted Training Process: The development layer abstracts the intricacies of model architectures, tokenization, and optimization techniques. Instead of writing numerous lines of code for setting up and training, users can initiate model training with just a few method calls.
     - Integrated Data Processing: Handling and preprocessing data for language models can be daunting. The development layer offers pre-built functions for data tokenization, batching, and shuffling, ensuring the data is in the right format for finetuning. The Data Processing Layer also supports numerous data connectors and eases out setting up the training, evaluation and validation dataset required for finetuning LLM.
     - Customizable Models: While the layer offers simplicity, it doesn’t restrict advanced users. Those who wish to customize the training loop, model architecture, or other components like optimizers or trainable parameters can easily do so. 
