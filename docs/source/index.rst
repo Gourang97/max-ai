@@ -46,6 +46,7 @@ Max.AI
    :caption: 🧪 Max.AI DS Core
    
    ds_core/about
+   ds_core/architecture
    ds_core/maxaidatahandling
    ds_core/maxaifeaturization
    ds_core/maxaimetadata
@@ -61,6 +62,7 @@ Max.AI
    :caption: 🧠 Max.AI LLM
    
    llm/about
+   llm/architecture
    llm/data
    llm/model
    llm/app
