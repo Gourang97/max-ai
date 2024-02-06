@@ -7,7 +7,6 @@ Max.AI LLM architecture is designed for efficient handling and processing of dat
 Components
 ^^^^^^^^^^
 
-|
 
 .. image:: ../static/images/Data-Integration.png
    :width: 600px
@@ -41,7 +40,6 @@ Components
 - PostgreSQL Database
     - Houses app meta data and RBAC configs
 
-|
 
 Max.AI apps are engineered to be swapped with any backend LLM models - Enterprise or OpenSource thus supporting models like Azure OpenAI, AWS Bedrock, Anthropic Claude, Llama etc. Access to these interfaces is abstracted ensuring compatibility with future updates to model endpoints/api calls.
    
