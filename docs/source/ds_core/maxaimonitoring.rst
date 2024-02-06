@@ -1,6 +1,5 @@
-Machine Learning Monitoring
-===========================
-
+Monitoring
+===========
 
 DataDriftChecker
 ****************

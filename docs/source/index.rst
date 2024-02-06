@@ -6,7 +6,7 @@
 Max.AI
 ======
 
-.. image:: ../static/images/Max-AI.png
+.. image:: static/images/Max-AI.png
    :width: 600px
    :align: center
    :alt: Max.AI
