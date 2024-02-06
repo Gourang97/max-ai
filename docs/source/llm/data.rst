@@ -1,6 +1,8 @@
 Data Processing
 ==============
 
+Handling and preprocessing data for language models can be daunting. This development layer offers pre-built functions for data tokenization, batching, and shuffling, ensuring the data is in the right format for finetuning. The Data Processing Layer also supports numerous data connectors and eases out setting up the training, evaluation and validation dataset required for finetuning LLM.
+
 Chunking
 ********
 

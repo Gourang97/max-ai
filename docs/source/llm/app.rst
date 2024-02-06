@@ -1,5 +1,7 @@
-App
-====
+Application
+===========
+
+The development layer abstracts the intricacies of generators, tokenization, and memory techniques. Instead of writing numerous lines of code for setting up and serving, users can initiate their application with just a few method calls.
 
 Generator
 ************

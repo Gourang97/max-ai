@@ -1,6 +1,8 @@
 Max Agents
 ==========
 
+Agents are a system with complex reasoning capabilities, memory, and the means to execute tasks. Max.AI LLM provides a list of agents that can be used out-of-the-box to develop and power applications.
+
 MaxAgentQA
 **********
 A QA Agent for processing and analyzing text data using large language models (LLM).

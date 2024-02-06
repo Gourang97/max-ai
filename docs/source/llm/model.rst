@@ -1,5 +1,7 @@
-Model
-=====
+Models
+=========
+
+This is an abstraction layer powered via one common entry point api gateway that enables access to all kind of LLMs APIs including the Enterprise ones. LLM’s can be integrated with client applications via REST PAI's or cloud specific SDKs.
 
 LLM
 ****

@@ -1,5 +1,5 @@
-Max.AI DS Core
-===============
+About
+=====
 
 Max.AI provides a ready list of utilities to create end-to-end Machine Learning pipelines and solve complex business problems using state-of-the-art modules. 
 
