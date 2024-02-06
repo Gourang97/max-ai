@@ -14,13 +14,16 @@ Max.AI
 |
 
 ⏩️ :doc:`Max.AI Data Integration </data_integration/architecture>`
-    develop and provide accelerators for seamless integration
+    Develop and provide accelerators for seamless integration
     
 ⏩️ :doc:`Max.AI DS Core </ds_core/about>`
-    develop end-to-end Machine Learning pipelines
+    Develop end-to-end Machine Learning pipelines
     
 ⏩️ :doc:`Max.AI LLM </llm/about>`
-    fine-tune existing foundational models and deploying these refined models as part of a product
+    Fine-tune existing foundational models and deploying these refined models as part of a product
+    
+⏩️ :doc:`Max.AI DevOps </devops/workflow>`
+    Automated DevOps which helps developers to deploy their code 
 
 
 
@@ -75,3 +78,5 @@ Max.AI
 .. toctree::
    :maxdepth: 2
    :caption: ⚙️ Max.AI DevOps
+   
+   devops/workflow
