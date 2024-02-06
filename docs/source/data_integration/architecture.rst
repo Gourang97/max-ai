@@ -14,20 +14,5 @@ Components
    :alt: Max.AI LLM Architecture
    
 |
-
-- DNS, Loadbalancer and SSL: 
-    - Enables access to the Max.AI apps for user access
-
-- API Gateway: 
-    - Takes care of routing requests to the respective microservice apps
-    
-- UI
-    - User interface for the Max.AI apps which enable users to upload documents/content and then chat, summarize or run generic QnA
-    
-- Code Notebooks
-    - Code notebooks (jupyter or vscode) are developers point to get access to a mini IDE environment on the Max.AI platform and use to write use-case/app specific code flows.
-
-- PostgreSQL Database
-    - Houses app meta data and RBAC configs
    
    
