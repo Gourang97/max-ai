@@ -1,5 +1,5 @@
-maxairesources
-==============
+Resources
+=========
 
 DataChecks
 **********

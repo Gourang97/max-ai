@@ -1,5 +1,5 @@
-maxaimarketplace
-================
+Max.AI Marketplace
+==================
 This document captures the flow to deploy DAGs and use-cases in the Max Marketplace repository. We encourage the use of conventions and structures laid down in this document for the following reasons:
 
 - Standardization - when similar conventions are followed, it accelerates the debugging process.

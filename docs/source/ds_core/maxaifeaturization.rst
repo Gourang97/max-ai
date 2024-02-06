@@ -1,4 +1,4 @@
-maxaifeaturization
+Feature Generator
 ==================
 
 The Featurization Module is used for feature engineering workloads. This module has following submodules:
