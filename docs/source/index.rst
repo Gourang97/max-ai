@@ -13,7 +13,7 @@ Welcome to Max.AI's documentation!
 ⏩️ :doc:`Max.AI DS Core </ds_core/about>`
     develop end-to-end Machine Learning pipelines
     
-⏩️ :doc:`Max.AI DS Core </llm/about>`
+⏩️ :doc:`Max.AI LLM </llm/about>`
     fine-tune existing foundational models and deploying these refined models as part of a product
 
 
