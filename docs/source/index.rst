@@ -54,7 +54,7 @@ Welcome to Max.AI's documentation!
    :maxdepth: 2
    :caption: 🧠 Max.AI LLM
    
-   llm/getting_started 
+   llm/about
    llm/agents
    llm/app
    llm/data
