@@ -8,7 +8,7 @@ Welcome to Max.AI's documentation!
 
 
 ⏩️ :doc:`Max.AI Data Integration </data_integration/architecture>`
-    develop and provide accelerators that enable seamless integration of data from various Roche data repositories into LLM platform/Max.
+    develop and provide accelerators for seamless integration
     
 ⏩️ :doc:`Max.AI DS Core </ds_core/about>`
     develop end-to-end Machine Learning pipelines
