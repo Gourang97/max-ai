@@ -5,4 +5,5 @@ Architecture
    :width: 600px
    :align: center
    :alt: DS Core Architecture
-   
+
+|

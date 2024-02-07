@@ -15,4 +15,9 @@ Components
    
 |
    
-   
+.. image:: ../static/images/Data-Integration-Generic-2.png
+   :width: 600px
+   :align: center
+   :alt: Max.AI LLM Architecture  
+
+|
