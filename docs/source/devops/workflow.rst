@@ -126,4 +126,71 @@ Let see how all the above steps can be configured on the max platform in detail:
    :width: 600px
    :align: center
    :alt: DevOps-Pods
-    
+
+|
+
+    7. **Notification Service**: With this feature, you can manage the notifications for your build and deployment pipelines. You can receive the notifications on Slack or via e-mail. Below are few configurations which max platform supports: 
+        - SES Configurations 
+        - SMTP Configurations 
+        - Slack Configurations 
+
+|
+
+.. image:: ../static/images/DevOps-7-Notification-Configurations.png
+   :width: 600px
+   :align: center
+   :alt: DevOps-Pods
+
+|
+
+    8. **Security**: Max.AI CI pipeline provides a Scan for vulnerabilities powered by Trivy and Clair as an option shown below. Once you enable this option, it will automatically scan the image for vulnerabilities. 
+
+|
+
+.. image:: ../static/images/DevOps-8-Security.jpg
+   :width: 600px
+   :align: center
+   :alt: DevOps-Pods
+
+|
+
+        - This action provides a detailed overview of the application's security scan, including CVE IDs, severity levels of vulnerabilities, and more, as shown below.
+
+|
+
+.. image:: ../static/images/DevOps-8-Security-02.jpg
+   :width: 600px
+   :align: center
+   :alt: DevOps-Pods
+
+|
+
+        - Each vulnerability is identified by a CVE ID and categorized based on *Severity*, *Package*, *Current Version*, and *Fixed In Version*.
+        - **Accessing Vulnerability Information on the App Details Page**: Max.AI offers the capability to identify vulnerabilities even after an image has been deployed. By navigating to the App Details page, you can find comprehensive details about the vulnerabilities associated with the deployed image.
+
+|
+
+.. image:: ../static/images/DevOps-8-Security-03.jpg
+   :width: 600px
+   :align: center
+   :alt: DevOps-Pods
+
+|
+
+    9.	Authorization Services (SSO): Max.AI platform enables users to connect to different IDP providers and can easily connect to them with very minimal effort. User Groups and their permissions can be managed at ease. Below are the SSO providers which are available.
+        - Google 
+        - GitHub 
+        - GitLab 
+        - Microsoft 
+        - LDAP 
+        - OpenID 
+        - Connect OpenShift
+        
+|
+
+.. image:: ../static/images/DevOps-9-authorization-service.png
+   :width: 600px
+   :align: center
+   :alt: DevOps-Pods
+
+|
