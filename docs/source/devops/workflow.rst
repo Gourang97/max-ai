@@ -170,7 +170,7 @@ Let see how all the above steps can be configured on the max platform in detail:
 
 |
 
-.. image:: ../static/images/DevOps-8-Security-03.jpg
+.. image:: ../static/images/DevOps-8-Security-03.png
    :width: 600px
    :align: center
    :alt: DevOps-Pods
