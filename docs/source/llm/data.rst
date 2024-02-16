@@ -370,6 +370,26 @@ Methods:
 
         - ``query (str)``: The input query string.
         
+.. code-block:: python
+
+        from maxaillm.data.embeddings.MaxOpenAIEmbeddings import MaxOpenAIEmbeddings
+        from maxaillm.data.retriever.Retriever import MultiQuery
+        from maxaillm.data.vectorstore.MaxMilvus import MaxMilvus
+        from maxaillm.model.llm import MaxOpenAILLM
+        
+        # define embedding, vectorDB and llm
+        embeddings = MaxOpenAIEmbeddings()
+        vectordb = MaxMilvus(embedding_function=embeddings.to_langchain(), collection_name="collection_name")
+        llm = MaxOpenAILLM("gpt-4", streaming=False)
+        
+        retriever = MultiQuery(
+            search_type="mmr",
+            vectordb=vectordb,
+            llm=llm,
+            search_args={}
+        )
+        retrieved_text = retriever.retrieve("Some Question?")
+        
 HybridSearch
 ^^^^^^^^^^^^
 HybridSearch is a class that inherits from Retriever and provides methods for retrieving documents using a hybrid approach.
@@ -471,7 +491,11 @@ Methods:
     
     # add docs to VectorDB
     conn_str = MaxPGVector.get_conn_string()
-    vectordb = MaxPGVector(connection_string=conn_str, collection_name="collection_name", embedding_function=embeddings.to_langchain())
+    vectordb = MaxPGVector(
+        connection_string=conn_str, 
+        collection_name="collection_name", 
+        embedding_function=embeddings.to_langchain()
+    )
     vectordb.add(docs)
     
     # retrieve the text from VectorDB
@@ -541,6 +565,32 @@ Attributes:
     - ``vectorstore``: The Milvus vector store used.
 
 Methods:
+    - ``add(data, metadata, **kwargs)``: Adds a vector to the vector store.
+
+        - ``data (Union[str, List[str], LangchainDocument, List[LangchainDocument]])``: The data to be added.
+        - ``metadata (Union[dict, List[dict], None], optional)``: The metadata for the data. Default is None.
+
+    - ``add_async(data, metadata, **kwargs)``: Asynchronously adds a vector to the vector store.
+
+    - ``delete(ids, **kwargs)``: Deletes vectors corresponding to ids from the vector store.
+
+        - ``ids (Union[List[str], str])``: The ids of the vectors to be deleted.
+
+    - ``delete_async(ids, **kwargs)``: Asynchronously deletes vectors corresponding to ids from the vector store.
+
+    - ``search(query, k, search_type, score, metadata_filter, return_metadata, **kwargs)``: Performs a query on the vector store.
+
+        - ``query (Union[str, List[float]])``: The query to be performed.
+        - ``k (int, optional)``: The number of results to return. Default is 3.
+        - ``search_type (str, optional)``: The type of search to be performed. Default is "similarity".
+        - ``score (bool, optional)``: Whether to return the score. Default is False.
+        - ``metadata_filter (Union[dict, None], optional)``: The metadata filter for the search. Default is None.
+        - ``return_metadata (bool, optional)``: Whether to return the metadata. Default is True.
+
+    - ``search_async(query, k, search_type, score, metadata_filter, return_metadata, **kwargs)``: Asynchronously performs a query on the vector store.
+
+    - ``to_langchain()``: Converts the vector store to a class implementing the langchain vector db interface.
+    
     - ``delete(ids, **kwargs)``: Deletes vectors corresponding to ids from the vector store.
 
         - ``ids (Union[List[str], str])``: The ids of the vectors to be deleted.
@@ -548,6 +598,43 @@ Methods:
     - ``delete_async(ids, **kwargs)``: Asynchronously deletes vectors corresponding to ids from the vector store.
 
     - ``get_search_types()``: Returns the types of search supported by this vector store.
+    
+.. code-block:: python
+    
+    from maxaillm.data.chunking.TextSplitter import TextSplitter
+    from maxaillm.data.embeddings.MaxHuggingFaceEmbeddings import MaxHuggingFaceEmbeddings
+    from maxaillm.data.extractor.MaxExtractor import MaxExtractor
+    from maxaillm.data.vectorstore.MaxMilvus import MaxMilvus
+
+
+    # initialize embedding model
+    model_name = "sentence-transformers/all-mpnet-base-v2"
+    model_kwargs = {'device': 'cpu'}
+    encode_kwargs = {'normalize_embeddings': False}
+    embeddings = MaxHuggingFaceEmbeddings(
+        model_name=model_name,
+        model_kwargs=model_kwargs,
+        encode_kwargs=encode_kwargs
+    )
+
+    # before adding document to Vector-Store, extract it using MaxExtractor
+    extractor = MaxTreeExtractor()
+    text = extractor.extract_text("path/to/file")
+    clean_text = extractor.clean_text(
+        text, dehyphenate=True, ascii_only=True, remove_isolated_symbols=True, compress_whitespace=True
+    )
+
+    # Splitting cleaned text into chunks
+    chunk_size = 2000
+    chunk_overlap = 200
+    splitter = TextSplitter(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    docs = splitter.create_documents([clean_text])
+
+
+    # add docs to VectorDB
+    metadata = {'name': '<<file_name>>'}    # define metadata
+    vectordb = MaxMilvus(embedding_function=embeddings.to_langchain(), collection_name="collection_name")
+    vectordb.add(docs, metadata=metadata)
     
 
 MaxPGVector

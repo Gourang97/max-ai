@@ -104,4 +104,11 @@ Returns:
     - An instance of MaxAgentQA.
 
 >>> from maxaillm.app.agent import MaxAgentQA
->>> agent = MaxAgentQA(llm_provider="anthropic",model_name ="claude-2", chunk_size=1000, stream=True, collection="myCollection", prompt_config=myPromptConfig)
+>>> agent = MaxAgentQA(
+...     llm_provider="anthropic",
+...     model_name ="claude-2", 
+...     chunk_size=1000,
+...     stream=True, 
+...     collection="myCollection", 
+...     prompt_config=myPromptConfig
+... )
