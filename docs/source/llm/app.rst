@@ -3,6 +3,52 @@ Application
 
 The development layer abstracts the intricacies of generators, tokenization, and memory techniques. Instead of writing numerous lines of code for setting up and serving, users can initiate their application with just a few method calls.
 
+Cache
+******
+
+MaxCache
+^^^^^^^^^
+MaxCache is a class that provides caching functionality for language model outputs. For enabling MaxCache, set ``REDIS_CONNECTION_STRING`` as an environment variable.
+
+Attributes:
+    - ``redis_url (str)``: The connection string for the Redis server.
+    - ``cache``: The cache object, which can be a RedisSemanticCache or a RedisCache.
+
+Args:
+    - ``semantic (bool, optional)``: Whether to use semantic caching. Defaults to False.
+    - ``ttl (int, optional)``: The time-to-live for cache entries in seconds. Defaults to None, which means entries do not expire.
+    - ``cache_type (str, optional)``: The type of cache to use. Currently, only 'redis' is supported. Defaults to 'redis'.
+    - ``embedding_model (optional)``: The embedding model to use for semantic caching. Required if semantic is True.
+
+Raises:
+    - ``ValueError``: If an unsupported cache type is provided or if semantic is True but no embedding model is provided.
+
+Methods:
+    - ``lookup``: Looks up a cache entry based on a prompt and a language model string.
+
+        - ``prompt (str)``: The prompt to look up.
+        - ``llm_string (str)``: The language model string to look up.
+
+    - ``update``: Updates the cache with a new entry.
+
+        - ``prompt (str)``: The prompt for the new entry.
+        - ``llm_string (str)``: The language model string for the new entry.
+        - ``output (str)``: The output to cache.
+
+Returns:
+    - ``lookup``: The cached output for the given prompt and language model string, or None if no entry was found.
+    
+>>> from maxaillm.app.cache.cache import MaxCache
+>>> cache = MaxCache(
+...     semantic=True,
+...     embedding_model=emb.model
+... )
+>>> collection = "collection_name"
+>>> query = "question asked by user"
+>>> resp = "response by LLM"
+>>> cache.update(query, collection, resp)    # save the results for a particular collection
+
+
 Generator
 ************
 

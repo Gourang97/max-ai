@@ -22,7 +22,9 @@ Args:
     - ``generate_method (str, optional)``: The method used for generation tasks, defaults to "stuff".
     - ``verbose (bool, optional)``: Flag to indicate if verbose mode is enabled, defaults to "True".
     - ``vector_store (str, optional)``: The type of vector store to be used, defaults to "pgvector".
-    
+    - ``guardrails (bool)``: Enables guardrails that provide additional checks and balances.
+    - ``guardrails_kwargs (dict)``: Additional keyword arguments for configuring guardrails.
+
 Attributes:
     - ``agent_type``: The type of the agent.
     - ``llm_provider``: The provider of the LLM.
@@ -39,14 +41,14 @@ Attributes:
     - ``verbose``: Whether to print verbose output.
     - ``vector_store``: The vector store to use.
     - ``cost_param``: The cost parameters.
-    
+
 Methods:
     - ``initialize_llm(provider, model_name, model_kwargs)``: Initializes the LLM.
 
         - ``provider (str)``: Provider of the LLM.
         - ``model_name (str)``: Name of the model.
         - ``model_kwargs (dict)``: Additional arguments for the model.
-        
+
     - ``set_collection(collection)``: Sets the collection name and initializes the vector database.
 
         - ``collection (str)``: The name of the collection to be used in the vector database.
@@ -54,17 +56,17 @@ Methods:
     - ``get_collection()``: Returns the current collection name.
 
     - ``init_vector_db()``: Initializes the vector database.
-    
+
     - ``process_file(file, doc_metadata)``: Processes a file and adds it to the vector database.
 
         - ``file (str)``: File to process.
         - ``doc_metadata (dict)``: Metadata for the document.
-        
+
     - ``add(files, default_metadata)``: Adds files to the collection.
 
         - ``files (list[str])``: List of files to add.
         - ``default_metadata (list[dict])``: Default metadata for the files.
-    
+
     - ``query(query, search_type, k, filters, score_threshold, prompt_config)``: Queries the collection and generates a response.
 
         - ``query (str)``: Query to use.
@@ -73,7 +75,7 @@ Methods:
         - ``filters (dict)``: Filters to apply.
         - ``score_threshold (float)``: Threshold for the score.
         - ``prompt_config (dict)``: Configuration for the prompt.
-        
+
     - ``aquery(query, k, filters, search_type, score_threshold, prompt_config, chat_session, message_id)``: Asynchronously queries the collection and generates a response.
 
         - ``query (str)``: Query to use.
@@ -84,7 +86,7 @@ Methods:
         - ``prompt_config (dict)``: Configuration for the prompt.
         - ``chat_session (str)``: Chat session to use.
         - ``message_id (str)``: ID of the message.
-    
+
     - ``get_sources(query, search_type, k, filters, score_threshold, top_k, chat_session)``: Retrieves sources based on the query.
 
         - ``query (str)``: Query to use.
@@ -94,7 +96,6 @@ Methods:
         - ``score_threshold (float)``: Threshold for the score.
         - ``top_k (bool)``: Whether to return top k results.
         - ``chat_session (str, optional)``: Chat session to use.
-        
 
 Raises:
     - ``ValueError``: If `prompt_config` is not provided.
