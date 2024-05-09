@@ -70,6 +70,7 @@ Max.AI
    llm/model
    llm/app
    llm/agents
+   llm/compliance
    llm/documents
    llm/tuning
    
