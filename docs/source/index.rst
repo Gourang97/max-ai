@@ -69,8 +69,8 @@ Max.AI
    llm/data
    llm/model
    llm/app
-   llm/agents
    llm/compliance
+   llm/agents
    llm/documents
    llm/tuning
    
