@@ -196,7 +196,7 @@ Methods:
 
 
 MaxMultiModalAgentQA
-====================
+*********************
 MaxMultiModalAgentQA class for processing and analyzing text and image data using large language models (LLM).
 
 Args:
