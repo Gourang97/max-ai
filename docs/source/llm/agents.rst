@@ -356,3 +356,71 @@ Methods:
     ...     collection="myCollection",
     ...     prompt_config=myPromptConfig
     ... )
+    
+    
+SourceProvider
+**************
+SourceProvider class for retrieving and managing sources using large language models (LLM).
+
+Args:
+    - ``llm (BaseLLM)``: An instance of a BaseLLM class.
+    - ``embedding_model (MaxLangchainEmbeddings)``: An instance of MaxLangchainEmbeddings class for generating embeddings from text.
+    - ``vectordb (MaxLangchainVectorStore)``: An instance of MaxLangchainVectorStore class for storing and retrieving vector embeddings.
+    - ``doc_store (Optional[Any])``: A document store for storing raw documents. Defaults to None.
+    - ``retriever_type (str)``: The type of retriever to be used for fetching documents. Defaults to "base".
+    - ``reranker_type (str)``: The type of reranker to be used for re-ranking the retrieved documents. Defaults to "LostInMiddle".
+    - ``collection (Optional[str])``: The name of the collection to be used in the vector database. Defaults to None.
+    - ``stream (Optional[bool])``: Flag to indicate if the data should be processed as a stream. Defaults to True.
+    - ``source_threshold (Optional[float])``: Similarity threshold for the embeddings compression filter. Defaults to 0.10.
+
+Attributes:
+    - ``llm``: The large language model instance.
+    - ``embedding_model``: The embedding model instance.
+    - ``vectordb``: The vector database instance.
+    - ``doc_store``: The document store instance.
+    - ``retriever_type``: The type of retriever.
+    - ``reranker_type``: The type of reranker.
+    - ``stream``: Flag indicating if the data should be processed as a stream.
+    - ``source_threshold``: Similarity threshold for the embeddings compression filter.
+
+
+Methods:
+    - ``_retrieve_text_async``: Asynchronously retrieves and reranks text based on the given query and search parameters using MaxRetriever.
+
+        - ``vectordb (MaxLangchainVectorStore)``: The instance of the vector database.
+        - ``query (str)``: The query string.
+        - ``search_type (str)``: Type of search to perform.
+        - ``k (int)``: The number of top results to retrieve.
+        - ``filters (dict)``: Filters to apply for the query.
+        - ``score_threshold (float)``: Threshold for scoring the results.
+
+    - ``get_sources``: Retrieve and return sources related to a given query.
+
+        - ``query (str)``: The query string for which sources are to be retrieved.
+        - ``filter_type (str)``: The type of filter used for source retrieval ('embeddings' or 'llm'). Defaults to 'embeddings'.
+
+    - ``get_chunks``: Retrieve and return text chunks related to a given query using different retrieval methods.
+
+        - ``query (str)``: The query string for which text chunks are to be retrieved.
+        - ``filter_type (str)``: The retrieval method ('vanilla', 'llm', 'embeddings'). Defaults to 'vanilla'.
+        - ``search_type (str)``: The type of search to be performed (e.g., 'mmr'). Defaults to 'mmr'.
+        - ``k (int)``: The number of results to retrieve. Defaults to 10.
+        - ``filters (dict)``: Any filters to apply to the search query. Defaults to empty dict.
+        - ``score_threshold (float)``: The threshold score for including a document in the results. Defaults to 0.05.
+
+    >>> from maxaillm.agents.SourceProvider import SourceProvider
+    >>> from maxaillm.data.embeddings.MaxOpenAIEmbeddings import MaxOpenAIEmbeddings
+    >>> from maxaillm.data.vectorstore.MaxPGVector import MaxPGVector
+    >>> from maxaillm.model.llm import MaxOpenAILLM
+    >>> llm = MaxOpenAILLM(model_name="gpt-3.5-turbo")
+    >>> embedding_model = MaxOpenAIEmbeddings(model_name="text-embedding-3-small")
+    >>> vectordb = MaxPGVector(
+    ...     collection_name="collection_name",
+    ...     embedding_function=embedding_model
+    ... )
+    >>> sources = SourceProvider(
+    ...     llm=llm, 
+    ...     embedding_model=embedding_model, 
+    ...     source_threshold=0.5, 
+    ...     vectordb=vectordb
+    ... )

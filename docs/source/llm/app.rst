@@ -54,47 +54,58 @@ Generator
 
 MaxGenerator
 ^^^^^^^^^^^^
-This class manages multiple generators for response generation and allows switching between different generator implementations.
-
-Initializes the GeneratorManager and sets up available generators.
+A generator is used for generating responses from LLM.
+It is capable of generating both single responses and a stream of responses based on queries, context, and conversational history.
 
 Args:
-    - ``llm (LLM)``: The language model to be used.
-    - ``method (str)``: The method to be used for generation.
-    - ``prompt_config (dict)``: The configuration for the prompt.
-    - ``engine (str, optional)``: The engine to be used for generation. Defaults to "langchain".
-    - ``streamable (bool, optional)``: Indicates if the generator supports streaming responses. Defaults to False.
-    - ``verbose (bool, optional)``: Indicates if verbose output should be enabled. Defaults to True.
+    - ``llm (LLM)``: The large language model instance.
+    - ``method (str)``: The method to be used for generating responses or processing text.
+    - ``prompt_config (dict)``: Configuration settings for prompts.
+    - ``streamable (bool, Optional)``: Flag to indicate if the data should be processed as a stream. Defaults to False.
+    - ``context_window (int, Optional)``: The size of the context window in terms of the number of tokens. Defaults to 10000.
+    - ``verbose (bool, Optional)``: Flag to indicate if verbose mode is enabled. Defaults to True.
+    - ``chat_history (bool, Optional)``: Flag to indicate if the conversation history should be maintained. Defaults to False.
 
 Attributes:
-    - ``generators (dict[str, Generator])``: A dictionary mapping generator names to their instances.
-    - ``selected_generator (Generator)``: The currently selected generator for response generation.
+    - ``streamable``: A flag indicating whether the generator is capable of streaming responses.
+    - ``llm``: An instance of a language model (LLM) used for generating responses.
+    - ``method``: The method used for generating responses.
+    - ``context_window``: The size of the context window for generating responses.
+    - ``prompt_config``: Configuration settings for prompts.
+    - ``verbose``: Flag to indicate if verbose mode is enabled.
+    - ``chat_history``: Flag to indicate if the conversation history should be maintained.
 
 Methods:
-    - ``generate(query, context, conversation)``: Generates a response based on the query and context.
+    - ``_create_template``: Creates a chat prompt template based on the configuration and chat history.
 
-        - ``query (str)``: The query to generate a response for.
-        - ``context (List[str])``: The context for the query.
-        - ``conversation (List[dict], optional)``: The conversation history.
+        - ``None``: No arguments.
 
-    - ``generate_stream(query, context, conversation)``: Asynchronously generates a response based on the query and context.
+    - ``_initialize_chain``: Initializes the question-answering chain with a specific prompt template and method.
 
-        - ``query (str)``: The query to generate a response for.
-        - ``context (List[str])``: The context for the query.
-        - ``conversation (List[dict], optional)``: The conversation history.
+        - ``None``: No arguments.
 
-    - ``set_generator(generator)``: Sets the current generator.
+    - ``generate``: Generates a response based on queries, context, and conversational history.
 
-        - ``generator (str)``: The name of the generator to set.
+        - ``query (str)``: The user's query.
+        - ``context (List[str])``: List of contexts associated with each query.
+        - ``conversation (List[dict], Optional)``: Conversational context. Defaults to an empty list.
 
-    - ``get_generators()``: Returns the available generators.
+    - ``generate_async``: Asynchronously generates a response based on queries, context, and conversational history.
 
-    - ``calculate_tokens(prompt_config, context, query, chat)``: Calculates the number of tokens in the formatted response.
+        - ``query (str)``: The user's query.
+        - ``context (List[str])``: List of contexts associated with each query.
+        - ``conversation (List[dict], Optional)``: Conversational context. Defaults to an empty list.
 
-        - ``prompt_config (dict)``: The configuration for the prompt.
-        - ``context (List[str])``: The context for the query.
-        - ``query (str)``: The query to generate a response for.
-        - ``chat (str)``: The chat history.
+    - ``generate_stream``: Generates a stream of responses based on queries, context, and conversational history.
+
+        - ``query (str)``: The user's query.
+        - ``context (List[str])``: List of contexts associated with each query.
+        - ``conversation (List[dict], Optional)``: Conversational context. Defaults to an empty list.
+
+    - ``prepare_messages``: Prepares messages formatted for a chatbot system using GPT-4 model.
+
+        - ``context (List[str])``: Context information for the queries.
+        - ``conversation (List[dict], Optional)``: Previous conversation messages with role and content. Defaults to an empty list.
         
 .. code-block:: python
 
