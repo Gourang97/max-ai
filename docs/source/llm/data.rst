@@ -11,22 +11,62 @@ MarkdownHeaderSplitter
 MarkdownHeaderSplitter is a class that provides functionality for splitting text based on Markdown headers.
 
 Args:
-    - ``splits (List[Tuple[str, str]], optional)``: A list of tuples representing Markdown header patterns to split on. Each tuple contains two strings: the Markdown header prefix (e.g., "#") and the corresponding header name (e.g., "Header 1"). If not provided, default header patterns will be used.
+    - ``splits (List[Tuple[str, str]], Optional)``: A list of tuples specifying the headers to split on. Default is None.
 
 Attributes:
-    - ``headers_to_split_on (List[Tuple[str, str]])``: The Markdown header patterns to split on.
-
-Methods:
-    - ``split_text(text)``: Splits the given text based on Markdown headers.
-
-        - ``text (str)``: The text to split.
-
-    - ``split_document(document)``: Splits the text of the given document based on Markdown headers.
-
-        - ``document (Document)``: The document to split.
+    - ``headers_to_split_on``: A list of headers to split the markdown text on.
 
 Raises:
-    - ``Exception``: If an error occurs while splitting the text.
+    - ``Exception``: If an error occurs during the splitting process.
+
+Returns:
+    - ``List[str]``: A list of text chunks split based on Markdown headers.
+
+Methods:
+    - ``split_text_async``: Asynchronously splits the provided markdown text based on headers.
+
+        - ``text (str)``: The markdown text to be split.
+
+        Returns:
+        - ``List[str]``: A list of strings split based on headers.
+
+    - ``split_text``: Synchronously splits the provided markdown text based on headers.
+
+        - ``text (str)``: The markdown text to be split.
+
+        Returns:
+        - ``List[str]``: A list of strings split based on headers.
+
+    - ``split_document_async``: Asynchronously splits the provided document based on headers.
+
+        - ``document (Document)``: The document to be split.
+
+        Returns:
+        - ``List[str]``: A list of strings split based on headers.
+
+    - ``split_document``: Synchronously splits the provided document based on headers.
+
+        - ``document (Document)``: The document to be split.
+
+        Returns:
+        - ``List[str]``: A list of strings split based on headers.
+    
+.. code-block:: python
+
+    from maxaillm.data.chunking import MarkdownHeaderSplitter
+
+    # Define custom header splits
+    custom_splits = [("#", "Chapter"), ("##", "Section")]
+
+    # Initialize MarkdownHeaderSplitter with custom header patterns
+    splitter = MarkdownHeaderSplitter(splits=custom_splits)
+
+    # Example text to be split
+    document_text = "# Chapter 1\nThis is the first chapter.\n## Section 1.1\nThis is the first section."
+
+    # Example of splitting the text synchronously
+    md_header_chunks = splitter.split_text(document_text)
+    print(md_header_chunks)
     
 
 HTMLHeaderSplitter
@@ -34,26 +74,56 @@ HTMLHeaderSplitter
 HTMLHeaderSplitter is a class that provides functionality for splitting text based on HTML headers.
 
 Args:
-    - ``splits (List[Tuple[str, str]], optional)``: A list of tuples representing HTML header tags to split on. Each tuple contains two strings: the HTML header tag (e.g., "h1") and the corresponding header name (e.g., "Header 1"). If not provided, default header tags will be used.
+    - ``splits (List[Tuple[str, str]], Optional)``: A list of tuples specifying the headers to split on. Default is None.
 
 Attributes:
-    - ``headers_to_split_on (List[Tuple[str, str]])``: The HTML header tags to split on.
+    - ``headers_to_split_on``: A list of headers to split the markdown text on.
 
 Methods:
-    - ``split_text(text)``: Splits the given text based on HTML headers.
+    - ``split_text_async``: Asynchronously splits the provided markdown text based on headers.
 
-        - ``text (str)``: The text to split.
+        - ``text (str)``: The markdown text to be split.
 
-    - ``split_text_from_url(url)``: Fetches a document from the given URL and splits its text based on HTML headers.
+        Returns:
+        - ``List[str]``: A list of strings split based on headers.
 
-        - ``url (str)``: The URL of the document to fetch and split.
+    - ``split_text``: Synchronously splits the provided markdown text based on headers.
 
-    - ``split_document(document)``: Splits the text of the given document based on HTML headers.
+        - ``text (str)``: The markdown text to be split.
 
-        - ``document (Document)``: The document to split.
+        Returns:
+        - ``List[str]``: A list of strings split based on headers.
 
-Raises:
-    - ``Exception``: If an error occurs while splitting the text.
+    - ``split_document_async``: Asynchronously splits the provided document based on headers.
+
+        - ``document (Document)``: The document to be split.
+
+        Returns:
+        - ``List[str]``: A list of strings split based on headers.
+
+    - ``split_document``: Synchronously splits the provided document based on headers.
+
+        - ``document (Document)``: The document to be split.
+
+        Returns:
+        - ``List[str]``: A list of strings split based on headers.
+    
+.. code-block:: python
+
+    from maxaillm.data.chunking import HTMLHeaderSplitter
+
+    # Define custom header splits
+    custom_splits = [("h1", "Chapter"), ("h2", "Section")]
+
+    # Initialize HTMLHeaderSplitter with custom header tags
+    splitter = HTMLHeaderSplitter(splits=custom_splits)
+
+    # Example HTML text to be split
+    html_text = "<h1>Chapter 1</h1><p>This is the first chapter.</p><h2>Section 1.1</h2><p>This is the first section.</p>"
+
+    # Example of splitting the text synchronously
+    html_header_chunks = splitter.split_text(html_text)
+    print(html_header_chunks)
     
     
 TextSplitter
