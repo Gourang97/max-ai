@@ -183,16 +183,57 @@ Methods:
     - ``_pre_generation_check_llm``: LLM to make pregeneration calls, hardcoded to GPT-4.
 
         - ``None``: No arguments needed.
-            
-    >>> from maxaillm.app.agent import MaxAgentQA
-    >>> agent = MaxAgentQA(
-    ...     llm_provider="anthropic",
-    ...     model_name ="claude-2", 
-    ...     chunk_size=1000,
-    ...     stream=True, 
-    ...     collection="myCollection", 
-    ...     prompt_config=myPromptConfig
-    ... )
+
+    - ``get_sources``: Retrieve the sources used to provide a response to the provided query.
+
+        - ``query (str)``: The query string.
+        - ``search_type (str)``: The type of search to perform.
+        - ``k (int)``: The number of documents to retrieve.
+        - ``filters (dict)``: Filters to apply for the query.
+        - ``score_threshold (float)``: The minimum score threshold for retrieved documents.
+        - ``top_k (bool)``: Flag to indicate whether to return only the top-k documents.
+        - ``chat_session (object)``: The chat session object, if applicable.
+    
+.. code-block:: python
+    from maxaillm.app.agent import MaxAgentQA
+
+    # Define prompt configuration
+    myPromptConfig = {'moderations':'', 'task':'', 'identity':''}
+
+    # Initialize MaxAgentQA
+    agent = MaxAgentQA(
+        llm_provider="openai",
+        model_name ="gpt-4o",
+        chunk_size=1000,
+        stream=True,
+        collection="myCollection",
+        prompt_config=myPromptConfig
+    )
+
+    # Example of initializing the LLM
+    agent.initialize_llm(provider="anthropic", model_name="claude-2", model_kwargs={"temperature": 0.7})
+
+    # Example of setting a collection
+    agent.set_collection(collection="myCollection")
+
+    # Example of getting the collection name
+    collection_name = agent.get_collection(collection="myCollection")
+
+    # Example of processing a file
+    agent.process_file(file="document.pdf", doc_metadata={"author": "John Doe"})
+
+    # Example of adding documents to the collection
+    agent.add(files=["doc1.pdf", "doc2.pdf"], default_metadata=[{"author": "John Doe"}, {"author": "Jane Doe"}])
+
+    # Example of querying the collection
+    response = agent.query(query="Explain Reinforcement Learning", search_type="mmr", k=5)
+
+    # Example of asynchronously querying the collection
+    async for token in agent.aquery(query="Explain Reinforcement Learning", k=5):
+        print(token, end="")
+
+    # Example of retrieving the sources used in a response
+    sources = agent.get_sources(query="Explain Reinforcement Learning", search_type="mmr", k=5)
 
 
 MaxMultiModalAgentQA
@@ -345,17 +386,35 @@ Methods:
         - ``streamable (bool)``: Flag to indicate if the generation process should be streamable.
         - ``verbose (bool)``: Flag to enable verbose mode.
         - ``enable_chat (bool)``: Flag to enable chat history in the generation process.
-        
 
-    >>> from maxaillm.agents.MaxMultiModalQA import MaxMultiModalAgentQA
-    >>> agent = MaxMultiModalAgentQA(
-    ...     llm_provider="anthropic",
-    ...     model_name ="claude-2",
-    ...     chunk_size=1000,
-    ...     stream=True,
-    ...     collection="myCollection",
-    ...     prompt_config=myPromptConfig
-    ... )
+.. code-block:: python
+    from maxaillm.agents.MaxMultiModalQA import MaxMultiModalAgentQA
+
+    # Initialize MaxMultiModalAgentQA
+    agent = MaxMultiModalAgentQA(
+        llm_provider="anthropic",
+        model_name="claude-2",
+        chunk_size=1000,
+        stream=True,
+        collection="myCollection",
+        prompt_config=myPromptConfig
+    )
+
+    # Example of setting a collection
+    agent.set_collection("myCollection")
+
+    # Example of processing a file
+    success = agent.process_file("/path/to/document.pdf", {"title": "Sample Document", "author": "John Doe"})
+
+    # Example of querying the collection
+    response = agent.query("What is the tallest mountain?", search_type="mmr", k=5)
+
+    # Example of asynchronously querying the collection
+    async for token in agent.aquery(query="What is the capital of France?", k=5):
+        print(token, end='')
+
+    # Example of resizing an image
+    resized_image_obj = agent.resize_image(image_obj)
     
     
 MaxGraphAgentQA
@@ -545,20 +604,29 @@ Methods:
         - ``filters (dict)``: Any filters to apply to the search query. Defaults to empty dict.
         - ``score_threshold (float)``: The threshold score for including a document in the results. Defaults to 0.05.
 
-    >>> from maxaillm.agents.SourceProvider import SourceProvider
-    >>> from maxaillm.data.embeddings.MaxOpenAIEmbeddings import MaxOpenAIEmbeddings
-    >>> from maxaillm.data.vectorstore.MaxPGVector import MaxPGVector
-    >>> from maxaillm.model.llm import MaxOpenAILLM
-    >>> llm = MaxOpenAILLM(model_name="gpt-3.5-turbo")
-    >>> embedding_model = MaxOpenAIEmbeddings(model_name="text-embedding-3-small")
-    >>> vectordb = MaxPGVector(
-    ...     collection_name="collection_name",
-    ...     embedding_function=embedding_model
-    ... )
-    >>> sources = SourceProvider(
-    ...     llm=llm, 
-    ...     embedding_model=embedding_model, 
-    ...     source_threshold=0.5, 
-    ...     vectordb=vectordb
-    ... )
+.. code-block:: python
+    from maxaillm.agents.SourceProvider import SourceProvider
 
+    # Initialize SourceProvider within an agent class
+    sources = SourceProvider(
+        llm=self.llm,
+        embedding_model=self.embedding_model, 
+        source_threshold=self.source_threshold, 
+        vectordb=self.vectordb
+    )
+
+    # Example of retrieving sources related to a query
+    sources = await source_provider.get_sources(
+        query="What are the key points in the Quantum Computing document?",
+        filter_type='embeddings'
+    )
+
+    # Example of retrieving text chunks related to a query
+    chunks = await source_provider.get_chunks(
+        query="machine learning",
+        filter_type="vanilla",
+        search_type="mmr",
+        k=5,
+        filters={},
+        score_threshold=0.05
+    )
