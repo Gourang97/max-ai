@@ -6,46 +6,67 @@ Guardrails
 
 MaxGaurdRails
 ^^^^^^^^^^^^^^
-MaxGaurdRails is a class that applies a set of validations on User Prompt.
+Provides various guardrails for validating and safeguarding text inputs.
 
 Args:
-    - ``llm``: The language model to use for validation.
-    - ``services_information (str, optional)``: A description of the services provided by the chat bot. Defaults to "Generic Retrieval Augmented chat bot based on input documents".
-    - ``pass_if_invalid (bool, optional)``: Whether to pass the validation if the response from the language model is invalid. Defaults to ``True``.
+    - ``llm (Any, Optional)``: The language model to be used for legacy guardrail support. Defaults to None.
 
 Attributes:
-    - ``llm``: The language model to use for validation.
-    - ``services_information (str)``: A description of the services provided by the chat bot.
-    - ``pass_if_invalid (bool)``: Whether to pass the validation if the response from the language model is invalid.
+    - ``guard``: An instance of the Guard class for managing validations.
+    - ``llm``: The language model for legacy guardrail support.
 
 Methods:
-    - ``get_validation_prompt``: Generates the prompt to send to the language model.
+    - ``prompt_injection``: Prevents prompt injection using Rebuff.
 
-        - ``user_message (str)``: The user message to validate.
+    - ``pii``: Adds PII safeguard.
 
-    - ``get_llm_response_async``: Gets the response from the language model asynchronously.
+        - Args:
+            - ``email_address (bool, Optional)``: Whether to detect email addresses. Defaults to True.
+            - ``phone_number (bool, Optional)``: Whether to detect phone numbers. Defaults to True.
 
-        - ``prompt (str)``: The prompt to send to the language model.
+    - ``off_topic``: Checks if a text is related to a topic.
 
-    - ``validate_asyc``: Validation method for the ResponseEvaluator.
+        - Args:
+            - ``valid_topics (list)``: List of valid topics.
+            - ``invalid_topics (list)``: List of invalid topics.
+            - ``disable_classifier (bool, Optional)``: Whether to disable the classifier. Defaults to True.
+            - ``disable_llm (bool, Optional)``: Whether to disable the language model. Defaults to False.
+            - ``kwargs``: Additional keyword arguments.
 
-        - ``value (Any)``: The value to validate.
+    - ``detect_gibberish``: Detects non-sensical prompts.
 
-    - ``get_llm_response``: Gets the response from the language model.
+    - ``profanities``: Ensures that there’s no profanity in the text.
 
-        - ``prompt (str)``: The prompt to send to the language model.
+    - ``secrets_present``: Detects secrets present in the text.
 
-    - ``validate``: Validation method for the ResponseEvaluator.
+    - ``validate``: Runs text against validators.
 
-        - ``value (Any)``: The value to validate.
+        - Args:
+            - ``text (str)``: The text to be validated.
 
-Raises:
-    - ``RuntimeError``: If there is an error getting a response from the language model.
+        - Returns:
+            - ``tuple[bool, dict]``: A tuple containing the validation status and a dictionary of errors if any.
 
-Returns:
-    - ``get_validation_prompt``: The prompt to send to the language model.
-    - ``get_llm_response_async``, ``get_llm_response``: The response from the language model.
-    - ``validate_asyc``, ``validate``: True if the validation passes, False otherwise.
+    - ``_parse_failed_validations``: Extracts information from failed validations.
+
+        - Returns:
+            - ``dict``: A dictionary containing the guardrail name and proposed fixed value for each failed validation.
+
+    - ``maxai_guardrails``: Registers MAX.AI validators.
+
+        - Args:
+            - ``llm``: The language model.
+            - ``validators (list, Optional)``: List of validators to be used. Defaults to DEFAULT_MAXAI_VALIDATORS.
+            - ``on_fail (str, Optional)``: Action to take on failure. Defaults to "fix".
+            - ``kwargs``: Additional keyword arguments.
+
+    - ``user_defined_guardrail``: Registers a user-defined guardrail.
+
+        - Args:
+            - ``custom_guardrail_config (dict)``: Configuration for the custom guardrail.
+            - ``llm``: The language model.
+            - ``on_fail (str, Optional)``: Action to take on failure. Defaults to "fix".
+            - ``kwargs``: Additional keyword arguments.
     
 .. code-block:: python
 
