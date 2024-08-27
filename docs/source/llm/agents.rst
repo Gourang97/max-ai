@@ -195,6 +195,7 @@ Methods:
         - ``chat_session (object)``: The chat session object, if applicable.
     
 .. code-block:: python
+
     from maxaillm.app.agent import MaxAgentQA
 
     # Define prompt configuration
@@ -388,6 +389,7 @@ Methods:
         - ``enable_chat (bool)``: Flag to enable chat history in the generation process.
 
 .. code-block:: python
+
     from maxaillm.agents.MaxMultiModalQA import MaxMultiModalAgentQA
 
     # Initialize MaxMultiModalAgentQA
@@ -605,6 +607,7 @@ Methods:
         - ``score_threshold (float)``: The threshold score for including a document in the results. Defaults to 0.05.
 
 .. code-block:: python
+
     from maxaillm.agents.SourceProvider import SourceProvider
 
     # Initialize SourceProvider within an agent class

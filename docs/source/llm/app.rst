@@ -354,6 +354,7 @@ Methods:
 
 
 .. code-block:: python
+
     from datetime import datetime
     from maxiaillm.app.app.memory import CustomMessage, CustomMessageConverter, MaxMessage
 
@@ -411,6 +412,7 @@ Returns:
     - ``Type``: the instance of LLMProvider class.
         
 .. code-block:: python
+
     from maxaillm.app.providers.providers import LLMProvider
 
     # Example of getting LLM provider
@@ -534,6 +536,7 @@ Methods:
         - ``Any``: The parsed response in the specified format.
 
 .. code-block:: python
+
     from maxaillm.model.llm import MaxAnthropicLLM
     from maxaillm.app.template.json_template import MaxLLMJsonTemplate
 
