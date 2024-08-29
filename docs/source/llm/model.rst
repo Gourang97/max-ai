@@ -319,6 +319,6 @@ Methods:
         task="text-generation",
         temperature=0,
         max_tokens_to_sample=1024,
-        streaming=False
+        streaming=True
     )
     model = llm.load_model()
