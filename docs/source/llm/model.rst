@@ -288,12 +288,13 @@ Methods:
     model = llm.load_model()
 
 
-MaxOpenSourceLLM
+MaxHuggingFaceLLM
 ^^^^^^^^^^^^^^^^^
-Represents a VertexAI language model. This class extends the BaseLLM class and includes specific configurations for the VertexAI model.
+Represents a HuggingFace language model. This class extends the BaseLLM class and includes specific configurations for the HuggingFace model.
 
 Args:
     - ``model_name (str)``: The name of the model to be loaded.
+    - ``task (str, Optional)``: The task to be performed by the model. Defaults to "text-generation".
     - ``temperature (float, Optional)``: Controls randomness in generation. Defaults to 0.0.
     - ``max_tokens (int, Optional)``: The maximum number of tokens to generate. Defaults to None.
     - ``stop (str, Optional)``: The stop sequence for generation. Defaults to None.
@@ -302,20 +303,20 @@ Args:
     - ``top_p (float, Optional)``: Controls diversity via nucleus sampling. Defaults to None.
 
 Raises:
-    - ``ImportError``: If the required `langchain_google_vertexai` package is not installed.
+    - ``ImportError``: If the required `langchain-huggingface` package is not installed.
 
 Methods:
-    - ``load_model``: Loads the VertexAI model with the specified parameters.
+    - ``load_model``: Loads the HuggingFace model with the specified parameters.
 
         - Returns:
-            - ``VertexAI``: The loaded VertexAI model instance.
+            - ``HuggingFace``: The loaded HuggingFace model instance.
 
 .. code-block:: python
 
-    from maxaillm.model.llm import MaxOpenSourceLLM
-    llm = MaxOpenSourceLLM(
-        model_name="google-bert/bert-large-uncased-whole-word-masking-finetuned-squad",
-        provider="huggingface",
+    from maxaillm.model.llm import MaxHuggingFaceLLM
+    llm = MaxHuggingFaceLLM(
+        model_name="microsoft/Phi-3-mini-4k-instruct",
+        task="text-generation",
         temperature=0,
         max_tokens_to_sample=1024,
         streaming=False
