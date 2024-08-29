@@ -32,11 +32,11 @@ Methods:
     - ``load_model()``: Loads the Anthropic model specified in the initialization.
     
 .. code-block:: python
-    
+        
     from maxaillm.model.llm import MaxAnthropicLLM
+    llm = MaxAnthropicLLM(model_name="Claude-2", temperature=0.7, max_tokens_to_sample=1024, streaming=False, top_p=0.9)
+    model = llm.load_model()
 
-
-    llm = MaxAnthropicLLM("claude-2").load_model()
 
 MaxOpenAILLM
 ^^^^^^^^^^^^^
@@ -66,6 +66,12 @@ Raises:
 
 Methods:
     - ``load_model()``: Loads the OpenAI model specified in the initialization.
+    
+.. code-block:: python
+
+    from maxaillm.model.llm import MaxOpenAILLM
+    llm = MaxOpenAILLM(model_name="text-davinci-003", temperature=0.7, max_tokens=150, stop=["\n"], streaming=False)
+    model = llm.load_model()
     
     
 MaxAzureOpenAILLM
@@ -99,6 +105,12 @@ Raises:
 
 Methods:
    - ``load_model()``: Loads the Azure-hosted OpenAI model specified in the initialization.
+
+.. code-block:: python
+
+    from maxaillm.model.llm import MaxAzureOpenAILLM
+    llm = MaxAzureOpenAILLM(model_name="gpt-3.5-turbo", max_retries=3, streaming=False, temperature=0.7, max_tokens=150)
+    model = llm.load_model()
    
    
 MaxBedrockLLM
@@ -125,3 +137,187 @@ Raises:
 Methods:
     - ``load_model()``: Loads the Bedrock-based model specified in the initialization.
 
+.. code-block:: python
+        
+        from maxaillm.model.llm import MaxBedrockLLM
+        llm = MaxBedrockLLM(model_name="anthropic.claude-v2", temperature=0.7, max_tokens_to_sample=1024, streaming=False)
+        model = llm.load_model()
+
+
+MaxGoogleLLM 
+^^^^^^^^^^^^^^
+Represents a Google language model. This class extends the BaseLLM class and includes specific configurations for the Google model.
+
+Args:
+    - ``model_name (str)``: Name of the Google model to be loaded.
+    - ``temperature (float, Optional)``: The temperature for the language generation. Defaults to 0.0.
+    - ``max_tokens_to_sample (int, Optional)``: The maximum number of tokens for generation. Defaults to 2048.
+    - ``streaming (bool, Optional)``: Whether to enable streaming for the model. Defaults to True.
+    - ``top_p (float, Optional)``: Controls the nucleus sampling. Defines the probability mass to consider for the next token's generation. Defaults to None.
+    - ``convert_system_message_to_human (bool, Optional)``: Whether system-generated messages should be converted to a more human-readable format. Defaults to True.
+
+Raises:
+    - ``ImportError``: If the necessary dependencies for interacting with Google's Generative AI are not installed.
+    - ``EnvironmentError``: If the GOOGLE_API_KEY environment variable is not set.
+
+Methods:
+    - ``load_model``: Loads the Google model specified in the initialization.
+
+        - Returns:
+            - ``ChatGoogleGenerativeAI``: The loaded Google model instance.
+
+.. code-block:: python
+
+    from maxaillm.model.llm import MaxGoogleLLM
+    llm = MaxGoogleLLM(model_name="gemini-1.5-pro", temperature=0.7, max_tokens_to_sample=1024, streaming=False)
+    model = llm.load_model()
+    
+    
+MaxVertexAILLM
+^^^^^^^^^^^^^^^
+Represents a VertexAI language model. This class extends the BaseLLM class and includes specific configurations for the VertexAI model.
+
+Args:
+    - ``model_name (str)``: The name of the model to be loaded.
+    - ``temperature (float, Optional)``: Controls randomness in generation. Defaults to 0.0.
+    - ``max_tokens (int, Optional)``: The maximum number of tokens to generate. Defaults to None.
+    - ``stop (str, Optional)``: The stop sequence for generation. Defaults to None.
+    - ``streaming (bool, Optional)``: Whether to stream the output. Defaults to True.
+    - ``seed (int, Optional)``: Seed for random number generator for reproducibility. Defaults to 123.
+    - ``top_p (float, Optional)``: Controls diversity via nucleus sampling. Defaults to None.
+
+Raises:
+    - ``ImportError``: If the required `langchain_google_vertexai` package is not installed.
+
+Methods:
+    - ``load_model``: Loads the VertexAI model with the specified parameters.
+
+        - Returns:
+            - ``VertexAI``: The loaded VertexAI model instance.
+
+.. code-block:: python
+
+    from maxaillm.model.llm import MaxVertexAILLM
+    llm = MaxVertexAILLM(model_name="gemini-1.0-pro-002", temperature=0, max_tokens_to_sample=1024, streaming=False)
+    model = llm.load_model()
+
+
+MaxAzuremlLLM
+^^^^^^^^^^^^^^
+Represents an Azure-ML-hosted language model. This class extends the BaseLLM class and includes specific configurations for Azure-hosted OpenAI models.
+
+Args:
+    - ``max_retries (int, Optional)``: The maximum number of retries for a request in case of failures. Defaults to 2.
+    - ``streaming (bool, Optional)``: Whether to enable streaming for the model. Defaults to True.
+    - ``temperature (float, Optional)``: The temperature for the language generation. Defaults to 0.0.
+    - ``max_tokens (int, Optional)``: The maximum number of tokens for generation. Defaults to 512.
+    - ``seed (int, Optional)``: Seed for reproducibility. Defaults to 123.
+    - ``top_p (float, Optional)``: Controls the nucleus sampling. Defines the probability mass to consider for the next token's generation. Defaults to None.
+
+Raises:
+    - ``ImportError``: If Azure ML dependencies are not installed.
+    - ``KeyError``: If required environment variables are not set.
+
+Methods:
+    - ``load_model``: Loads the Azure-ML-hosted LLM model specified in the initialization.
+
+        - Returns:
+            - ``AzureMLChatOnlineEndpoint``: The loaded Azure-ML-hosted LLM model instance.
+
+.. code-block:: python
+
+    from maxaillm.model.llm import MaxAzuremlLLM
+    llm = MaxAzuremlLLM(max_retries=3, streaming=False, temperature=0.5, max_tokens=256, seed=42, top_p=0.9)
+    model = llm.load_model()
+
+
+MaxGroqLLM
+^^^^^^^^^^^
+Represents a Groq language model. This class extends the BaseLLM class and includes specific configurations for the Groq model.
+
+Args:
+    - ``model_name (str)``: Name of the Groq model to be loaded.
+    - ``temperature (float, Optional)``: The temperature for the language generation. Defaults to 0.0.
+    - ``max_tokens_to_sample (int, Optional)``: The maximum number of tokens for generation. Defaults to 2048.
+    - ``streaming (bool, Optional)``: Whether to enable streaming for the model. Defaults to True.
+    - ``top_p (float, Optional)``: Controls the nucleus sampling. Defines the probability mass to consider for the next token's generation. Defaults to None.
+
+Raises:
+    - ``ImportError``: If the necessary dependencies for interacting with the Groq platform are not installed.
+    - ``EnvironmentError``: If the GROQ_API_KEY environment variable is not set.
+
+Methods:
+    - ``load_model``: Loads the Groq model specified in the initialization.
+
+        - Returns:
+            - ``ChatGroq``: The loaded Groq model instance.
+
+.. code-block:: python
+
+    from maxaillm.model.llm import MaxGroqLLM
+    lm = MaxGroqLLM(model_name="mixtral-8x7b-32768", temperature=0.7, max_tokens_to_sample=1024, streaming=False)
+    model = llm.load_model()
+
+
+MaxVertexAILLM
+^^^^^^^^^^^^^^^
+Represents a VertexAI language model. This class extends the BaseLLM class and includes specific configurations for the VertexAI model.
+
+Args:
+    - ``model_name (str)``: The name of the model to be loaded.
+    - ``temperature (float, Optional)``: Controls randomness in generation. Defaults to 0.0.
+    - ``max_tokens (int, Optional)``: The maximum number of tokens to generate. Defaults to None.
+    - ``stop (str, Optional)``: The stop sequence for generation. Defaults to None.
+    - ``streaming (bool, Optional)``: Whether to stream the output. Defaults to True.
+    - ``seed (int, Optional)``: Seed for random number generator for reproducibility. Defaults to 123.
+    - ``top_p (float, Optional)``: Controls diversity via nucleus sampling. Defaults to None.
+
+Raises:
+    - ``ImportError``: If the required `langchain_google_vertexai` package is not installed.
+
+Methods:
+    - ``load_model``: Loads the VertexAI model with the specified parameters.
+
+        - Returns:
+            - ``VertexAI``: The loaded VertexAI model instance.
+
+.. code-block:: python
+
+    from maxaillm.model.llm import MaxVertexAILLM
+    llm = MaxVertexAILLM(model_name="gemini-1.0-pro-002", temperature=0, max_tokens_to_sample=1024, streaming=False)
+    model = llm.load_model()
+
+
+MaxOpenSourceLLM
+^^^^^^^^^^^^^^^^^
+Represents a VertexAI language model. This class extends the BaseLLM class and includes specific configurations for the VertexAI model.
+
+Args:
+    - ``model_name (str)``: The name of the model to be loaded.
+    - ``temperature (float, Optional)``: Controls randomness in generation. Defaults to 0.0.
+    - ``max_tokens (int, Optional)``: The maximum number of tokens to generate. Defaults to None.
+    - ``stop (str, Optional)``: The stop sequence for generation. Defaults to None.
+    - ``streaming (bool, Optional)``: Whether to stream the output. Defaults to True.
+    - ``seed (int, Optional)``: Seed for random number generator for reproducibility. Defaults to 123.
+    - ``top_p (float, Optional)``: Controls diversity via nucleus sampling. Defaults to None.
+
+Raises:
+    - ``ImportError``: If the required `langchain_google_vertexai` package is not installed.
+
+Methods:
+    - ``load_model``: Loads the VertexAI model with the specified parameters.
+
+        - Returns:
+            - ``VertexAI``: The loaded VertexAI model instance.
+
+.. code-block:: python
+
+    from maxaillm.model.llm import MaxOpenSourceLLM
+    llm = MaxOpenSourceLLM(
+        model_name="google-bert/bert-large-uncased-whole-word-masking-finetuned-squad",
+        provider="huggingface",
+        temperature=0,
+        max_tokens_to_sample=1024,
+        streaming=False
+    )
+    model = llm.load_model()
