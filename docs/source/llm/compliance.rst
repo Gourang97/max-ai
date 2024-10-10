@@ -4,7 +4,7 @@ Compliance
 Guardrails
 ***********
 
-MaxGaurdRails
+MaxGuardRails
 ^^^^^^^^^^^^^^
 Provides various guardrails for validating and safeguarding text inputs.
 
@@ -70,7 +70,7 @@ Methods:
     
 .. code-block:: python
 
-    from maxaillm.compliance.guardrails import MaxGaurdRails
+    from maxaillm.compliance.guardrails import MaxGuardRails
     from maxaillm.model.llm import MaxAnthropicLLM
     
     # initialize LLM
@@ -78,7 +78,7 @@ Methods:
     query = "Hell World!"
     
     # initialize MaxGuardrails
-    guardrails = MaxGaurdRails(llm=llm)
+    guardrails = MaxGuardRails(llm=llm)
     valid = guardrails.validate(query)
     
     if not valid:
