@@ -31,7 +31,8 @@ Max.AI
    :maxdepth: 1
    :caption: 🌐 Max.AI
 
-   About
+   getting_started
+   api
 
 |
 
@@ -50,6 +51,7 @@ Max.AI
    
    ds_core/about
    ds_core/architecture
+   ds_core/maxaibase
    ds_core/maxaidatahandling
    ds_core/maxaifeaturization
    ds_core/maxaimetadata
